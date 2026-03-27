@@ -1,0 +1,174 @@
+---
+title: "16.0.10"
+---
+
+📅 2022-06-10
+
+## `New features`
+
+### Creation of PDF/A-2u and PDF/A-3u compliant documents
+
+In addition to PDF/A-2a, PDF/A-2b, PDF/A-3a and PDF/A-3b, the iDRS can now create PDF files that are compliant with PDF/A-2u or PDF/A-3u standard.
+
+The "U" (Unicode) compliance level enforces character mapping to Unicode values for the text included in the PDF, ensuring reliable search and copy features.
+
+In order to create PDF output with conformance level "U", provide enum values `PdfVersion.PdfA2u` or `PdfVersion.PdfA3u` when creating a `CPdfOutputParams` object.
+
+## `Improvements`
+
+:::danger
+Missing changelog entry for release 16.0.9
+The following improvement was missing from 16.0.9 changelog entry:
+Update of Windows compilation environment
+The iDRS™ for Windows platform is compiled with Visual Studio 2022. Therefore, it requires Visual Studio 2022 redistributables to be installed on the target computer.
+:::
+
+### Updated PDF bookmarks writing feature
+
+The PDF **bookmarks writing** feature has been reworked in order to be more convenient to use and to offer you more possibilities.
+
+* A new member `CPageMetadata` has been added to the `CPageContent2` class, and allows you to add one or more `CPageBookmark` instances that represent a PDF bookmark.
+
+  + The `CPageBookmark` class allows you to specify the title of the bookmark, the display mode, the destination and zoom factor, as well as the children of the bookmark; according to PDF specifications.
+  + This replaces (and extends) the bookmarks mode `IDRS_BOOKMARKS_MODE_USER_DEFINED`, previously available in the iDRS 15.
+* The enum `BookmarksMode` now declares only 2 values:
+
+  + The value `Enabled` (default behavior) will allow bookmarks added to `CPageContent2` to be written to the output PDF
+  + The value `Disabled` will prevent bookmarks from being written to the output PDF, even if some are defined in the `CPageContent2` object.
+* The iDRS 15 bookmarks mode `IDRS_BOOKMARKS_MODE_AUTOMATIC` is replaced by the static method `CBookmarksOptions.GenerateBookmarks()` which can generate an array of bookmarks based on the content of the provided page.  
+  The advantage over the iDRS 15 solution is that you can edit the generated bookmarks before creating the output document.
+
+:::caution
+Changes to the Bookmarks API and current limitation
+Note that the bookmarks API will be modified again in a future release. A limitation of the current version is that a bookmark placed on a given page cannot have a child bookmark placed on a different page (although this is possible as per the PDF specifications).
+Therefore, the feature will be reworked in a future version to remove this limitation.
+:::
+
+### High Quality OCR for Cyrillic and Greek languages
+
+IRIS' High Quality OCR engine (HQOCR) now supports languages that use Cyrillic or Greek alphabets.  
+This change is transparent to you and improves OCR accuracy, especially on challenging documents such as newspapers, magazines, poor quality scans or photos.
+
+It concerns the **following languages**:
+
+Russian, Ukrainian, Macedonian, Bulgarian, Serbian, Belarusian, Bosnian Cyrillic, Kazakh Cyrillic, Mongolian Cyrillic and Greek.
+
+:::caution
+Mandatory files
+The list of files to be redistributed with your application is updated accordingly. Go to Files required for your application for more details.
+:::
+
+### Smaller binaries on Linux and Android platforms
+
+Binaries on the Linux and Android platforms are smaller for this release compared to previous versions; on average, a decrease in size of about 20% can be observed.
+
+This change is a plain improvement, as it has no impact on the speed or accuracy of the product.
+
+## `Deprecated/removed features`
+
+### Removed support for .inf file and registry access in the iDRS samples
+
+With this release, the licensing setup for the iDRS sample executables has been simplified.
+
+The samples now simply look next to the executable for the `licenses.txt` file containing the temporary licenses you receive from IRIS when you evaluate the iDRS.
+
+As a result, converting the temporary licenses information into "intermediate" formats (idrs\_software\_keys16.inf or registry storage) is no longer required to run the iDRS samples.
+
+The reason for this change is that this intermediate format made it ambiguous how the iDRS licenses should be provided to the SDK: for example, you might think that the iDRS licenses should be stored in the registry of the target computer when this is not the case.
+
+:::danger
+Storing custom software keys in your application
+As a reminder, the custom software keys provided to you by IRIS must remain private and should never be easily readable in your application.
+Regardless of where the license keys are stored (in the application source code or in a resource file, …​), you must implement adequate security measures, such as ciphering, multipart storage, and other similar techniques, to prevent any user from retrieving your iDRS license keys.
+For this reason, no iDRS sample license configuration mechanism (licenses.txt, idrs\_software\_keys16.inf, registry storage) is suitable for storing license keys in your application.
+:::
+
+## `Added/removed resources`
+
+The following resources files have been added:
+
+* cyrillic\_engine.bin
+* net\_cyrillic.bin
+* greek\_engine.bin
+* net\_greek.bin
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6197 | CMetadataInfo documentation should describe which metadata types are supported by each format |
+| IDRSRD-6190 | The iDRS .NET API reference doesn’t contain all the information from the C++ one |
+| IDRSRD-6189 | New Output API classes are missing from the C++ API reference |
+| IDRSRD-6188 | The iDRS is not generating correctly TextAndGraphics Pdfs |
+| IDRSRD-6187 | CInterpolation::InterpolateNormal should support non-integral interpolation factors |
+| IDRSRD-6186 | The iDRS 16 shows a severe regression on Korean formatting info detection (font size) |
+| IDRSRD-6184 | The iDRS display a table on 2 pages instead of 1 when exporting a specific document to docx output |
+| IDRSRD-6182 | Accuracy of blank page detection should be improved |
+| IDRSRD-6179 | The iDRS must use latest version of zlib library (1.2.12) |
+| IDRSRD-6172 | CPage object should be able to save zones even if formatting information were not computed |
+| IDRSRD-6171 | The iDRS property CPerspective.Corners throws an exception when read from .NET framework API |
+| IDRSRD-6163 | The iDRS crashes when detecting POSTNET barcodes on a specific blank image |
+| IDRSRD-6162 | The iDRS doesn’t properly decode content of QR codes containing different unicode ranges |
+| IDRSRD-6157 | The iDRS macOS deliverable should be notarized |
+| IDRSRD-6156 | The iDRS Greek OCR should be improved |
+| IDRSRD-6146 | The iDRS cannot load a specific jpg image on non-Windows platforms |
+| IDRSRD-6137 | The iDRS throws an exception when recognizing a specific image |
+| IDRSRD-6135 | The iDRS detects glyph with 0 width, when recognizing with OCR-A1 engine |
+| IDRSRD-6133 | The iDRS invalidates content of password-protected PDFs when adding digital signature |
+| IDRSRD-6131 | The iDRS detects a paragraph dropcap inside a table, for a specific Arabic image |
+| IDRSRD-6128 | The iDRS detects incorrect orientation on a specific Korean image |
+| IDRSRD-6122 | The iDRS can crash when integrator’s application use boost::threading component |
+| IDRSRD-6120 | The iDRS can crash when recognizing Korean documents |
+| IDRSRD-6112 | The iDRS modifies the input image when detecting resolution |
+| IDRSRD-6108 | The iDRS sample setup should be simplified |
+| IDRSRD-6103 | The iDRS creates docx Editable or Exact layout types with incorrect numbering and indentation |
+| IDRSRD-6091 | The iDRS should discard embedded marker from font names loaded from input PDFs |
+| IDRSRD-6088 | The iDRS crashes in AnalyseLayoutEx() while processing a specific image |
+| IDRSRD-6072 | The iDRS crashes when analyzing layout of a Korean image |
+| IDRSRD-6068 | The iDRS Cyrillic OCR should be improved |
+| IDRSRD-6063 | The size of iDRS Linux and Android binaries could be improved |
+| IDRSRD-5964 | The iDRS detects Thai language on a document without text |
+| IDRSRD-5891 | The iDRS detects English language on a Spanish document |
+| IDRSRD-5889 | The iDRS detects an incorrect language on a specific document. |
+| IDRSRD-5500 | The iDRS should support PDF/A-2u and PDF/A-3u standards |
+| IDRSRD-5497 | The iDRS 16 should allow to generate PDFs with bookmarks |
+| IDRSDEV-1366 | The iDRS .NET samples are not versioned |
+| IDRSDEV-1363 | The iDRS macOS .NET samples should work on both x86\_64 and ARM64 architectures |
+| IDRSDEV-1342 | The iDRS C API should be available on Linux ARM32 |
+| IDRSDEV-1332 | The iDRS .NET API should be available on Linux ARM32 |
+| IDRSDEV-1298 | The iDRS third party libtiff should be updated to version 4.3.0 |
+
+## `Known Issues`
+
+### The .NET framework API methods returning a structure
+
+Due to the change of the .NET wrapper implementation released with version 16.0.9, the .NET framework API is impacted by an issue that can occur when the corresponding C++ API method **returns a structure**.
+
+In this case, the generated .NET framework method may throw an exception, depending on the bits alignment of the structure.
+
+In preparing this 16.0.10 release, such a case was detected for methods `CPageRecognition.AnalyzeLayoutEx()` and `CPageRecognition.RecognizePageEx()`, both returning an instance of `TextDetectionResults` structure.
+
+We are looking into a generic solution in order to avoid this problem, but in the meantime, we have added 2 overloads to these methods with the `TextDetectionResults` structure as an inout parameter. If you use the .NET framework API, then you will have to use these new methods instead of the old ones.
+
+:::note
+OCR API transformation
+Be aware that the OCR API 16 will be updated in future releases in order to simplify the overall workflow and keep up with technological developments.
+:::
+
+### Support of TIFF image format on Android arm64-v8a ABI
+
+Following the libtiff component update, the TIFF image format is not properly supported on **Android arm64-v8a ABI** (used by most modern Android devices) with this version.
+
+Other platforms, as well as Android **armeabi-v7a** ABI, are not affected by the issue.
+
+Although the TIFF format itself is not very common in mobile device usage, it is however a component of the PDF hypercompression technology (iHQC). Due to that, the issue impacts the creation of PDF output files with the property `CPdfOutputParams.PageDisplay` set to `PageDisplay.HyperCompression`.
+
+This problem will be fixed in the next release.
+
+### Summary table
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6207 | CPageRecognition methods AnalyzeLayoutEx() and RecognizePageEx() throw an exception when used from .NET Framework API |
+| IDRSRD-6206 | iDRS Android arm64-v8a cannot create PDF iHQC with tiff compression |
+| IDRSRD-6158 | "Related pages" of The iDRS .NET API documentation are still the Windows ones |

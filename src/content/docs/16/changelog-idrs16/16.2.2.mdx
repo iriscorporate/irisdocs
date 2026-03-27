@@ -1,0 +1,111 @@
+---
+title: "16.2.2"
+---
+
+📅 2024-07-31
+
+## `New features`
+
+### NuGet packages
+
+Starting with this release, you can download the OCR SDK from the IRIS download center as NuGet packages. These packages are in addition to the platform-specific packages. You can download them and then reference the NuGet packages directly in your projects.
+
+NuGet packages are organized as follows:
+
+#### Convenience NuGets
+
+Five NuGet packages allow you to import all elements for a platform by using a single dependency.
+
+* **iDRS.macOS** includes all .NET components, native runtimes, and assets that you need to build an application for macOS.
+* **iDRS.Linux-x64** includes all .NET components, native runtimes, and assets that you need to build an application for Linux and run it on x64 hardware.
+* **iDRS.Windows-x64** includes all .NET components, .NET Framework, native runtimes, and assets that you need to build an application for Windows and run it on x64 hardware.
+* **iDRS.Windows-x86** includes all .NET components, .NET Framework, native runtimes, and assets that you need to build an application for Windows and run it on x86 hardware.
+* **iDRS.Windows** includes all .NET components, .NET Framework, native runtimes, and assets that you need to build an application for Windows and run it on x86 or x64 hardware.
+
+These NuGet packages contain only dependencies. They are provided for convenience to simplify integration.
+
+#### Content NuGets
+
+Six other NuGet packages include the elements required by the convenience NuGet packages:
+
+* **iDRS.NET** contains iDRS .NET and .NET Framework runtimes and product documentation.
+* **iDRS.runtime.&lt;Platform-Arch&gt;** contains the native runtimes for the specific platform or platform-architecture.
+* **iDRS.assets** contains iDRS resources files.
+
+If you import one or more convenience NuGet packages, you do not need to import content NuGet packages.
+
+#### NuGet with sample code
+
+The last NuGet package includes the source code for the sample iDRS applications (CsReader, CsBarcode, and CsImage2Html). This NuGet contains only the sample source code and does not depend on iDRS. A Readme file in the NuGet gives instructions to use the sample code.
+
+## `Improvements`
+
+### High Quality OCR (HQOCR) for Japanese
+
+With this new version, our high-quality OCR engine (HQOCR) now supports **Japanese**. This HQOCR engine completely replaces the previous engine for processing documents in this language.
+
+This switch to our cutting-edge engine will bring significant improvements in performance and accuracy for challenging documents such as low-resolution images, magazines, or newspapers, as well as a slight improvement in accuracy for good- quality scans.
+
+## `Added/removed resources`
+
+### Japanese OCR resources
+
+As a result of the replacement of the Japanese OCR engine, the following resource files have been **added** or **removed**:
+
+| Resource file | Status |
+| --- | --- |
+| japanese\_rnn\_engine.bin | New/added |
+| net\_japanese\_rnn\_hori.bin | New/added |
+| net\_japanese\_rnn\_vert.bin | New/added |
+|  |  |
+| japanese.bin | Removed |
+| japanese\_bigrams.bin | Removed |
+| japanese\_duo.bin | Removed |
+| japanese\_features.bin | Removed |
+| japanese\_features\_fast.bin | Removed |
+| japanese\_features\_one\_candidate.bin | Removed |
+| japanese\_font\_features.bin | Removed |
+| japanese\_rosetta\_same\_proba.bin | Removed |
+| japanese\_same\_proba.bin | Removed |
+| japanese\_similar\_characters\_differentiation.bin | Removed |
+
+### Extended fontmetrics resource
+
+The extended font set is the default in this release. It replaces the historical set of three standard Latin fonts. The following resource is removed:
+
+| Resource file | Status |
+| --- | --- |
+| fontmetrics\_ec.bin | Removed |
+
+## `Fixed bugs`
+
+| Internal ID | Description | Service desk IDs |
+| --- | --- | --- |
+| IDRSRD-6391 | iDRS .NET leaks memory when parsing object arrays |  |
+| IDRSRD-6473 | The iDRS SDK does not output the same number of zones during zonal if no font information is requested |  |
+| IDRSRD-6509 | iDRS exceptions source should not contain an absolute path |  |
+| IDRSRD-6858 | The iDRS can print message on console during OCR, when missing resource file |  |
+| IDRSRD-7491 | Cell’s text alignment is not properly set in iDRS XLSX output for some specific images |  |
+| IDRSRD-7560 | The iDRS should propose iterators in its Array class |  |
+| IDRSRD-8293 | The iDRS does not detect the correct orientation for a specific image |  |
+| IDRSRD-8294 | TheiDRS sometimes recognizes letter 'O' instead of Zero next to currency (dollar) sign | ISD-33781 |
+| IDRSRD-9163 | The iDRS does not output correct paragraph position on a specific image |  |
+| IDRSRD-9192 | The iDRS does not use the correct font metrics file for default settings |  |
+| IDRSRD-9206 | The iDRS crashes while deskewing a very small image |  |
+| IDRSRD-9233 | The iDRS can keep a lot of memory allocated when processing multiple images with the same CTextRecognition object |  |
+| IDRSRD-9240 | Language detection 'allowed' list should support regional variants |  |
+| IDRSRD-9243 | iDRS memory increases when setting SetMemoryThreshold in CPageCollectionStorageOptions |  |
+| IDRSRD-9250 | The iDRS crashes when exporting to Docx with FontInfoComputation set to None |  |
+| IDRSRD-9267 | The iDRS throws an exception when recognizing a specific image with new page segmentation | ISD-34288 |
+| IDRSRD-9271 | OCR alternatives are not provided when new page segmentation is activated |  |
+| IDRSRD-9275 | The iDRS triggers an exception while processing XLSX output on a specific image |  |
+| IDRSRD-9281 | The iDRS creates Editable docx with incorrect text direction on a Trad. Chinese image, when using new segmentation |  |
+| IDRSRD-9295 | iOS SmartCapture sample App does not position properly vertical text on the OCR review screen |  |
+| IDRSRD-9314 | The iDRS developer guide should include some tips explaining how to output best quality XLSX documents |  |
+| IDRSRD-9318 | Conversion to Excel single table of a specific file could be improved |  |
+| IDRSRD-9347 | OCR accuracy is degraded on high resolution (>300 dpi) documents |  |
+| IDRSRD-9379 | Documentation for SetEmptyFormsDetections needs to be updated | ISD-34648 |
+| IDRSRD-9396 | The iDRS leaks small chunks of memory when accessing page sections using .NET API | ISD-34638 |
+| IDRSRD-9403 | The iDRS should group text in fewer textboxes when converting documents to docx Editable layout |  |
+| IDRSRD-9426 | The iDRS crashes when processing the attached PDF with new page segmentation activated | ISD-34948 |
+| IDRSRD-9435 | The iDRS crashes when processing a specific image with new page segmentation activated | ISD-34967 |

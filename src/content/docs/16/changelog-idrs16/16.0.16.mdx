@@ -1,0 +1,91 @@
+---
+title: "16.0.16"
+---
+
+📅 2023-03-24
+
+## `New features`
+
+N/A
+
+## `Improvements`
+
+### Update of versioning and naming of packages
+
+The versioning and naming of iDRS packages have been updated to follow the standard versioning strategy described at [https://semver.org](https://semver.org), as well as to use a better description of target platforms and architectures.
+
+Example
+
+Let’s look at an **example**:
+
+Given the package `iDRS_16.0.17+22_Windows-x64.zip`
+
+* The product’s ***major*** is `16`
+* The product’s ***minor*** is `0`
+* The product’s ***patch*** is `17`
+* The product’s ***build*** (an always incremental number, unique for a given *major.minor.patch*) is `22`
+* The package’s ***target platform*** is Windows OS, Intel x64 architecture
+
+![naming of packages idrs](images/naming_of_packages_idrs.svg)
+
+Differences
+
+Compared to previous versioning and naming of packages, the following **differences** can be observed:
+
+* The version identifier formerly named *build* is now called ***patch***
+* The version identifier formerly named *revision* is now called ***build***
+* The product’s *build* will **always** be part of the package name, whereas previously it was *only for LTS releases*
+* The **changelog** will mention the *build* number **only when multiple releases are made for a given major.minor.patch** (i.e., only for LTS updates).
+* The **package root folder** is now identical to the package name. For instance:
+
+  + Previously: `iDRS_16.0.15_Win64.zip` was extracted to the `iDRS_16_0_15_Win64` folder (dots are replaced by underscores).
+  + From now on: `iDRS_16.0.17+22_Windows-x64.zip` will be extracted into `iDRS_16.0.17+22_Windows-x64` folder.
+
+:::note
+The idrsversion.h file has also been updated similarly.
+:::
+
+### File format of macOS library idrsasian216
+
+This release marks the completion of the switch to macOS dylib files for the iDRS internal libraries, which began with release 16.0.12.
+
+### Update of iOS binaries to .xcframework format
+
+As with iDRS 15.6.8 LTS 481, the `iDRS 16 iOS` package now contains binaries using the `.xcframework` structure, instead of `.framework` previously.
+
+This change was necessary in order to introduce the arm64 simulator architecture, in addition to those already available: arm64 device, and x86\_64 simulator.
+
+The **SmartCapture** sample application has been updated to use this new format, and also to be compatible with Xcode 14.
+
+### OCR resources path
+
+Starting with this release, the concept of *OCR resources path* is changed to a more generic concept of ***resources path***. This allows in the future to include resources that are not related to the OCR feature itself (e.g., the font definition for the document output feature).
+
+Therefore, the way to define the resource path is moved from the `CIDRSLicenseOcr` class to `CIDRSSetup`, as a static property similar to the temporary folder path and the internal libraries path.  
+Because of this change, the `CIDRSLicenseOcr` class itself has been removed and must be replaced in your code by an instance of `CIDRSLicense` created with the `Module.Ocr` argument.
+
+## `Deprecated or removed resources`
+
+### Supported version of iOS platform
+
+As a result of the .xcframework change mentioned above, iDRS 16 binaries are now compatible starting **from iOS 11**, instead of iOS 10.3 previously.
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6316 | The iDRS crashes when performing zonal OCR on a specific image |
+| IDRSRD-6314 | The iDRS cannot load anymore OCR resources from custom relative paths |
+| IDRSRD-6304 | The iDRS is hanging while recognizing the attached document |
+| IDRSRD-6298 | The iDRS crashes when estimating resolution on a specific image |
+| IDRSRD-6281 | The iDRS 16 for iOS should contain arm64 simulator architecture |
+| IDRSRD-6251 | The iDRS is detecting inconsistent sections coordinates with a specific image |
+| IDRSRD-6245 | Deskew detection finds a skew angle on the provided image while there is none |
+| IDRSRD-6210 | The iDRS reads '1' instead of '7' on the provided documents |
+| IDRSRD-6047 | The iDRS reads 'S' instead of '$' and 'I' instead of '1' on the provided documents |
+| IDRSDEV-1514 | Update packages name, versioning and description to the standard selected for v16 |
+| IDRSDEV-1530 | "OCR resources path" property should be generalized into "resources path" |
+
+## `Known Issues`
+
+N/A

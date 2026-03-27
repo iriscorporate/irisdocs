@@ -1,0 +1,53 @@
+---
+title: "Supported languages"
+---
+
+**Optical character recognition** can recognise a wide range of different languages or different types of text.  
+Refer to Enum **Language** in the [API REFERENCE](../API-ref-idrs16/index.html) for more details on each.
+
+Table 1. OCR Supported languages
+
+|  |  |  |  |  |
+| --- | --- | --- | --- | --- |
+| Afaan Oromo | Dutch | Interlingua | Moldovan | Slovak |
+| Afrikaans | English (American) | Irish Gaelic | Mongolian (Cyrillic) | Slovenian |
+| Albanian | English (British) | Italian | Nahuatl | Somali |
+| Arabic\*/\*\* | Esperanto | Japanese\* | Nigerian Pidgin | Sotho |
+| Asturian | Estonian | Javanese | No language, Latin alphabet | Spanish |
+| Aymara | Faroese | Kapampangan | Norwegian | Sundanese |
+| Azeri (latin) | Fijian | Kazakh (Cyrillic) | Norwegian Bokmål | Swahili |
+| Balinese | Finnish | Kikongo | Norwegian Nynorsk | Swedish |
+| Banking fonts (cf. API REF) | French | Kinyarwanda | Numeric | Tagalog |
+| Basque | Frisian | Korean\* | Nyanja | Tahitian |
+| Belarusian | Friulian | Kurdish | Occitan | Tatar (Latin) |
+| Bemba | Galician | Latin | Papiamento | Tetum |
+| Bikol | Ganda | Latvian | Polish | Thai\* |
+| Bislama | German | Lithuanian | Portuguese | Tok pisin |
+| Bosnian (Cyrillic) | German (Switzerland) | Luba | Quechua | Tongan |
+| Bosnian (Latin) | Greek | Luxembourgish | Rhaeto-Romance | Traditional chinese\* |
+| Brazilian Portuguese | Greenlandic | Macedonian | Romanian | Tswana |
+| Breton | Haitian Creole | Madurese | Rundi | Turkish |
+| Bulgarian | Hani | Malagasy | Russian | Ukrainian |
+| Catalan | Hebrew\* | Malay | Samoan | Uzbek (Latin) |
+| Cebuano | Hiligaynon | Maltese | Sardinian | Vietnamese\* |
+| Chamorro | Hungarian | Manx | Scottish Gaelic | Waray |
+| Corsican | Icelandic | Maori | Serbian | Welsh |
+| Croatian | Ido | Mayan | Serbian latin | Wolof |
+| Czech | Ilocano | Mexican Spanish | Shona | Xhosa |
+| Danish | Indonesian | Minangkabau | Simplified chinese\* | Zapotec |
+
+:::caution
+OCR Extensions required
+For Asian languages: Japanese, Korean, Chinese (Simplified/Traditional), Vietnamese and Thai
+For Hebrew
+For Arabic and Farsi
+:::
+
+Table 2. Bank fonts supported by OCR
+
+| Type | Specifications | Example |
+| --- | --- | --- |
+| CMC7 | MICR (Magnetic ink character recognition code).  The character set is limited to the numbers and the five special symbols.  The five "special" characters are replaced by ANSI symbols: the internal symbol is by default represented by the symbol "-", the amount symbol as "=", the terminator symbol as "&lt;", the symbol as ";" and the routing symbol as "+".  Spaces as they appear in the CMC7 magnetic lines are ignored. | CMC7 |
+| E13b Optical | MICR (Magnetic ink character recognition code).  This language limits recognition to the banking font E13B and supports the following character set: the numerals (0 - 9) and four special characters (&lt;, &gt;, + and #). | E13B |
+| OCR-A1 | OCR-A1 Alphanumeric  OCR-A1 Eurobanking  OCR-A1 Numeric. | OCR-A |
+| OCR-B1 | OCR-B1 Alphanumeric  OCR-B1 Eurobanking  OCR-B1 Numeric. | OCR-B |

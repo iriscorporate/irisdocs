@@ -1,0 +1,45 @@
+---
+title: "Page Processing"
+---
+
+The **`CPageProcessing` class** gathers all processing features: **Page Analysis, Barcode Detection & Text Recognition** in **one class**.  
+You can choose which feature to enable or disable.  
+The **order of features execution** is as follows:
+
+1. Page Analysis
+2. Barcode Detection
+3. Text Recognition
+
+Each feature works only on **CPage objects** and each step can alter the state of the CPage object. By using this class, you can choose the features to use, set the associated parameters and run all the necessary processing on a given page via a single call.
+
+For **Page Analysis followed by Text Recognition**, you can consult the **code snippet** below:
+
+Page Analysis followed by Text Recognition
+
+```
+CIDRS objIdrs = CIDRS::Create();
+
+// Load the source image
+CImageIO objImageIO = CImageIO::Create(objIdrs);
+CPage objPage = objImageIO.LoadPage("path/to/image");
+
+// create page processing object and enable page analysis & text recognition
+CPageProcessing objPageProcessing = CPageProcessing::Create(objIdrs);
+objPageProcessing.SetRunPageAnalysis(IDRS_TRUE);
+objPageProcessing.SetRunTextRecognition(IDRS_TRUE);
+
+// create & set page analysis params
+CPageAnalysisParams objPageAnalysisParams = CPageAnalysisParams::Create();
+objPageAnalysisParams.SetDetectLanguage(IDRS_TRUE);
+objPageAnalysisParams.SetDetectOrientation(IDRS_TRUE);
+objPageProcessing.SetPageAnalysisParams(objPageAnalysisParams);
+
+// create & set text recognition params
+COcrContext objContext = COcrContext::Create(Language::Japanese);
+COcrPageParams objOcrPageParams = COcrPageParams::Create(objContext);
+objOcrPageParams.SetThreadingMode(ThreadingMode::Limited);
+objPageProcessing.SetOcrParams(objOcrPageParams);
+
+// run page processing
+objPageProcessing.ProcessPage(objPage);
+```

@@ -1,0 +1,84 @@
+---
+title: "Text Recognition"
+---
+
+The **Text Recognition** feature is exposed via the `CTextRecognition` class.
+
+Text Recognition assumes that the input image/page is already oriented correctly and that the recognition language(s) are already known/detected. The `CTextRecognition` class can be used with the following **parameter classes**:
+
+* `COcrPageParams`: class that contains the parameters for full-page text recognition. It should be used when recognition is performed on full pages.
+* `COcrZonalParams`: class that contains the parameters for zonal text recognition. This class allows to provide an array of zones with associated settings - `COcrZonalSettingsArray`.
+
+For **full-page text recognition**, you can consult the **code snippet** below:
+
+## Full-page Text Recognition
+
+```
+CIDRS objIdrs = CIDRS::Create();
+
+// Load the source image
+CImageIO objImageIO = CImageIO::Create(objIdrs);
+CImage objImage = objImageIO.LoadImage("path/to/image");
+
+// set the ocr params to recognize japanese text using thread count set to half the cores available on the system.
+COcrContext objContext = COcrContext::Create(Language::Japanese);
+COcrPageParams objOcrPageParams = COcrPageParams::Create(objContext);
+objOcrPageParams.SetThreadingMode(ThreadingMode::Limited);
+
+// run text recognition
+CTextRecognition objTextRecognition = CTextRecognition::Create(objIdrs, objOcrPageParams);
+CPageContent objPageContent = objTextRecognition.RecognizeText(objImage);
+
+// objPageContent contains now the recognized text
+```
+
+## Zonal Text Recognition
+
+For **zonal Text Recognition**, have a look on the **code snippet** below:
+
+```
+CIDRS objIdrs = CIDRS::Create();
+
+// Load the source image
+CImageIO objImageIO = CImageIO::Create(objIdrs);
+CImage objImage = objImageIO.LoadImage("path/to/image");
+
+// zone set1: set the ocr params to recognize japanese text in one area and japanese table in another area
+COcrContext objContext1 = COcrContext::Create(Language::Japanese);
+COcrZonalSettings objZonalSettings1 = COcrZonalSettings::Create();
+COcrZoneDescriptionArray xZones1 = COcrZoneDescriptionArray::Create();
+
+IDRS_RECT rcZoneA = { 0, 0, 100, 100 };
+IDRS_RECT rcZoneB = { 100, 100, 300, 300 };
+COcrZoneDescription objZone1Description = COcrZoneDescription::Create(ZoneType::Text, rcZoneA);
+COcrZoneDescription objZone2Description = COcrZoneDescription::Create(ZoneType::Table, rcZoneB);
+xZones1.AddTail(objZone1Description);
+xZones1.AddTail(objZone2Description);
+
+objZonalSettings1.SetZones(xZones1);
+objZonalSettings1.SetContext(objContext1);
+
+// zone set2: set the ocr params to recognize English text in one area
+COcrZonalSettings objZonalSettings2 = COcrZonalSettings::Create();
+COcrContext objContext2 = COcrContext::Create(Language::English);
+COcrZoneDescriptionArray xZones2 = COcrZoneDescriptionArray::Create();
+
+IDRS_RECT rcZoneC = { 300, 300, 1000, 1000 };
+COcrZoneDescription objZone3Description = COcrZoneDescription::Create(ZoneType::Text, rcZoneC);
+xZones2.AddTail(objZone3Description);
+
+objZonalSettings2.SetZones(xZones2);
+objZonalSettings2.SetContext(objContext2);
+
+COcrZonalSettingsArray xZonalSettings = COcrZonalSettingsArray::Create();
+xZonalSettings.AddTail(objZonalSettings1);
+xZonalSettings.AddTail(objZonalSettings2);
+COcrZonalParams objOcrZonalParams = COcrZonalParams::Create();
+objOcrZonalParams.SetZonalSettings(xZonalSettings);
+
+// run text recognition
+CTextRecognition objTextRecognition = CTextRecognition::Create(objIdrs, objOcrZonalParams);
+CPageContent objPageContent = objTextRecognition.RecognizeText(objImage);
+
+// objPageContent contains now the recognized text
+```

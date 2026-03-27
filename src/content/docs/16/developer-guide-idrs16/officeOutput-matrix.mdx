@@ -1,0 +1,31 @@
+---
+title: "Office output Options"
+---
+
+## DOCX Options
+
+Table 1. DOCX Output Options
+
+| **Feature** | **Options** | **ID** | **Description** |
+| --- | --- | --- | --- |
+| **Page layout** | No Layout | *PageLayout::NoLayout* | The layout of the input pages is not preserved and all elements are written as body text in reading order. |
+| Flowing | *PageLayout::Flowing* | The layout of the input pages is reproduced as closely as possible with body text and page columns, using frames only for elements outside the body text. |
+| Editable | *PageLayout::Editable* | Detected elements are placed in frames to ensure that the layout of the input document is accurately reproduced; graphic elements are also created so that the layout can be easily modified. |
+| Exact | *PageLayout::Exact* | The detected text is placed in frames to ensure that the layout of the input document is accurately reproduced; then the full input image is placed in the background to ensure maximum similarity to the original, at the cost of a less easily editable document. |
+
+## XSLX Options
+
+Table 2. XLSX Output Options
+
+| **Feature** | **Options** | **ID** | **Description** |
+| --- | --- | --- | --- |
+| **Spreadsheet layout** | Tables only | *SpreadsheetLayout::TablesOnly* | Create a worksheet for each detected table and link them into a summary sheet. Text outside the tables and graphics is not written. |
+| Tables and text | *SpreadsheetLayout::TablesAndText* | Write the detected tables and the text outside the tables in the reading order, without trying to keep the layout of the original image. |
+| Recreate input | *SpreadsheetLayout::RecreateInput* | Reproduce the layout of the input document as closely as possible. |
+
+:::tip
+How to get the best display quality for XLSX output?
+Use the OCR property TableDetectionMode. This property enables or disables the interpretation of a page as a table.
+Use the layout SpreadsheetLayout::RecreateInput.
+Refer to Changelog 16.2.0 and API Ref for more information.
+:::

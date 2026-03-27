@@ -1,0 +1,92 @@
+---
+title: "16.0.18"
+---
+
+📅 2023-07-13
+
+## `New features`
+
+### Document API
+
+This release introduces the ***Document API***. This feature brings the **concept of document** into the iDRS, and offers a much more efficient and convenient way of managing a **set of pages**.
+
+The ***Document API*** can work with user-defined page collections, but it comes with a default implementation that replaces the old page sets and page queues all-in-one.
+
+* The page collection is designed to have a **simple interface** as easy to use as a basic array of pages.
+* It includes an **automatic memory footprint control** by storing pages on disk when necessary.
+* A **multithreaded blocking mode** allows pages to be added to the document while the output creation is already in progress. This mode takes advantage of the multithreaded architecture to improve overall workflow performance.
+
+In addition to acting as a page container, the *Document API* also includes the document-level metadata. In earlier versions of the iDRS, this metadata was either defined at page level or provided via output parameters.
+
+Regarding this feature, the API has been updated as follows:
+
+* The **class** `CDocument` represents the document.
+* The **parameter** `argPageCollection` can optionally be supplied when the document is created. This makes it possible to provide either a custom collection implementing the **interface** `IPageCollection`, or an instance of `CDefaultPageCollection` with specific options.  
+  If the **parameter** `argPageCollection` is not set, a `CDefaultPageCollection` is created, and the optional **flag** `argBlocking` can be set to enable its *blocking mode*. Blocking mode allows the document to be saved before pages are added, but setting the `ReadyToClose` **property** is necessary to mark the document as complete. This action will trigger the *Document Writer* (see below) to finish writing the output document.
+* The **read-only** `Pages` **property** lets you access the page collection to add or retrieve `CPage` objects.
+* The `CDefaultPageCollection` **class** implements the `IPageCollection` **interface** with all the features mentioned above.
+* Similar to the **class** `CPageMetadata` available at page level, the new **class** `CDocumentMetadata` is now introduced to gather metadata information at document-level . It can be accessed via the **property** `CDocument.Metadata` and provides \*the following properties:
+
+  + `CDocumentMetadata.MetadataInfo` is used to define metadata information about the document, such as *Author*, *Title*, etc.
+  + `CDocumentMetadata.Bookmarks` lets you add bookmarks to PDF documents.
+  + `CDocumentMetadata.Attachments` lets you add attachments to PDF documents.
+
+## `Improvements`
+
+### Document Writer
+
+To improve API consistency, the former **class** `CDocumentOutput` has been renamed `CDocumentWriter`.
+
+* The `OutputParams` **property** of the `CDocumentWriter` **class** now consolidates output parameters. They are no longer defined as a parameter of the `Save()` **method**.
+* The `Save()` **method** now takes either a `CDocument`, a `CPageArray` or a static array `CPage[]` as parameter.
+* The `CPageArray` type definition has been added to the *CPage API*, providing an easy way to generate a document a the cost of limited features.
+
+:::caution
+Providing a CPageArray or a CPage[] to the CDocument.Save() method:
+When using the Save() method with a CPageArray or a CPage[] as parameter, be aware that the metadata exposed at document level will not be available to create the output document.
+:::
+
+### Output parameters
+
+The way in which metadata information is provided has been changed in this version. Instead of being part of the output parameters, it is now defined as a the document-level property.
+
+The API has been modified as follows:
+
+* The `MetadataInfo` **property** has been removed from the following classes:  
+  `CPdfOutputParams`, `CXlsxOutputParams`, `CPptxOutputParams`, `CDocxOutputParams`, `COdtOutputParams`, `CRtfOutputParams`, `CEpubOutputParams` and `CHtmlOutputParams`.
+* The `DigitalSignatures` **property** has been moved from the class `CPdfOutputParameters` to the `CDocumentMetadata` **class**.
+
+### Bookmarks
+
+The bookmarks are now defined as a property of the `CDocumentMetadata` **class** and have therefore been removed from the `CPageMetadata` **class**.  
+The `CPageBookmark` **class** now has an additional `DestinationPage` **property** that indicates which page the bookmark refers to.
+
+## `Deprecated or removed resources`
+
+### Removed page sets and page queues
+
+The new `CDefaultPageCollection` **class** implements all the features that were dispersed across several collections in previous versions. Therefore, the following classes are removed:
+
+* `IPageQueue` interface and its implementation `CRangedPageQueue`
+* `CPageSet` interface and its implementations `CMemoryPageSet`, `CPersistentPageSet`.
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6368 | The iDRS documentation should not state yet that Hindi language is supported |
+| IDRSRD-6366 | The iDRS CPageProcessing class do not use language detection result when relevant |
+| IDRSRD-6365 | The default workdepth of QRCode auxilliary engine is incorrect in version 16.0.17 |
+| IDRSRD-6363 | The iDRS cannot load anymore Asian OCR resources from custom relative paths |
+| IDRSRD-6358 | Setting a custom array of CBarcodeEngineConfig in .NET API can lead to a crash |
+| IDRSRD-6356 | The iDRS should expose the possibility to keep original images dimensions when performing deskew operation |
+| IDRSRD-6322 | The iDRS doesn’t allow to set CPage.WorkImage property to null in the .NET API |
+| IDRSRD-6290 | The iDRS outputs characters with incorrect stretch factors when segmentation filter is disabled |
+| IDRSRD-6269 | The iDRS do not recognize datamatrix codes on specific documents |
+| IDRSRD-6264 | The iDRS loads landscape PDF content with incorrect orientation |
+| IDRSRD-5660 | The iDRS doesn’t find the correct orientation on some images with clear text snippets |
+
+## `Known Issues`
+
+In this release, the multithreaded pre-compression of PDF background images for the document output has been disabled. As a result, creating PDF documents with the *Image over text* display may lead to reduced performance compared to the previous release.  
+In a future release we will reintroduce this feature, and also extend it to cover more use cases.

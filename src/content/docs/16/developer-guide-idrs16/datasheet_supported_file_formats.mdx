@@ -1,0 +1,137 @@
+---
+title: "Supported file formats"
+---
+
+## Image formats
+
+This section describes the image file formats supported for loading and/or saving images when the **ImageFormats module (Module.ImageFormats)** is enabled.
+
+### BMP file format
+
+The BMP file format, also known as bitmap image file or device independent bitmap (DIB) file format, is a raster graphics image file format used to store bitmap digital images, independently of the display device.[[1](#_footnotedef_1 "View footnote.")]   
+The BMP file format is supported for both **input (loading) and output (saving)**, with some limitations related to compression modes.
+
+Table 1. BMP format
+
+| Capability | Load | Save |
+| --- | --- | --- |
+| **Color mode** |  |  |
+| Black & white | ✔ | ✔ |
+| Grayscale | ✔ | ✔ |
+| Color | ✔ | ✔ |
+| **Compression** |  |  |
+| BI\_RGB (no compression) | ✔ | ✔ |
+| BI\_RLE8 | ✘ | ✘ |
+| BI\_RLE4 | ✘ | ✘ |
+| BI\_BITFIELDS | ✘ | ✘ |
+| BI\_JPEG | ✘ | ✘ |
+| BI\_PNG | ✘ | ✘ |
+
+:::note
+The BITMAPINFOHEADER structure is the currently supported format.
+:::
+
+### PNG file format
+
+PNG (Portable Network Graphics) is a raster graphics file format that supports lossless data compression.[[2](#_footnotedef_2 "View footnote.")]  
+The PNG file format is supported for both **input (loading) and output (saving)**.
+
+Table 2. PNG format
+
+| Color mode | Load | Save |
+| --- | --- | --- |
+| Black & white | ✔ | ✔ |
+| Grayscale | ✔ | ✔ |
+| Color | ✔ | ✔ |
+
+### JPEG file format
+
+JPEG is a commonly used method of lossy compression for digital photography (image). The degree of compression can be adjusted, allowing a selectable tradeoff between storage size and image quality.[[3](#_footnotedef_3 "View footnote.")]  
+The JPEG file format is supported for both **input (loading) and output (saving)**, with some limitations related to color modes.
+
+Table 3. JPEG format
+
+| Color mode | Load | Save |
+| --- | --- | --- |
+| Grayscale | ✔ | ✔ |
+| Color | ✔ | ✔ |
+
+### TIFF file format
+
+TIFF (Tagged Image File Format) is a file format for storing images, popular among graphic artists, the publishing industry and both amateur and professional photographers in general. The TIFF format is widely supported by image-manipulation applications, by publishing and page layout applications, by scanning, faxing, word processing, optical character recognition and other applications.[[4](#_footnotedef_4 "View footnote.")]
+
+Table 4. TIFF format
+
+| Capability | Load | Save |
+| --- | --- | --- |
+| **Color mode** |  |  |
+| Black & white | ✔ | ✔ |
+| Grayscale | ✔ | ✔ |
+| Color | ✔ | ✔ |
+| Color with alpha channel | ✔ | ✘ |
+| **Compression** |  |  |
+| No compression | ✔ | ✘ |
+| Packbits | ✔ | ✔ |
+| CCITT T.4 | ✔ | ✔ |
+| CCITT Group 3 | ✔ | ✘ |
+| JPEG | ✔ | ✔ |
+| LZW | ✔ | ✘ |
+| CCITT T.6x | ✘ | ✘ |
+| **Page number** |  |  |
+| Single page | ✔ | ✔ |
+| Multi-page | ✔ | ✔ |
+
+### JPEG2000 file format
+
+JPEG 2000 is an image compression standard and coding system. It was created by the Joint Photographic Experts Group committee in 2000 with the intention of superseding their original discrete cosine transform-based JPEG standard with a newly designed, wavelet-based method.[[5](#_footnotedef_5 "View footnote.")]  
+The JPEG2000 file format is supported for **output (saving)** only.
+
+### JBIG2 file format
+
+JBIG2 is an image compression standard for bi-level images. It is suitable for both lossless and lossy compression.[[6](#_footnotedef_6 "View footnote.")]  
+The JBIG2 file format is supported for **output (saving)** only.
+
+### PDF file format
+
+Portable Document Format (PDF) is a file format used to represent documents in a manner independent of application software, hardware, and operating systems.[[7](#_footnotedef_7 "View footnote.")]
+
+The PDF file format is supported for both input (loading) and output (saving). However, the output PDF file contains only images. If you want to save images and editable text, you should use the **Document Output module**.  
+Using PDF files as input is currently available via **extension PdfInput** of **ImageFormats module**.
+
+Table 5. PDF format
+
+| Format | Load | Save |
+| --- | --- | --- |
+| PDF | ✔  See [Loading a PDF with its content](loadingPDFWithTextLayer.html) | ✔  PDF-image only - PDF 1.4 version |
+
+## Document formats in output
+
+Table 6. Documents formats (created via CDocumentWriter.Save)
+
+| Output/Save format | Specifications |
+| --- | --- |
+| PDF | For more details on the available options, go to [PDF options](PDFOutput-matrix.html). |
+| DOCX | For more details on the available options, go to [DOCX options](officeOutput-matrix.html#docxOutput-matrix). |
+| XLSX | For more details on the available options, go to [XLSX options](officeOutput-matrix.html#xlsxOutput-matrix). |
+| PPTX | Image and text, similar to the `ImageOverText` display in PDFs. |
+| HTML | Same options as [DOCX options](officeOutput-matrix.html#docxOutput-matrix) minus the PageLayout::Editable. |
+| RTF | Same options as [DOCX options](officeOutput-matrix.html#docxOutput-matrix). |
+| TXT | Encoding option: the supported Unicode encodings are UTF-8 and UTF-16. |
+| ODT | Same options as [DOCX options](officeOutput-matrix.html#docxOutput-matrix). |
+| EPUB |  |
+
+---
+
+[1](#_footnoteref_1). [http://en.wikipedia.org/wiki/BMP_file_format](http://en.wikipedia.org/wiki/BMP_file_format)
+
+[2](#_footnoteref_2). [http://libpng.org/pub/png/](http://libpng.org/pub/png/)
+
+[3](#_footnoteref_3). [https://jpeg.org/jpeg/](https://jpeg.org/jpeg/)
+
+[4](#_footnoteref_4). [https://www.loc.gov/preservation/digital/formats/fdd/fdd000022.shtml](https://www.loc.gov/preservation/digital/formats/fdd/fdd000022.shtml)
+
+[5](#_footnoteref_5). [https://jpeg.org/jpeg2000/](https://jpeg.org/jpeg2000/)
+
+[6](#_footnoteref_6). [https://jpeg.org/jbig/](https://jpeg.org/jbig/)
+
+[7](#_footnoteref_7). Adobe Systems Incorporated, PDF Reference, Sixth edition, version 1.23 (30 MB), Nov 2006, p. 33.

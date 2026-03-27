@@ -1,0 +1,29 @@
+:root {
+  /* IRIS Corporate Colors extracted from your uploaded HTML */
+  --sl-color-accent-low: #003366;  /* Dark Blue */
+  --sl-color-accent: #005693;      /* IRIS Standard Blue */
+  --sl-color-accent-high: #3385c6; /* Light Blue */
+  
+  /* Make the sidebar background white (cleaner look) */
+  --sl-color-bg-nav: #ffffff;
+  --sl-color-bg-sidebar: #f5f7fa;
+  
+  /* Text Colors */
+  --sl-color-text-accent: #005693;
+
+  --sl-font: 'Montserrat Variable', sans-serif;
+  --sl-font-mono: 'Courier New', monospace;
+}
+
+/* Dark Mode Overrides (Optional, if users toggle dark mode) */
+:root[data-theme='dark'] {
+  --sl-color-accent: #3385c6;
+  --sl-color-bg-nav: #17181C;
+  --sl-color-bg-sidebar: #17181C;
+}
+
+/* Fix the logo size in the navbar */
+.site-title img {
+  height: 32px;
+  width: auto;
+}

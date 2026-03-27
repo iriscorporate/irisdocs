@@ -1,0 +1,54 @@
+---
+title: "16.2.6+188 — Dec 2025"
+---
+
+📅 2025-12-12
+
+## `New features`
+
+### Advanced threading configuration for page analysis, OCR and document conversion
+
+This release adds more control over multithreading for page analysis, OCR and document conversion operations.
+
+To this end, **new properties** `AdvancedThreadingConfig` and `ThreadingMode` (when not already present) have been added to classes `COcrParams`, `CPageAnalysisParams` and `CDocumentWriter`.
+
+The new property `AdvancedThreadingConfig` consists in structs specific to each processing class, and exposes the number of threads to use for each type of operation. This gives precise control over the internal threading capabilities.
+
+Following this change, the behaviour of the `ThreadingMode` property has been modified to *update* the values stored in the corresponding advanced threading configuration, based on the selected threading mode and the detected device capabilities. After setting the threading mode, you can still change the values in `AdvancedThreadingConfig` for fine-tuning.
+
+Finally, a new **ThreadingMode enum value** has been introduced: `ThreadingMode.MemoryConservative`. This mode configures the advanced threading settings to enable multithreading according to the device capabilities, but only for operations that do not significantly impact memory consumption.
+
+## `Improvements`
+
+### Speed and memory usage improvements
+
+This release also includes general optimizations for speed and memory usage.  
+The following features have been improved:
+
+* Full-page and zonal OCR
+* OCR for color or greyscale images
+* Japanese OCR
+* Conversion to Hyper-compressed PDF (iHQC technology)
+* Processing with the `CPageProcessing` class when both language/orientation detection and OCR are enabled.
+
+## `Added/removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| Internal ID | Description | Service desk IDs |
+| --- | --- | --- |
+| IDRSRD-10130 | Memory consumption of iHQC feature can be improved |  |
+| IDRSRD-10124 | Speed performance of iHQC feature can be improved |  |
+| IDRSRD-10123 | The iDRS should allow better control of its internal threading configuration | ISD-34219 |
+| IDRSRD-10122 | Speed and memory performance of CPageProcessing can be improved |  |
+| IDRSRD-10110 | The iDRS setting TextDetectionSensivity.MaximumText should behave closer to its intended purpose |  |
+| IDRSRD-10097 | iOS SmartCapture application crashes when recognizing a document using Simplified Chinese |  |
+| IDRSRD-10042 | The iDRS objects containing idrs\_string are not thread-safe |  |
+| IDRSRD-9964 | The iDRS creates DOCX Editable with text hidden by a table |  |
+| IDRSRD-9716 | The iDRS doesn’t load text from specific PDFs | ISD-36000 |
+| IDRSRD-10166 | iDRS version 16.2.6+178 throws an exception when deskewing near-blank color images |  |
+| IDRSRD-10172 | PDFs created from greyscale images by iDRS 16.2.6+178 cannot be opened by Acrobat Reader |  |
+| IDRSRD-10173 | Image skew is not corrected when using iDRS 16.2.6+178 CPageProcessing, if both language and orientation detection are not enabled |  |
+| IDRSRD-10175 | The iDRS fails to run twice Chinese OCR with the same CPageProcessing instance | ISD-36631 |

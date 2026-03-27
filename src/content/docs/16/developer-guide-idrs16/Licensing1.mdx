@@ -1,0 +1,47 @@
+---
+title: "Modules"
+---
+
+The IRISOCR™ SDK consists of a set of **modules**. Each of the modules is licensed separately.
+
+As an integrator, you can choose to purchase only the modules that are of interest to you.
+
+However, some modules require other modules as a prerequisite in order to work.
+
+Some modules have **extensions**, which provide **advanced features**, and which are also licensed separately.
+
+:::caution
+Extensions
+Each extension is licensed separately and cannot function without its parent module.
+:::
+
+An overview of these modules and extensions can be found below as well as in the [API REFERENCE](../API-ref-idrs16/index.html) provided with the application:  
+In the **API REFERENCE**, see the section **iDRS 16 Namespace List > iDRS**. Then go to the paragraph **Enumerations** and look at the description of `enum IDRS_MODULE`.
+
+## Modules and their extensions
+
+Table 1. Base modules and extension schema
+
+| Base Modules & their Extensions | Description |
+| --- | --- |
+| `Module.ImageFormats` | Allows to load/save all supported image formats *(apart from PDF loading)* without any recognition results.  Supported image file formats are BMP, PNG, TIFF, JPEG, JPEG2000, and JBIG2. See also the [Datasheet](datasheet_supported_file_formats.html). |
+| `Extension.ImageFormatsPdfInput` | Allows to load PDF files (rasterization or content loading). |
+|  |  |
+| `Module.Prepro` | Allows the use of preprocessing algorithms applicable to scanner images.  Before executing the OCR process, the images may need to be optimized. This can done by different pre-processing algorithms. The prepro module allows you to clean-up the images for optimized OCR such as deskew, despeckle, binarize, and more. |
+| `Extension.PreproCameraImage` | Allows the use of preprocessing algorithms applicable to camera images. |
+|  |  |
+| `Module.Barcode` | Allows to detect 1D barcodes. |
+| `Extension.Barcode2D` | Allows to detect 2D barcodes. |
+| `Extension.BarcodeAdvanced` | Enables the use of a third-party barcode engine to increase detection accuracy. |
+|  |  |
+| `Module.Ocr` | This character recognition engine detects text, tables and graphics zones and converts to editable text. It supports character recognition for printed Latin languages *(except Vietnamese)*, Cyrillic languages, Greek, and banking fonts (OCR-A, OCR-B, CMC7, and E13B Optical). |
+| `Extension.OcrAsianExtra` | Allows the recognition of Chinese (Simplified and Traditional), Japanese, Korean, Vietnamese and Thai. |
+| `Extension.OcrHebrew` | Allows the recognition of Hebrew. |
+| `Extension.OcrArabic` | Allows the recognition of Arabic and Farsi. |
+| `Extension.OcrHandwritten` | Allows the recognition of handprinted characters. I.R.I.S. has developed its own [Intelligent Character Recognition](introduction.html#ICR) engine for the recognition of all handprinted characters based on the Latin alphabet. |
+| `Extension.OcrJapaneseAdvanced` | Deprecated. Use `Extension.OcrAsianExtra` instead. |
+| `Module.DocumentOutput` | This module allows you to save the files containing the recognition results. It allows you to create/save all supported output formats *(except hyper-compressed PDF)*, i.e. PDF, Office documents, HTML, RTF, TXT, ODT, ePub, or image formats. See also the [Datasheet](datasheet_supported_file_formats.html) for details. |
+| `Extension.DocumentOutputHyperCompression` | Allows to create **hyper-compressed PDFs** using IRIS iHQC technology. |
+|  |  |
+| `Module.Extraction` | This module allows you to perform fuzzy search out of OCR results. The results are exposed through a data class API. |
+|  |  |

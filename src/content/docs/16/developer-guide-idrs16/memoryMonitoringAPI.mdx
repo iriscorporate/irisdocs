@@ -1,0 +1,45 @@
+---
+title: "Memory monitoring API"
+---
+
+:::danger
+The Memory Monitoring API is available for the CINC-specific package.
+:::
+
+## **class** `CIDRSMemory`
+
+The memory monitoring API is available in the **class** `CIDRSMemory`.
+
+It gives you a way:
+
+* to monitor the current memory consumption of the SDK
+* to limit its maximum allowed consumption
+
+## Workflow example
+
+1. Call to `CIDRSMemory::ActivateMonitoring()`.  
+   No module must be set up when the call is performed
+2. Optionally set a maximum memory limit via a call to `CIDRSMemory::SetMaxMemoryLimit()`.
+
+   1. the value 0 sets up the memory to unlimited (default value)
+   2. this call can occur anytime in the workflow. If the memory consumption is already above the provided threshold, an exception is thrown directly after setting the max limit.
+3. Perform iDRS setup via calls to `CIDRSSetup::SetupModule()`.
+4. Process documents using the iDRS.  
+   If the iDRS memory consumption is about to grow over the max limit, then the allocation is denied and an exception is thrown.
+5. At any time during processing, you can call the **methods** `CIDRSMemory::GetCurrentMemoryConsumption()` and/or `CIDRSMemory::GetPeakMemoryConsumption()` to monitor the current status of memory usage.
+6. At application teardown, call `CIDRSSetup::Unload()`.  
+   All iDRS object instances must be **out-of-scope** before this last call.
+
+:::note
+Loading internal libraries is NOT monitored
+The iDRS dynamically loads internal libraries used for various modules. Loading a library leads to an increase in memory usage. However, this increase is not predictable from the iDRS point of view (internal libraries dependencies may be already loaded) nor can it be monitored (there is no hook to intercept those calls and receive the information of how much memory will be consumed when loading the library). Therefore, this particular step which happens during calls to CIDRSSetup::SetupModule() is NOT monitored by the iDRS.
+:::
+
+Monitoring the memory comes with a small degradation in terms of **speed performances**. According to our testing, an average of +3% processing time is to be expected. However, as **by default, the memory is not monitored**, there is no impact if you are not interested in this feature.
+
+## Limitations
+
+1. The current implementation does ***NOT*** monitor memory consumption of the following components:
+
+   * Barcode engine libraries
+   * Third-party libraries invoked to load PDF documents

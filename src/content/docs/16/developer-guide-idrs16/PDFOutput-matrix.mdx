@@ -1,0 +1,63 @@
+---
+title: "Output Options"
+---
+
+## I.R.I.S. Hyper compression (iHQC)
+
+### What is it?
+
+iHQC stands for **intelligent High-Quality Compression**. It is a I.R.I.S proprietary implementation of mixed raster content compression method (MRC). It relies on image segmentation to fine-tune the compression rate applied to input images.
+
+iHQC mode uses several compression algorithms: JPEG, JPEG2000, TIFF and JBIG2.
+
+To use **iHQC** mode, use the `PageDisplay::HyperCompression` **Option**.  
+To set the **hypercompression algorithms**, use the `CPdfCompressionOptions` **Class** and set the Bitonal and Color formats.  
+The **bitonal algorithm** compresses the text layer and black and white documents. The **color algorithm** compresses the background and foreground layers on color and grayscale documents.
+
+## PDF options matrix
+
+:::note
+✔ The option is available
+✘ The option is NOT available
+:::
+
+Table 1. PDF Options availability
+
+|  |  |  |  |  |
+| --- | --- | --- | --- | --- |
+| ***PDF Version*** | **Embed font** | **Encryption** | **Attachment list** | **Use JPEG 2000**  *Available in PdfCompressionOptions* |
+| *PDF 1.4* | ✔ | ✔ | ✔ | ✘ |
+| *PDF 1.5* | ✔ | ✔ | ✔ | ✔ |
+| *PDF 1.6* | ✔ | ✔ | ✔ | ✔ |
+| *PDF 1.7* | ✔ | ✔ | ✔ | ✔ |
+| *PDF 1.7.3* | ✔ | ✔ | ✔ | ✔ |
+| *PDF 1.7.5* | ✔ | ✔ | ✔ | ✔ |
+| *PDF 1.7.8* | ✔ | ✔ | ✔ | ✔ |
+
+## PDF/A options matrix
+
+:::note
+✔ The option is available
+✘\* The option is NOT available. Always OFF due to compliance reasons
+✘\*\* The option is NOT available. Always ON due to compliance reasons
+:::
+
+Table 2. PDF/A Options availability
+
+|  |  |  |  |  |
+| --- | --- | --- | --- | --- |
+| ***PDF/A Version*** | **Embed fonts** | **Encryption** | **Attachment list** | **Use JPEG 2000**  *Available in PdfCompressionOptions* |
+| **TEXT AND GRAPHICS**  **TEXT OVER IMAGE** |  |  |  |  |
+| *PDF 1.4\_A1a* | ✘\*\* | ✘ | ✘ | ✘\* |
+| *PDF 1.4\_A1b* | ✘\*\* | ✘ | ✘ | ✘\* |
+| *PDF 1.7\_A2a* | ✘\*\* | ✘ | ✘ | ✔ |
+| *PDF 1.7\_A2b* | ✘\*\* | ✘ | ✘ | ✔ |
+| *PDF 1.7\_A3a* | ✘\*\* | ✘ | ✔ | ✔ |
+| *PDF 1.7\_A3b* | ✘\*\* | ✘ | ✔ | ✔ |
+| **IMAGE OVER TEXT**  **HyperCompressed** |  |  |  |  |
+| *PDF 1.4\_A1a* | ✔ | ✘ | ✘ | ✘\* |
+| *PDF 1.4\_A1b* | ✔ | ✘ | ✘ | ✘\* |
+| *PDF 1.7\_A2a* | ✔ | ✘ | ✘ | ✔ |
+| *PDF 1.7\_A2b* | ✔ | ✘ | ✘ | ✔ |
+| *PDF 1.7\_A3a* | ✔ | ✘ | ✔ | ✔ |
+| *PDF 1.7\_A3b* | ✔ | ✘ | ✔ | ✔ |

@@ -1,0 +1,67 @@
+---
+title: "16.0.7"
+---
+
+📅 2021-11-10
+
+## `New features`
+
+N/A
+
+## `Improvements`
+
+### Transformation of the Document Output API
+
+This release marks the beginning of the transformation process of the Document Output API from version 15 to version 16.  
+The following changes are affected:
+
+* The C++ namespace `DOCUMENT_OUTPUT` is removed: as a consequence, all iDRS definitions are now available directly in the `IDRS` namespace. This change has no consequence on the `.NET` API.
+* Several **classes** are renamed:
+
+  + `CEncryptionParameters` becomes **CEncryptionOptions**
+  + `CCertificationParameters` becomes **CSignatureOptions**
+  + `CPdfAttachmentsList` becomes **CAttachmentsList**
+  + `CPdfAttachment` becomes **CAttachment**
+
+Note that *further changes* in the Document Output API *are expected* in the next iDRS 16 release.
+
+### Loading images from stream
+
+New method definitions have been added to `CBaseImagePlugin`, `CImage` and `CPage` classes to allow the loading of images from **stream**, in addition to existing methods using filepaths.
+
+* `CBaseImagePlugin`: `LoadImage`, `CanLoadFile`, `GetPageCount`
+* `CImage`: `Create` *(C++)* / `ctor` *(.NET)*, `Load`, `GetPageCount`
+* `CPage`: `LoadSourceImage`, `LoadBlackAndWhiteImage`
+
+## `Deprecated/removed features`
+
+### Output formats ExcelML and CSV
+
+The output formats **ExcelML** and **CSV** are removed from the iDRS API, preventing you from creating such documents.
+
+The Excel Binary File Format (.xls) of Microsoft Office 2003, or ExcelML, has been replaced since 2007 by the new Office Open XML formats (DOCX, XLSX, PPTX).
+
+Comma-separated values format (CSV) is also deprecated due to its low business value; it has very limited use cases and can be generated directly by parsing OCR results.
+
+## `Added/removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6095 | The iDRS crashes when loading a specific TIF image |
+| IDRSRD-6094 | The iDRS cannot load the text layer of a specific PDF file |
+| IDRSRD-6077 | The iDRS cannot load text content from specific pdf file due to unsupported postscript names |
+| IDRSRD-6076 | The iDRS cannot load content from specific pdf file |
+| IDRSRD-6071 | The XLSX option to not retain color of text is not taken into account when combined with layout recreate source document |
+| IDRSRD-6041 | The iDRS do not properly handle list indentation when generating DOCX documents |
+| IDRSRD-6029 | The iDRS is crashing when running OCR on specific Vietnamese images |
+| IDRSRD-6016 | The iDRS page content representation should allow an integrator to store custom data |
+| IDRSRD-5827 | The iDRS should be able to load an image from a provided stream |
+| IDRSRD-5788 | The iDRS throws an exception when the user lexicon feature is used |
+
+## `Known issues`
+
+N/A

@@ -1,0 +1,94 @@
+---
+title: "16.0.15"
+---
+
+📅 2023-01-28
+
+## `New features`
+
+### Support for editing, detecting and outputting PDF form fields
+
+The iDRS now has the notion of ***form field***, and allows several operations around it:
+
+1. You can **add and edit** form fields in a `CPageContent2` object
+2. During OCR processing, the iDRS can **detect** empty form fields, and automatically add candidates found in the `CPageContent2` object
+3. Form fields can be added to the **output** PDF documents created later
+
+The following **form field types** are supported:
+
+* Text
+* Combed text
+* Password
+* Checkbox
+* Radio buttons
+* List box
+* Drop-down list
+* Groups
+
+For **code snippets** illustrating how to use this new feature, go to the **Developer Guide** at chapter **Forms fields**.
+
+Coming soon
+
+Future versions of iDRS will introduce the ability to **import** form fields from an input PDF, as well as to **update** data in an existing PDF form (new or updated fields).
+
+#### Editing
+
+**A new class `CPageInteractiveForm`** is created to handle form fields. It allows you to set or update the default form style via the `CPageInteractiveForm.DefaultFieldStyle` property, and the form fields themselves via the `CPageInteractiveForm.FormFields` property.
+
+This class is accessible using the **new property `CPageMetadata.InteractiveForm`**.
+
+#### Detecting
+
+The **new property `COcrContext.EmptyFormsDetection`** allows to activate the detection of form fields during character recognition.
+
+The detection results are available in the `CPageInteractiveForm` instance of the `CPage` content.
+
+:::note
+Scope of the detection feature
+The detection feature can only find empty form fields, i.e. those that do not contain any written data. Form fields containing an existing value will NOT be detected.
+:::
+:::caution
+Performance of form fields detection
+When empty form field detection is enabled, recognition time is greatly increased.
+Future versions of iDRS will reduce the processing overhead of this feature.
+:::
+
+#### Output
+
+If the `CPage` objects in the document to be created contain form fields AND **the output type is PDF**, then they will be added to the output.
+
+Other formats do not yet support this feature; this possibility may be added in a future release, depending on business needs.
+
+## `Improvements`
+
+N/A
+
+## `Deprecated or removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6307 | The iDRS incorrectly detects Thai language on an English document |
+| IDRSRD-6260 | The iDRS crashes/hangs when detecting language and orientation of the attached document |
+| IDRSRD-6262 | The iDRS crashes when detecting the language of a specific image |
+| IDRSRD-6199 | Performance of iDRS corners detection feature can be improved |
+| IDRSRD-6074 | The iDRS crashes when aborting OCR processing during DRS\_END phase |
+| IDRSRD-6027 | The iDRS processing time is slower with worker thread count higher than 1, for Asian languages |
+| IDRSDEV-1503 | The iDRS may crash when memory threshold is reached |
+| IDRSDEV-1512 | The id of iDRS C API macOS library should be set |
+| IDRSDEV-1449 | The iDRS should allow to add or edit Form fields on document pages |
+| IDRSDEV-1443 | The iDRS should be able to detect empty form fields on an image |
+| IDRSDEV-780 | The iDRS should be able to write Form data when creating a PDF document |
+
+## `Known Issues`
+
+| ID | Description |
+| --- | --- |
+| IDRSDEV-1543 | iDRS Linux32 may crash during document output phase when memory monitoring is activated |
+
+Notion of **Property** in C++
+
+For convenience and readability, from this version on, we will use the term **Property** as explained in the [Glossary](../glossary/glossary.html).

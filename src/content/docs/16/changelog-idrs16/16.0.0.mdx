@@ -1,0 +1,98 @@
+---
+title: "16.0.0"
+---
+
+📅 2021-01-22
+
+## Introduction
+
+From 2021 and on, we will gradually transition our iDRS 15 into a brand new major version: the **OCR SDK 16**.
+
+One of the hard requirements is to keep backward compatibility, API and binary-wise, between different versions of the same major one. That is very helpful for you, integrators, who can then easily update the iDRS in your products without having to change your own code frequently; but as time goes by, more and more old or even deprecated APIs have to be kept available, which in turn impacts the workload needed for product maintenance or even for new developments.
+
+This is why, after **8 years of lifetime** for the iDRS 15, our development team is cleaning up the current API of the outdated elements and parameters, and is also taking this opportunity to review the package and binaries layout.
+
+### Scope of the updates
+
+In a nutshell, our goal for this OCR SDK 16 is:
+
+* **Simplifying.** Most tasks aim at updating the parameters and the way they are exposed; This can be done thanks to the feedback gathered during the past years from integrators, and thanks to the team’s experience.
+* **Optimizing the API** by keeping the recommended methods and parameters only, and by removing the deprecated / legacy ones
+* **Improving the usage:** less parameters to handle means less complexity and thus better maintainability.
+
+### Transition period
+
+In terms of deliverables, this shift will be made gradually over the coming months through regular updates.
+
+**Steps description**
+
+1. **Release version remains 16.0.N**: the API can change from one release to another - no backward compatibility is guaranteed. Changelog mentions all removed or renamed parameters or features.
+2. **Release version increments to 16.1**: the C++ and .NET Framework APIs are set once again and backward compatibility is guaranteed. However, the .NET 5 API may still evolve - Go to chapter [**.NET 5 Windows API**](#NET5) below for more details.
+3. **Release version reaches 16.2**: all the APIs are kept backward compatible.
+
+The development team is doing its best to keep the '16.0' and '16.1' phases as short as possible.
+
+## `New features`
+
+### .NET 5 Windows API
+
+Starting with this release, a .NET 5 API is available within the Windows packages, in addition to the existing .NET Framework API.
+
+For the moment, this new API is very similar to the .NET Framework one; therefore switching from one to the other should be an easy step.
+
+:::caution
+Future evolution of .NET 5 API
+The .NET 5 API will evolve in the future when we will extend support on other platforms than Windows. At that point, you may need to update your source code accordingly.
+:::
+
+### Package for Windows ARM64 architecture
+
+A new package is released alongside the usual ones: **iDRS for Windows ARM64**. This concludes the extension of availability on ARM processors, as Linux and macOS are already released.
+
+## `Improvements`
+
+### DOCX output with 'favor layout' configuration
+
+This release includes a brand **new writer for DOCX documents**, resulting in better and more precise document layout when you select the **'favor layout'** configuration (set the `CDocxOutputParameters.ColumnMode` property to **Ignore**).
+
+Future releases will extend the usage of this new DOCX writer to the second use case: 'favor flowing text'.
+
+## `Deprecated/removed features`
+
+N/A
+
+## `Added/removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-5894 | The iDRS can crash when generating page content from .NET API |
+| IDRSRD-5886 | The iDRS creates DOCX files without the correct list bullets |
+| IDRSRD-5869 | The iDRS does not use detected tabulations when creating office documents |
+| IDRSRD-5858 | The iDRS is extremely slow to generate PDF when output document memory limit is reached |
+| IDRSRD-5854 | The iDRS should propose a .NET 5 API on Windows platform |
+| IDRSRD-5852 | The iDRS does not read TIFF color palette properly for specific files |
+| IDRSRD-5849 | The iDRS is unable to load TIFF images with greyscale+alpha color mode |
+| IDRSRD-5848 | The iDRS documentation should clarify the cases where Visual Studio 2010 32bit redistributables are needed |
+| IDRSRD-5839 | The iDRS throws an exception when converting specific images to DOCX output format |
+| IDRSRD-5832 | The IDRS is incorrectly merging some lines when converting specific Hebrew images to DOCX output format |
+| IDRSRD-5807 | The iDRS does not output text in the expected order |
+| IDRSRD-5799 | The iDRS SDK fails to detect punch holes in specific document |
+| IDRSRD-5783 | The iDRS OCR binaries should be updated with latest jpeg library |
+| IDRSRD-5782 | The iDRS Barcode Evo I binaries should be updated with the latest jpeg library |
+| IDRSRD-5754 | The iDRS Barcode Evo I binaries should be updated with the latest zlib library |
+| IDRSRD-5742 | The iDRS miscomputes the default charset when changing OCR language from an Asian to an HQOCR one |
+| IDRSRD-5664 | The Korean OCR accuracy should be improved |
+| IDRSRD-5550 | The iDRS does not read properly very clear characters from specific documents |
+| IDRSRD-3484 | The iDRS does not output Arabic words in the correct order in DOCX |
+| IDRSDEV-1081 | The iDRS does not output content of columns succeeding an empty one |
+| IDRSDEV-1070 | The iDRS PDF loading binaries should be updated with the latest FreeType library |
+| IDRSDEV-1069 | The iDRS Document Output binaries should be updated with the latest zlib library |
+| IDRSDEV-1068 | The iDRS Imaging binaries should be updated with latest jpeg library |
+
+## `Known issues`
+
+N/A

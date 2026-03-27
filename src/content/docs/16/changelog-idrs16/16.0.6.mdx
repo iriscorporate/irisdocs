@@ -1,0 +1,51 @@
+---
+title: "16.0.6"
+---
+
+📅 2021-09-09
+
+:::danger
+Updated System Requirements for Linux
+The system requirements for the Intel Linux platform have been upgraded to allow the iDRS to integrate the latest technologies.
+The minimum guaranteed glibc version is now glibc 2.28. We recommend using the iDRS on Debian 10 or any other equivalent Linux distribution.
+:::
+
+## `New features`
+
+### PDF loading support on macOS
+
+As of this release, the **extension PDF loading** from the **Image File module** is available on macOS platform.  
+You can activate this extension by inserting a valid license key in your `CIDRSLicense` object for the image file module as shown in the snippet below:
+
+```
+// Activate the PDF loading extension
+IDRS::CIDRSLicense objLicenseImageFile(IDRS_MODULE_IMAGE_FILE, IDRS_LICENSE_CUSTOM_SOFTWARE, "IDRS_IMAGE_FILE_IRIS_XXXXXXX");
+objLicenseImageFile.EnableExtension(IDRS_FILE_EXTENSION_PDF, "IDRS_IMAGE_FILE_PDF_IRIS_XXXXXXX");
+```
+
+After activating the extension, you are now allowed to load a PDF into a `CImage` and into a `CPage` object.
+
+## `Improvements`
+
+N/A
+
+## `Deprecated/removed features`
+
+N/A
+
+## `Added/removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6019 | When the iDRS applies several signatures to a PDF, in some cases only the last one is valid |
+| IDRSRD-5981 | The docx created with Editable display does not indicate the expected document language when no text is selected |
+| IDRSRD-5962 | The iDRS crashes when calling CPageRecognition.AnalyzeLayout on a specific image |
+| IDRSRD-5788 | COcrContext::SetUserLexicon is not working |
+
+## `Known issues`
+
+N/A

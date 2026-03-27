@@ -1,0 +1,28 @@
+---
+title: "Loading fonts (Linux)"
+---
+
+## Getting the list of installed fonts
+
+You can fetch the list of available fonts by executing the command `fc-list` in a terminal.
+
+## Loading a PDF containing text
+
+### If the font is embedded in the PDF
+
+PDFium retrieves the glyphs from the PDF file (as everything is embedded). That is the easy path.
+
+### If the font is *not* embedded in the PDF
+
+1. PDFium looks in the folders for a font that would be matching according these criteria: **weight, italic, charset, pitch family and face** in the following folders:
+
+   * `/usr/share/fonts`,
+   * `/usr/share/X11/fonts/Type1`,
+   * `/usr/share/X11/fonts/TTF`,
+   * `/usr/local/share/fonts` +
+2. If none are found suitable, a **fallback mechanism** is triggered to find the **best match**.
+
+**How does the fallback mechanism work?**
+
+1. IF the charset is ANSI and the font-family is Fixed Pitch, THEN the "Courier New" font is returned.
+2. ELSE all fonts in the list that do not have charset AND whose font name does not contain the family name are skipped, THEN a score is computed based on the mentioned criteria AND the biggest score is returned.

@@ -1,0 +1,185 @@
+---
+title: "16.2.5"
+---
+
+📅 2025-03-07
+
+## `New Features`
+
+### New Page Segmentation
+
+This release comes with a brand new **page segmentation** algorithm, which brings several improvements compared to the previous one, and increases the quality of text and layout detection in general.
+
+The change is fully transparent. It is not necessary to update your integration to benefit from it.
+
+### Detection of documents with complex layouts
+
+The new page segmentation is expected to perform generally better than the previous one on documents with complex, unstructured or semi-structured layouts.
+
+This would correspond to the following type of documents:
+
+* Invoices
+* Camera images
+* Flyers
+* Magazines
+
+### Detection of table content
+
+The structure of tables, or content organized as table, is improved with this new algorithm. Any type of document can benefit from this improvement, altough it will be more visible on invoices which are usually following an implicit grid-like layout.
+
+### Detection of inverted text
+
+Detection of inverted text (i.e. light text on dark background) is also improved. This type of pattern was a known weakness of the previous segmentation algorithm, and is now properly supported by the new one.
+
+### Increased maximum page size supported by OCR engine
+
+The new page segmentation implementation allowed to raise the maximum page size supported by the OCR engine, from 75 to 559 million pixels. This new limit allows, for instance, to recognize A0 pages scanned at 600 dpi.
+
+From an integration point of view, the class `CImageLimits` has been updated to reflect this new threshold.
+
+### Detection of overlapping Zones
+
+Lastly, the new segmentation algorithm is able to detect content overlapping each other, unlike the previous one. This case can be rather frequent for instance on magazine pages, with text printed on top of a picture; or with pictures inside table cells; etc.
+
+The output module of iDRS has be adapted in order to properly support overlapping elements for all concerned output formats.
+
+In a nutshell, this additional capability brings a better layout decomposition and will especially improve the visual quality of word processor outputs (docx, rtf, …​).
+
+### New XHTML output
+
+Previous iDRS HTML output has been fully replaced by a new XHTML output. The brand new XHTML writer used for this format provides the following improvements over the previous one:
+
+* Compliance with XHTML standard
+* Support of overlapping zones
+* More precise positionning of elements
+* Optimized CSS management
+* Better handling of UTF-8 characters
+
+## `Improvements`
+
+### Performance of High Quality OCR for Japanese language
+
+The Japanese High Quality OCR network has been updated to be more efficient in terms of memory consumption, and more performant in terms of speed. We were able to measure up to 40% of time savings on internal test sets!
+
+### Support of Hanja characters in Korean
+
+This version includes an updated Korean engine that supports Hanja characters. Hanja are Chinese characters that were used as the writing script for the Korean language before the widespread adoption of Hangul. They are still used in modern Korean, for example, to represent names.
+
+### Improved DOCX Editable and Exact outputs
+
+This iDRS release includes a consequent number of fixes and fine-tuning for DOCX output, especially concerning Editable and Exact layouts.
+
+As a result, thanks to this fine-tuning effort and the new segmentation update, the quality of the DOCX conversion performed by iDRS has been significantly improved.
+
+## `Additional Notes`
+
+### Charset Limitation
+
+The behavior of the charset limitation feature has changed:
+
+The OCR engine **interprets an entire line** using only the characters included in the charset, instead of replacing excluded characters with a reject character.
+
+As a result:
+
+* Lines may or may not contain reject characters.
+* A line may be erased if the OCR **cannot interpret a significant portion** of this line due to the absence of characters excluded from the charset.
+
+:::tip
+We recommend that you use the charset limitation feature only for minor adjustments, i.e. forbidding a small number of characters.
+Example: if you select a charset that includes only digits (a very restrictive charset), lines containing digit characters may be completely missed if they contained also a significant number of non-digits characters.
+:::
+
+## `Bug Fixes`
+
+| Internal ID | Description | Service desk IDs |
+| --- | --- | --- |
+| IDRSRD-9741 | word spacing of DOCX output can be improved for Thai justified text |  |
+| IDRSRD-9727 | Docx conversion results on customer test set should be improved |  |
+| IDRSRD-9726 | Text lines sometimes are incorrectly merged as paragraphs in DOCX output |  |
+| IDRSRD-9723 | Zonal OCR of a specific image may return empty results depending on the zone size |  |
+| IDRSRD-9711 | Crash when loading a corrupted jpg image |  |
+| IDRSRD-9705 | Page analysis allowed languages are not taken into account when language detection is turned off, resulting in reduced orientation detection accuracy |  |
+| IDRSRD-9698 | The iDRS creates DOCX outputs with incorrect URI links |  |
+| IDRSRD-9695 | The iDRS generates overlapping text results on a specific Japanese image |  |
+| IDRSRD-9688 | The iDRS sometimes sets incorrect textbox right indent for Docx Editable output |  |
+| IDRSRD-9683 | The iDRS XHTML NoLayout output can be improved |  |
+| IDRSRD-9681 | OCR accuracy on 100dpi images is degraded with new page segmentation |  |
+| IDRSRD-9679 | OCR engine freeze on an Arabic image |  |
+| IDRSRD-9677 | The iDRS creates incorrect DOCX output when containing Top to Bottom text |  |
+| IDRSRD-9656 | The iDRS new segmentation find text columns with zones going upwards |  |
+| IDRSRD-9653 | The iDRS SDK crashes when running OCR on a specific document |  |
+| IDRSRD-9647 | Crash when running OCR intel arch on arm macOS |  |
+| IDRSRD-9640 | The new segmentation crashes when running OCR on chinese followed by japanese |  |
+| IDRSRD-9634 | OCR engine returns some 0-sized elements when recognizing Arabic and Farsi documents |  |
+| IDRSRD-9614 | CPageProcessing must be optimized |  |
+| IDRSRD-9604 | iDRS16 .NET generates new object ids for provided array elements |  |
+| IDRSRD-9593 | Update the iDRS to have new segmentation and overlapping zones activated by default |  |
+| IDRSRD-9587 | The iDRS uses incorrect indentation when creating DOCX output with right-to-left text |  |
+| IDRSRD-9585 | The iDRS should expose an option to downscale input if needed, when outputting Word document |  |
+| IDRSRD-9580 | Text display of DOCX created with iDRS can be improved |  |
+| IDRSRD-9569 | The new segmentation doesn’t recognize underscore symbol | ISD-35641 |
+| IDRSRD-9551 | Japanese HQOCR misses several characters with inverted colors on a specific image |  |
+| IDRSRD-9536 | The new segmentation considers isolated dash characters as graphics |  |
+| IDRSRD-9535 | Detection of table header row is incorrect on a specific image |  |
+| IDRSRD-9526 | The new segmentation often misses comma signs | ISD-35429 |
+| IDRSRD-9521 | The iDRS cannot load large pdf document | ISD-34080 |
+| IDRSRD-9495 | Header row of clear table is not properly recognized |  |
+| IDRSRD-9487 | The new page segmentation crash when processing a specific image | ISD-35253 |
+| IDRSRD-9486 | String class should support conversion from/to utf16-encoded strings using char16\_t and wchar\_t data types |  |
+| IDRSRD-9469 | Detection of graphic lines is inaccurate |  |
+| IDRSRD-9458 | Memory consumption of HQOCR Japanese is huge on a specific image |  |
+| IDRSRD-9398 | Re-introduce support of Hanja in Korean OCR | ISD-36142 |
+| IDRSRD-9358 | Memory consumption of iDRS PDF loading can be improved |  |
+| IDRSRD-9336 | Processing time for Japanese language is degraded with iDRS 16, compared to iDRS 15 |  |
+| IDRSRD-9323 | iDRS detects justified Korean text as several paragraphs containing a single character | ISD-34474 |
+| IDRSRD-9301 | The new page segmentation makes substitution errors between 'O' and '0' | ISD-34256 |
+| IDRSRD-9280 | The iDRS doesn’t properly write tabulation entries in DOCX Editable and Exact layouts |  |
+| IDRSRD-9190 | The iDRS does not recognize clear text next to graphic zone |  |
+| IDRSRD-9179 | The iDRS fails to detect columns on specific Korean image | ISD-33936 |
+| IDRSRD-8301 | The iDRS misrecognizes . (dot) in specific Japanese documents |  |
+| IDRSRD-6495 | The iDRS orientation detection gives wrong results on specific files. |  |
+| IDRSRD-6450 | The iDRS 16 should be updated to zlib 1.3.1 | ISD-35377 |
+| IDRSRD-6433 | The iDRS incorrectly detects vertical text with zonal OCR, on a specific image |  |
+| IDRSRD-6378 | Layout of docx output created by iDRS can be improved, when the document contains narrow columns of text |  |
+| IDRSRD-6354 | Creation of XLSX with layout RecreateInput fails for a specific image when using new page segmentation |  |
+| IDRSRD-6352 | The iDRS new page segmentation outputs extremely small font size for Hebrew characters |  |
+| IDRSRD-6350 | The iDRS new page segmentation doesn’t handle a clearscan Hebrew document |  |
+| IDRSRD-6345 | The iDRS detects non-existing I2OF5 barcodes on a specific document | ISD-9456 |
+| IDRSRD-6335 | The iDRS wrongly detects the text of a specific table cell | ISD-31823 |
+| IDRSRD-6331 | The iDRS does not respect the tabulation when processing a pdf into docx format |  |
+| IDRSRD-6320 | Paragraph spacing of DOCX created by iDRS are not correct when converting a specific image |  |
+| IDRSRD-6292 | The iDRS should support images larger than 75M pixels | ISD-31121 |
+| IDRSRD-6165 | A full page table is causing an unexpected page break when converting specific image to DOCX output |  |
+| IDRSRD-6079 | Alignment of bullet lists in iDRS DOCX output is incorrect |  |
+| IDRSRD-5933 | Hanja characters no longer part of the Korean charset with latest Korean OCR engine | ISD-36198, ISD-36142 |
+| IDRSRD-2988 | The iDRS does not detect the border line correctly when converting a TIF to docx. | ISD-8043 |
+
+## `Known Issues`
+
+| Internal ID | Description | Service desk IDs |
+| --- | --- | --- |
+| IDRSRD-9628 | Language detection feature requires really unexpected resources |  |
+| IDRSRD-9392 | The new page segmentation breaks down clear pictures |  |
+| IDRSRD-9754 | The iDRS is not compatible with VirtualBox VMs running on Windows Hosts |  |
+
+### OCR resources required by language detection feature
+
+Currently, the language detection feature requires the OCR lexicon files (*.ilex* extensions) for **all** languages included in the allowed list (see property `CPageAnalysisParams.AllowedLanguages`). This issue will be fixed in the next iDRS release.
+
+Note that if the allowed languages list is empty (default behavior), then all languages allowed by licensing are considered allowed.
+
+### Pictures boundaries detection
+
+The new page segmentation tends to create graphic zones around pictures with non-rectangular boundaries, while output would look better with rectangular shape.
+
+The graphic zones boundaries detection will be reworked and improved in a future release.
+
+### Compatibility with VirtualBox on Windows
+
+This release has a compatibility issue with Oracle VirtualBox virtualization software, which prevents it to run properly on Windows host systems (whatever the guest system).
+
+The competitor virtualization software VMware is however not impacted by this issue.
+
+This will be addressed in the next release.
+
+---

@@ -1,0 +1,52 @@
+---
+title: "16.2.3"
+---
+
+📅 2024-10-31
+
+## `New features`
+
+N/A
+
+## `Improvements`
+
+### Allow transparent images while signing a PDF
+
+When signing a PDF with a visible signature, you can add a transparency mask to the background image.  
+You can set this mask, simply by calling the new method `SetTransparencyMask()` from `CPageZoneGraphicExternalImage`.
+
+### Loading Jpeg Image with CMYK pixel format
+
+The JPEG images with CMYK pixels can now be loaded by iDRS.
+
+## `Added/removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+|  |  |  |
+| --- | --- | --- |
+| Internal ID | Description | Service desk IDs |
+| IDRSRD-9577 | When exporting a specific image to pdf1.4, we get a blank page that can’t be opened by acrobat | ISD-35647 |
+| IDRSRD-9562 | iDRS can generate invalid PDF files |  |
+| IDRSRD-9553 | iDRS always reloads OCR resources when SetOcrParams() is called, even if the OCR parameters are identical |  |
+| IDRSRD-9546 | Docx Editable - review text background color selection in order to use new overlap flags available in the XML FMT / Entities |  |
+| IDRSRD-9532 | XLSX RecreateInput - use background image for graphics |  |
+| IDRSRD-9519 | Review & cleanup RTF writer code |  |
+| IDRSRD-9517 | iDRS 16 should be updated to zlib 1.3.1 - SDK components |  |
+| IDRSRD-9516 | iDRS 16 should be updated to zlib 1.3.1 - Third parties component |  |
+| IDRSRD-9515 | iDRS 16 should be updated to zlib 1.3.1 - core components |  |
+| IDRSRD-9514 | Table zones inside text columns can be added to textboxes in docx Editable |  |
+| IDRSRD-9504 | Signing specific pdf document can lead to a crash |  |
+| IDRSRD-9494 | Docx Exact - double-check paragraph start indent |  |
+| IDRSRD-9493 | Docx NoLayout - retrieve graphic zones from background image |  |
+| IDRSRD-9492 | Docx Flowing - Set graphic zones below text / above tables and adjust text spacing |  |
+| IDRSRD-9484 | The unexposed .NET classes should implement IDisposable | ISD-34638 |
+| IDRSRD-9470 | PDF signature is present but not visually displayed in the document |  |
+| IDRSRD-9462 | Add to CLngUtils a method allowing to retrieve the list of languages supported by autolang |  |
+| IDRSRD-9394 | Signing pdf files should allow setting transparent images |  |
+| IDRSRD-9384 | iDRS cannot load jpeg with CMYK pixel format | ISD-34690 |
+| IDRSRD-9353 | iDRS does not rasterize correctly a specific pdf file | ISD-34630 |
+| IDRSRD-9178 | Update iDRS package analysis to validate version information on all needed platforms |  |
+| IDRSRD-3404 | Formatting of tables detected by iDRS can be improved | ISD-1808 |

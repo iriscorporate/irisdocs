@@ -1,0 +1,52 @@
+---
+title: "16.0.19"
+---
+
+📅 2023-08-28
+
+## `New features`
+
+N/A
+
+## `Improvements`
+
+### Image loading and saving
+
+This release updates the way to save or load supported file format (tiff, jpeg, png, …​) from/to corresponding iDRS objects `CImage` and `CPage`.
+
+Instead of being exposed directly in the concerned objects, the two capabilities are brought together in a **new `CImageIO` class**, and are available via several methods: `LoadImage`, `SaveImage`, `LoadPage`, and `SavePage`.
+
+This change has several benefits:
+
+* Load/Save options now only need to be defined once in the `CImageIO` class, instead of needing them as an argument for each call to CImage/CPage Load/Save; because this new class stores an instance of `CImageLoadOptions` / `CImageSaveOptions` (or subclasses) for each supported file format.
+* As a result of this change, the PageIndex property of the load option is moved out of relevant classes (`CImageLoadOptionsTiff` and `CImageLoadOptionsPdf`) and kept only as an argument of `LoadImage` and `LoadPage` methods.
+* It is no longer needed to know in advance the type of file to be loaded to provide the appriopriate `CImageLoadOptions` subclass.
+* In the future, this new class will enable us to offer more facilitators, such as a method to load a multipage file into a CImage or CPage array in a single call.
+
+In addition, the `CImageOptions` class and its subclasses have been renamed to `CImageSaveOptions[Xxx]` to clarify their scope.
+
+:::caution
+Note that the next release will contain further changes to the image option classes.
+:::
+
+## `Deprecated or removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6404 | The iDRS crashes when recognizing text on a specific image, if skew and orientation detection are activated |
+| IDRSRD-6391 | iDRS .NET leaks memory when parsing object arrays |
+| IDRSRD-6390 | iDRS for Linux leaks memory when BarcodeAdvanced extension is activated |
+| IDRSRD-6389 | iDRS for Linux leaks memory when QRCode detection is activated |
+| IDRSRD-6377 | Banking Fonts recognition feature is broken since version 16.0.17 |
+| IDRSRD-6360 | The iDRS returns bounding boxes too small for QR codes, when they are detected by Extra2d engine |
+| IDRSRD-2472 | The iDRS has poor accuracy when recognizing a document containing a mix of Asian and English content |
+| IDRSDEV-1659 | CPage.LoadSourceImage() doesn’t set the page properties correctly since 16.0.17 |
+| IDRSDEV-1537 | The iDRS should be able to load BMP files with indexed pixels format |
+
+## `Known Issues`
+
+N/A

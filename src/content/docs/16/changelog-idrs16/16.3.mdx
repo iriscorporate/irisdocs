@@ -1,0 +1,33 @@
+---
+title: "Introduction to 16.3"
+---
+
+**Version 16.3 introduces a new 'Experimental namespace:**
+
+* in C++: `IDRS::Experimental`
+* in .NET: `IDRSNET.Experimental`
+
+This namespace contains new classes with a non-final API. The API of these classes may change in future releases. However, the functionality of the features themselves is stable and reliable.
+
+**Purpose**
+
+The Experimental namespace allows us to improve how new features are exposed, based on your feedback. This refinement period lasts for a few minor releases.
+
+When a new **minor version** of iDRS is released, some features may be moved from the Experimental namespace to the main namespace (`IDRS` or `IDRSNET`). Once moved, their API becomes stable and backward-compatible.
+
+**What this means for you**
+
+* **If you do not use the Experimental namespace:**
+
+  + You can update binaries without changing your source code.
+  + You do not need to recompile your application.
+  + API and ABI compatibility is guaranteed.
+* **If you use the Experimental namespace:**
+
+  + You may need to update your source code and/or binaries when upgrading to a new iDRS version.
+  + The API of Experimental classes may change.
+* **When a feature moves out of Experimental:**
+
+  + It becomes part of the stable API.
+  + You can use it safely in your application.
+  + Future updates will not introduce breaking changes.

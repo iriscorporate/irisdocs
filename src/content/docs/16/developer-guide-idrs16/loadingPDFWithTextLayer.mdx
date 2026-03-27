@@ -1,0 +1,40 @@
+---
+title: "Loading a PDF with its content"
+---
+
+The IRISOCR™ SDK allows you to load the page content (i.e. the text layer and the graphical zones) from PDFs without the need of running OCR.
+
+For this, **two parameters** from the `CImageLoadOptionsPdf` **class** are available:
+
+| Parameter | Default value | Explanation |
+| --- | --- | --- |
+| `LoadPageContent` | IDRS\_FALSE | This parameter enables/disables the loading of the PDF page content. |
+| `AllowIncompleteTextLoading` | IDRS\_TRUE | The iDRS does *not* support unicode characters with value higher than U+FFFF.    If set to **IDRS\_TRUE** and such characters are encountered, then they are replaced by U+FFFD (replacement character).    If set to **IDRS\_FALSE**, then an exception with error code **IDRS\_ERROR\_IMAGE\_FILE\_PDF\_UNSUPPORTED\_CHARACTER** is thrown. |
+
+:::note
+Note
+PDF rendering will always be done before loading the text layer. So after loading the page content, OCR can be run.
+:::
+:::caution
+Limitations
+When loading the PDF text layer, re-OCR is not done internally. It can be triggered by the user afterwards.
+Top-to-bottom text is not handled correctly.
+Right-to-left documents (e.g: Arabic) are not supported yet.
+:::
+
+**Code Snippet(s)**
+
+```
+CIDRS objIdrs = CIDRS::Create();
+
+// Set PDF load options
+CImageLoadOptionsPdf objImageLoadOptionsPdf = CImageLoadOptionsPdf::Create();
+objImageLoadOptionsPdf.SetLoadPageContent(IDRS_TRUE);
+
+// Do load operation
+CImageIO objImageIO = CImageIO::Create(objIdrs);
+objImageIO.SetPdfLoadOptions(objImageLoadOptionsPdf);
+CPage objPage = objImageIO.LoadPage("myfile.pdf");
+CPageContent objPageContent = objPage.GetPageContent();
+//Use objPageContent to get the text layer and the graphical zones
+```

@@ -1,0 +1,63 @@
+---
+title: "16.0.1"
+---
+
+📅 2021-02-26
+
+## `New features`
+
+### Export OCR results to ALTO XML format
+
+This 16.0.1 version introduces a **new export format: ALTO XML**, standing for Analyzed Layout and Text Object.
+
+This **open XML schema** aims at providing a standardized way of describing OCR and layout information for digitized material. Go to [https://www.loc.gov/standards/alto](https://www.loc.gov/standards/alto) for more details.
+
+This new format is added as an **extra export type**: `IDRS_EXPORT_TYPE::IDRS_EXPORT_FORMAT_XML_ALTO` (C++) or `ExportType.XmlAlto` (.NET). It can therefore be provided as an argument of `CExport` class' constructor.
+
+Also, a **new member** is added to class `CExport` in order to allow appending the export of a new page to an existing ALTO XML. You can set it via method `CExport::SetAppendMode()` (C++) or property `CExport.AppendMode` (.NET).
+
+## `Improvements`
+
+### PDF loading with graphical zones coordinates
+
+The SDK is now able to retrieve the location of graphical zones and segments when loading a PDF’s content.
+
+**PDF graphical zones loading** is performed whenever text loading is also requested; to reflect this, the **methods** `CImageLoadOptionsPdf::Get/SetLoadTextContent` (C++) and **property** `CImageLoadOptionsPdf.LoadTextContent` (.NET) are renamed to `CImageLoadOptionsPdf::Get/SetLoadPageContent` / `CImageLoadOptionsPdf.LoadPageContent` respectively.
+
+### PDF loading resolution
+
+Now you can select at which resolution a PDF input page should be rasterized. This can be useful to fine-tune output size (smaller resolution) or maximize quality (higher resolution).
+
+To do so, use **method** `CImageLoadOptionsPdf::SetLoadingResolution()` (C++) or **property** `CImageLoadOptionsPdf.LoadingResolution` (.NET).
+
+The **default value** is 300 dpi, as used in the previous version of the SDK; it ensures the best compromise between size and quality.
+
+## `Deprecated/removed features`
+
+N/A
+
+## `Added/removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-5921 | The iDRS should retrieve graphical zones coordinates when loading PDF’s content |
+| IDRSRD-5911 | The iDRS fails to export OCR results to XML FMT for specific documents |
+| IDRSRD-5902 | The iDRS should allow an integrator to choose PDF loading resolution |
+| IDRSRD-5899 | The iDRS does not properly detect font size for Korean language |
+| IDRSRD-5895 | The iDRS does not serialize CPageParagraphStyle.FontStyle member properly |
+| IDRSRD-5888 | The iDRS loads Pdf text layer with incorrect font sizes |
+| IDRSRD-5887 | The iDRS is not rasterizing Pdfs having forms with fillable fields |
+| IDRSRD-5874 | The iDRS should propose exporting OCR results to ALTO standard XML format |
+| IDRSRD-5868 | The iDRS charset limitation feature is broken for Korean language |
+| IDRSRD-5861 | The iDRS fails to create PDF document when recognizing a specific Korean image |
+| IDRSRD-5749 | The iDRS finds an incorrect orientation for specific Greek and Hebrew images |
+
+## `Known issues`
+
+N/A
+
+---

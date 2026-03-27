@@ -1,0 +1,99 @@
+---
+title: "16.0.17"
+---
+
+📅 2023-05-22
+
+## `New features`
+
+N/A
+
+## `Improvements`
+
+### **Transformation of the Recognition API**
+
+This version introduces the brand new ***Recognition API*** for iDRS.  
+This API transformation updates the concept of **Page analysis**, **Text Recognition** and **Barcode Detection**.  
+It offers a clearer distinction between these concepts.
+
+For more detailed information and code snippets, go to the **Developer Guide > Page Recognition**.
+
+#### Update of CPage object
+
+As of this release, the ***CImage*** objects stored in a **CPage** instance have been revised to clarify their role:
+
+* The **Source image** is the image you provide on which the processing is to be done. It can be of any color type (black & white, greyscale, or color).
+* The **Work image** is an optional black & white image that can be used by Page Analysis, Text Recognition and Barcode Detection algorithms. If this image is defined, it will be provided to the relevant engines in addition to the source image, to facilitate recognition. The Work image must be in black & white and have the same characteristics as the source image (dimensions and resolution).
+* The **Background image** is an optional image that may be computed during Text Recognition. It will correspond to the Source image from which all detected text will have been removed. So it may be used later when creating output formats that require such background images (e.g. DOCX with Exact layout).
+
+### Update of confidence levels
+
+As of this release, the confidence levels will range from 0 to 100, where 100 represents the highest confidence level and 0 represents the lowest confidence level.
+
+This means that when a text element has a confidence level of 100, then the text recognition engine is very sure about this result, while another text element with a confidence level of 0 would mean that the OCR engine is not sure about the returned value, and it’s less likely to be the correct result.
+
+:::danger
+This is a fundamental change compared to previous versions, where the confidence levels were ranging from 0 to 255, 0 being the highest confidence.
+Any code relying on confidence levels would therefore need to be reviewed after update to version 16.0.17 and later.
+:::
+
+## `Deprecated or removed resources`
+
+With this version, **the following classes are now removed**. Some of them are directly replaced, while others are considered obsolete.
+
+|  |  |
+| --- | --- |
+| CAdvancedDecision | Using our new technologies, the possibility of overriding the voting system of the internal OCR engine has no impact anymore. |
+| CBarcodeDetailedParameters | The barcode parameters are now part of the new API used for barcode recognition. See `CBarcodeEngineConfig` and `CBarcodeParams` (+ related classes) |
+| CBarcodeEngineSet | Obsolete feature |
+| CBarcodeEngineExtraOperationsSet | Obsolete feature |
+| CBarcodeResult | Replaced by `CBarcode` class |
+| CBarcodeResultSet | Replaced by `CBarcodeArray` class |
+| CBarcodeSet | Replaced by `BarcodeTypeArray` data type |
+| CBaseContext | The OCR and barcode contexts are no longer inheriting from a base context |
+| CMultiContext | Usage of multiple contexts is allowed through `COcrZonalParams` and `CBarcodeZonalParams` |
+| CCustomAlgorithm | Obsolete feature |
+| CDeskewOptions | Obsolete feature |
+| CFastReader | Obsolete feature |
+| CFastReaderCallback | Obsolete feature |
+| CGrid | Obsolete feature |
+| CLanguageSet | Replaced by `LanguageArray` |
+| CLayoutAnalysisCallback | Obsolete feature |
+| CMeaningElt | Obsolete feature |
+| CMeaningEltBCode | Obsolete feature |
+| CMeaningEltCell | Obsolete feature |
+| CMeaningEltFmtNfo | Obsolete feature |
+| CMeaningEltTxt | Obsolete feature |
+| CZoneMeaning | Obsolete feature |
+| COcrContextAdvancedParameters | The parameters have been moved to `COcrContext` |
+| COcrContextHelper | Obsolete feature |
+| CPageContent2 | Renamed to `CPageContent` |
+| CPageRecognition | The feature is now part of `CTextRecognition` |
+| CPageSection2 | Renamed to `CPageSection` |
+| CPageZoneBarcode | Obsolete feature. The detected barcodes are now added to the page metadata. |
+| CProgress | Replaced with `CProgressBarcodeDetection`, `CProgressPageAnalysis`, `CProgressPageProcessing`, `CProgressTextRecognition` |
+| CRecognitionZone | Replaced with `COcrZonalSettings/COcrZoneDescription` |
+| CTextProperties | The class was used to store enums containing text properties. Now the enums have been modernized to **enum class** and are part of **EnumDefinitions.h** |
+
+### Deprecated file formats for binary pages
+
+:::danger
+Starting with this version we have removed the support for loading page binary files version 6, 7, 8 and 9. Using this file types is not possible anymore with this version. If you still have some files with any of these versions, please use an earlier version of iDRS to convert the files to a newer file format.
+:::
+
+### Rename existing PageOrientation enum
+
+:::caution
+Note that the PageOrientation enum used by the CPageSizeOptions class to represent the page orientation of an output document (portrait/landscape) has been renamed into PaperOrientation, which better matches its meaning.
+This change enables the output of CPageAnalysis page orientation detection to be represented via a new enum taking over the name PageOrientation, instead of an integer value (0 / 90 / 180 / 270 degrees).
+:::
+
+## `Fixed bugs`
+
+N/A
+
+## `Known Issues`
+
+| ID | Description |
+| --- | --- |
+| IDRSDEV-1608 | The detected orientation for some specific patch code barcodes changed compared to iDRS 16.0.16 |

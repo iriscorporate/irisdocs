@@ -1,0 +1,22 @@
+---
+title: ".NET API update guide"
+---
+
+## Name changes
+
+### Enums
+
+Several enum names and values in the iDRS C++ interface are still following the C-style convention, with all uppercase letters separated by underscores. As a .NET integrator, you will need to update these names:  
+For example: `eModule.Prepro` becomes `IDRS_MODULE.IDRS_MODULE_PREPRO`
+
+Note that the iDRS APIs (both C++ and .NET) are being updated in order to get closer to (or come back to, in the case of the .NET one) a standard .NET convention.
+
+:::note
+Go to the iDRS .NET API reference in documentation/iDRS16\_NET.html for a complete list of classes and enums available in the toolkit.
+:::
+
+## Point of Attention
+
+### CIDRSColor constructor
+
+The order of the parameters for `CIDRSColor` constructor has been changed from (red, green, blue) to **(blue, green, red)**.

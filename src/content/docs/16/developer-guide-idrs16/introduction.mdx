@@ -1,0 +1,109 @@
+---
+title: "Introduction"
+---
+
+## What is IRISOCR™ SDK?
+
+The IRISOCR™ SDK (also referred to as [iDRS™](../glossary/glossary.html#iDRS)) is a Software Development Kit (**SDK**) designed to integrate I.R.I.S. 'core technologies - such as Optical Character Recognition (**OCR**), Barcode Recognition (**BCR**), Intelligent Character Recognition for handprinted characters (**ICR**), image enhancement, intelligent High-Quality Compression (**iHQC**), High Quality OCR (**HQOCR**) and document output technology.
+
+## Target audience
+
+The IRISOCR™ SDK is intended for developers who wish to integrate high-quality OCR, BCR, and ICR technologies into their applications and take advantage of the new and improved features offered with the latest version of the SDK.
+
+## Compatibility Matrix: Platforms, Languages & Frameworks
+
+The matrix below shows which platforms, languages, and frameworks are supported for integration, helping you quickly identify compatibility for your implementation.
+
+:::note
+✔ available
+✘ NOT available
+:::
+
+Table 1. Integration availability by platform/Language or platform/framework
+
+|  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ***Platform*** | **Windows Intel** | | **Windows ARM** | **Linux Intel** | | **Linux ARM** | | **macOS** | **Android** | **iOS** |
+| *Bitness* | 32 | 64 | 64 | 32 | 64 | 32 | 64 | universal | 32/64 | universal |
+| *C++* | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| *C* | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✘ | ✘ |
+| *.NET* | ✔ | ✔ | ✔ | ✘ | ✔ | ✔ | ✔ | ✔ | ✘ | ✘ |
+
+Additional platforms can be supported upon specific project.
+
+The present documentation covers information about integrations for **C++ developers or .NET developers**.
+
+## Main features
+
+### Image Input & Output
+
+You can load the image(s) you want to recognize.
+
+More technical information about the supported formats, the color modes and the limitations of each format can be found in the [Datasheet](datasheet_supported_file_formats.html).
+
+:::caution
+The formats list depends on the purchased licenses.
+:::
+
+### Image enhancement
+
+The image quality is very important for the recognition step.  
+When the image parameters are not correctly adjusted, e.g. when the image is scanned at a  
+wrong angle, having low image brightness, being cropped, containing noise or punched  
+holes, saturation and gamma, then the page recognition is highly affected.
+
+In order to increase the recognition accuracy and also provide a better image compression, **Preprocessing** corrects the image parameters. **Preprocessing** comes before the image recognition!
+
+### Optical Character Recognition (OCR)
+
+The **Optical character recognition** not only reads the page but also detects the text, table and graphics zones in order to convert them to editable and searchable text.  
+The recognition can be performed on page level (full-page text recognition) or on zonal level (zonal text recognition).  
+It uses advanced recognition algorithms and lexicons in order to recognize 133 languages.
+
+### Intelligent Character Recognition (ICR)
+
+The **Intelligent Character recognition** is used to read a page that contains **handprinted characters**.
+
+:::caution
+Limitations
+The recognition of cursive handwritten characters is not supported.
+:::
+:::note
+Modules and their extensions
+An extension cannot be loaded without its corresponding module. In the case of the
+ICR extension, the OCR module is required.
+More information about the modules and the extensions can be found in the Modules section.
+:::
+
+### Barcode Recognition (BCR)
+
+:::danger
+Barcode Detection is not available on mobile platforms.
+:::
+
+The **Barcode recognition** is used to perform the recognition of an image containing barcodes.  
+The recognition can be performed on page level (full-page barcode recognition) or on zonal  
+level (zonal barcode recognition).
+
+More technical information about the supported barcode types can be found in the [Datasheet](datasheet_supported_barcode_types.html).
+
+### Document Output
+
+After the recognition step, you can save the recognized text as a file in the formats listed in the [Datasheet](datasheet_supported_file_formats.html).
+
+### Multithread safety
+
+Thanks to this feature, several tasks - or more formally 'threads' - can be executed at the same time.
+
+Multithreading reduces the time needed for the execution of different tasks; for instance, barcode/text detection during page processing and PDF conversion.  
+However, be aware of some constraints: the **OCR** can recognize many pages at the same time but the **Document Output** needs the processing results from at least one page before saving them as an output document.
+
+The number of threads to be used depends on your system capabilities.  
+In the specific case of text recognition, the multithread feature can be used to create several `CTextRecognition objects` in order to recognize text on many pages.
+
+Furthermore, in certain cases, the multithread feature can be used for faster processing of only one page: one `CTextRecognition object` may use several threads in order to recognize text in a single page.  
+Use the methods **GetOcrParams()** and **GetThreadingMode()** of the `COcrParams class` to define the number of threads you want to use.
+
+## SDK architecture
+
+The IRISOCR™ SDK is an object-oriented development toolkit. You can find detailed information on properties, methods and classes in the [API REFERENCE](../API-ref-idrs16/index.html).

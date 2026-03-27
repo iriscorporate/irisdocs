@@ -1,0 +1,47 @@
+---
+title: "Page Analysis"
+---
+
+The **Page Analysis** feature is exposed via the `CPageAnalysis` class and can perform 3 operations:
+
+1. **Page orientation detection**
+2. **Language detection**
+3. **Skew detection**
+
+Each of the above operations can be turned on or off using the `CPageAnalysisParams` parameter class.
+
+Below is a **code snippet** that allows you to run the Page Analysis on an image and retrieve the **orientation and language detection**:
+
+Page Analysis on an image with **orientation and language detection**.
+
+```
+CIDRS objIdrs = CIDRS::Create();
+
+// Load the source image
+CImageIO objImageIO = CImageIO::Create(objIdrs);
+CImage objImage = objImageIO.LoadImage("path/to/image");
+
+CPageAnalysisParams objPageAnalysisParams = CPageAnalysisParams::Create();
+objPageAnalysisParams.SetDetectLanguage(IDRS_TRUE);
+objPageAnalysisParams.SetDetectOrientation(IDRS_TRUE);
+
+// Run Page analysis
+CPageAnalysis objPageAnalysis = CPageAnalysis::Create(objIdrs, objPageAnalysisParams);
+CPageAnalysisResult objPageAnalysisResults = objPageAnalysis.AnalyzePage(objImage);
+
+// Inspecting results
+// 1. The orientation detection
+std::cout << "    - Orientation: " << static_cast&lt;IDRS_UINT&gt;(objPageAnalysisResults.GetPageOrientation()) << "(confidence " << objPageAnalysisResults.GetPageOrientationConfidence() << ")" << std::endl;
+// 2. The language detection
+for (IDRS_UINT uiCandidateIndex = 0; uiCandidateIndex < objPageAnalysisResults.GetLanguages().GetCount(); uiCandidateIndex++)
+{
+  LanguageCandidate stLanguageCandidate = objPageAnalysisResults.GetLanguages()[uiCandidateIndex];
+  const IDRS_UINT uiLanguageId = static_cast&lt;IDRS_UINT&gt;(stLanguageCandidate.evLanguage);
+  const IDRS_UINT uiConfidence = stLanguageCandidate.uiConfidenceLevel;
+  std::cout << "    - Candidate " << uiCandidateIndex << ": " << uiLanguageId << " (confidence " << uiConfidence << ")" << std::endl;
+}
+```
+
+:::note
+The Language Detection helps to identify the predominant language in a given page. Currently, this functionality is designed to discern the language in pages that are monolingual.
+:::

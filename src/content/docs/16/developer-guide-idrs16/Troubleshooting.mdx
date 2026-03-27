@@ -1,0 +1,19 @@
+---
+title: "Troubleshooting"
+---
+
+All the **error codes** can be found in the `idrserr.h` file from the File List of the [API REFERENCE](../API-ref-idrs16/index.html).
+
+Table 1. Table of Error codes
+
+| Error code | Error label | Details and troubleshooting |
+| --- | --- | --- |
+| 10 | IDRS\_ERROR\_NO\_IMAGING\_MODULE\_READY  NoImagingModuleReady | This error occurs when the Imaging module is not set up.  iDRS\_MODULE\_IMAGE\_FILE or eModule.ImageFile    To set up this module, you need to:    1. Activate your license(s)    2. Use the software keys you have received after the license activation to set up the Imaging module and load it into iDRS. |
+| 1002 | IDRS\_ERROR\_FILE\_OPEN  FileOpen | There are 3 main reasons for this error:    1. The specified file does not exist; or    2. The specified file is already locked; or    3. The location or the path of the specified file is not accessible. |
+| 1105 | IDRS\_ERROR\_IMAGE\_TOO\_LARGE  ImageTooLarge | This error occurs when the image you are trying to recognize is too large for the OCR engine to process.    Note that iDRS™ is able to process images up to 75.000.000 pixels.    Refer to IDRS\_MAX\_IMAGE\_DIMENSION\_OCR    More information on the page size limits can be found in **Related Pages > OCR Engine FAQ** of the **API REF**. |
+| 1202 | IDRS\_ERROR\_CHARACTER\_RECOGNITION\_  ENGINE\_NOT\_READY  CharacterRecognitionEngineNotReady | This error occurs when the Character Recognition module is not set up.  iDRS\_MODULE\_OCR or eModule.Ocr    To set up this module, you need to:    1. Activate your license(s)    2. Use the software keys you have received after the license activation to set up the OCR module and load it into iDRS. |
+| 1205 | IDRS\_ERROR\_CHARACTER\_RECOGNITION\_  ENGINE\_LOAD\_DECISION\_ENV  CharacterRecognitionEngineLoadDecisionEnv | This error indicates a problem accessing the OCR resources folder. It occurs when one of the lexicons used cannot be found in the resources path.    Make sure that you are correctly specifying the path to the resources folder when setting up the licenses. Normally the resources folder is located in **IDRS\_SDK\_ROOT\resources**. |
+| 1302 | IDRS\_ERROR\_BCODE\_NOT\_READY  BarcodeNotReady | This error occurs when the Barcode module is not set up.  iDRS\_MODULE\_BARCODE or eModule.Barcode    To set up this module, you need to:    1. Activate your license(s)    2. Use the software keys you have received after the license activation to set up the Barcode module and load it into iDRS. |
+| 1402 | IDRS\_ERROR\_PREPRO\_NOT\_READY  PreproNotReady | This error occurs when the Preprocessing module is not set up.  iDRS\_MODULE\_PREPRO or eModule.Prepro    To set up this module, you need to:    1. Activate your license(s)    2. Use the software keys you have received after the license activation to set up the Preprocessing module and load it into iDRS. |
+| 1502 | IDRS\_ERROR\_DOCUMENT\_OUTPUT\_NOT\_READY  DocumentOutputNotReady | This error occurs when the Document Output module is not set up.  iDRS\_MODULE\_DOCUMENT\_OUTPUT or eModule.DocumentOutput    To set up this module, you need to:    1. Activate your license(s)    2. Use the software keys you have received after the license activation to set up the Document Output module and load it into iDRS. |
+| 1602 | IDRS\_ERROR\_IMAGE\_FILE\_NOT\_READY  ImageFileNotReady | This error occurs when the Imaging module is not set up.  iDRS\_MODULE\_IMAGE\_FILE or eModule.ImageFile    To set up this module, you need to:    1. Activate your license(s)    2. Use the software keys you have received after the license activation to set up the Imaging module and load it into iDRS. |

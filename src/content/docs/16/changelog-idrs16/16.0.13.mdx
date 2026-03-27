@@ -1,0 +1,148 @@
+---
+title: "16.0.13"
+---
+
+📅 2022-12-16
+
+## `New features`
+
+### Transformation of the modules and extension schema
+
+This release introduces the **revision of the modules and extensions** to align them with **business needs**.
+
+The **new modules** are as follows:
+
+Table 1. New base modules and extension schema
+
+| Base Modules & their Extensions | Description |
+| --- | --- |
+| `Module.ImageFormats` | Allows to load/save all supported image formats *(apart from PDF loading)* |
+| `Extension.ImageFormatsPdfInput` | Allows to load PDF files (rasterization or content loading) |
+|  |  |
+| `Module.Prepro` | Allows the use of preprocessing algorithms applicable to scanner images |
+| `Extension.PreproCameraImage` | Allows the use of preprocessing algorithms applicable to camera images |
+|  |  |
+| `Module.Barcode` | Allows to detect 1D barcodes |
+| `Extension.Barcode2D` | Allows to detect 2D barcodes |
+| `Extension.BarcodeAdvanced` | Enables the use of a third-party barcode engine to increase detection accuracy |
+|  |  |
+| `Module.Ocr` | Allows character recognition for printed Latin languages *(except Vietnamese)*, Cyrillic languages, Greek, and banking fonts (OCR-A, OCR-B, CMC7, and E13B Optical) |
+| `Extension.OcrHebrew` | Allows the recognition of Hebrew |
+| `Extension.OcrArabic` | Allows the recognition of Arabic and Farsi |
+| `Extension.OcrHandwritten` | Allows the recognition of handwritten characters (boxed and script) |
+| `Extension.OcrAsianExtra` | Allows the recognition of Chinese (Simplified and Traditional), Japanese, Korean, Vietnamese and Thai |
+| `Extension.OcrJapaneseAdvanced` | Allows combination with a third-party OCR engine to improve speed performance without compromising recognition accuracy |
+|  |  |
+| `Module.DocumentOutput` | Allows to create all output formats *(except hyper-compressed PDF)* |
+| `Extension.DocumentOutputHyperCompression` | Allows to create hyper-compressed PDFs using IRIS iHQC technology |
+|  |  |
+
+### Impact of changes
+
+:::caution
+This transformation of the modules and their extensions has important consequences that you should be aware of. Read this section carefully!
+:::
+
+#### Removed modules and extensions
+
+As a result of the module and extension schema changes, some resources are no longer available. Refer to the [Removed Resources section](#W1) for more information.
+
+#### Update of binaries requirements for ImageFormats module
+
+Since the extensions for the jbig2 and jpeg2000 formats have been integrated into the **ImageFormats** module, you must now always deploy the following libraries (.dll, .so, or .dylib) when configuring this module:
+
+* `idrsjpeg2k16`
+* `idrsjbig216`
+
+#### Compatibility of existing license keys
+
+The previously delivered license keys **are still valid** for the new modules and extensions.
+
+Here is the **mapping table** describing the keys you can use to configure the new modules and extensions:
+
+Table 2. Mapping table for license keys
+
+| Base Modules & their Extensions | License Key |
+| --- | --- |
+| `Module.ImageFormats` | `IDRS_MODULE_IMAGE_FILE` license key |
+| `Extension.ImageFormatsPdfInput` | `IDRS_FILE_EXTENSION_PDF` license key |
+|  |  |
+| `Module.Prepro` | `IDRS_MODULE_PREPRO` license key |
+| `Extension.PreproCameraImage` | `IDRS_PREPRO_EXTENSION_MOBILE_CAPTURE` license key |
+|  |  |
+| `Module.Barcode` | `IDRS_MODULE_BARCODE` license key |
+| `Extension.Barcode2D` | `IDRS_BARCODE_EXTENSION_PDF417`, `IDRS_BARCODE_EXTENSION_QRCODE` or `IDRS_BARCODE_EXTENSION_DATAMATRIX` license keys |
+| `Extension.BarcodeAdvanced` | `IDRS_BARCODE_EXTENSION_ENGINE_EVO_I` license key |
+|  |  |
+| `Module.Ocr` | `IDRS_MODULE_OCR` license key |
+| `Extension.OcrHebrew` | `IDRS_OCR_EXTENSION_HEBREW` license key |
+| `Extension.OcrArabic` | `IDRS_OCR_EXTENSION_ARABIC` license key |
+| `Extension.OcrHandwritten` | `IDRS_OCR_EXTENSION_HAND_WRITE` license key |
+| `Extension.OcrAsianExtra` | `IDRS_OCR_EXTENSION_ASIAN2` license key |
+| `Extension.OcrJapaneseAdvanced` | `IDRS_OCR_EXTENSION_ASIAN3` license key |
+|  |  |
+| `Module.DocumentOutput` | `IDRS_MODULE_DOCUMENT_OUTPUT` license key |
+| `Extension.DocumentOutputHyperCompression` | `IDRS_DOCUMENT_OUTPUT_IHQC_EXTENSION` license key |
+|  |  |
+
+#### Update of the Vietnamese and Thai recognition requirement
+
+The extension `Extension.OcrAsianExtra` is now *required for Vietnamese and Thai OCR*.
+
+If your iDRS integration does not have this extension, please contact your account manager to verify that you have the right to access it.
+
+## `Improvements`
+
+### Blank page detection
+
+Blank page detection is improved by the following 2 points:
+
+1. The **'Sensitivity' property** of **CBlankPageDetection** is transformed into an enum range so that the effect of this property is more obvious: from `BlankPageDetectionSensitivity.StronglyFavorBlank` to `BlankPageDetectionSensitivity.StronglyFavorNotBlank`.
+2. The advanced mode algorithm `BlankPageDetectionMode.Advanced` is also improved to give more weight to the selected sensitivity. The default sensitivity `BlankPageDetectionSensitivity.Balanced` remains the setting that is expected to give the best results overall.
+
+### Improved PNG saving speed when performance is favored over file size
+
+PNG file saving speed is improved when performance is given priority over file size.
+
+The compression levels affected are `CompressionLevel.MaximumPerformance`, `CompressionLevel.VeryHighPerformance` and `CompressionLevel.HighPerformance`. The other values are not affected by this improvement.
+
+For the compression levels concerned, the PNG file created is slightly larger, but the creation time is much faster (up to 2 times faster for `CompressionLevel.MaximumPerformance`).
+
+## `Deprecated or removed resources`
+
+### Removed modules and extensions
+
+Due to the transformation mentioned above, some extensions and one module **have been removed**:
+
+| Before | Now |
+| --- | --- |
+| `IDRS_MODULE_DOCUMENT_OUTPUT_LITE`, `IDRS_DOCUMENT_OUTPUT_LITE_EXTENSION_SEARCHABLE_PDF`, `IDRS_DOCUMENT_OUTPUT_LITE_EXTENSION_EDITABLE_RTF` | This module and its extensions providing a limited set of `Module.DocumentOutput` features were already deprecated and no longer delivered; they were retained only for API compatibility in iDRS 15. They are now completely removed. |
+| `IDRS_BARCODE_EXTENSION_PDF417`, `IDRS_BARCODE_EXTENSION_QRCODE`, `IDRS_BARCODE_EXTENSION_DATAMATRIX` | These 3 extensions are merged into `Extension.Barcode2D` |
+| `IDRS_OCR_EXTENSION_ASIAN` | This extension was deprecated since iDRS 15.5.3 and kept only for API compatibility. It is now completely removed. |
+| `IDRS_OCR_EXTENSION_BANKING_FONTS` | The OCR feature for banking fonts is integrated directly in `Module.Ocr` |
+| `IDRS_PREPRO_EXTENSION_ADVANCED_PREPRO` | Advanced preprocessing algorithms are integrated directly in `Module.Prepro` |
+| `IDRS_DOCUMENT_OUTPUT_JPEG2000_EXTENSION`, `IDRS_IMAGE_FILE_EXTENSION_JPEG`, `IDRS_FILE_EXTENSION_JBIG2`, `IDRS_FILE_EXTENSION_JPEG2000` | Support for Jpeg2000 and Jbig2 output formats has been integrated directly in `Module.ImageFormats` |
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6280 | The speed of accessing array elements in iDRS .NET API should be improved |
+| IDRSRD-6274 | McAfee considers idrsjbig216 Win32 dll a threat |
+| IDRSRD-6271 | The iDRS 16 dlls are missing their digital signature |
+| IDRSRD-6259 | Blank page detection feature is not working for some specific images |
+| IDRSRD-6253 | The iDRS should improve PNG saving speed when favoring performance over file size |
+| IDRSRD-6241 | The iDRS SDK crashes when recognizing datamatrix barcodes in a specific image |
+| IDRSRD-6239 | The iDRS dependency to omp library should be removed in both .NET and C wrappers |
+| IDRSRD-6218 | The iDRS blank page detection is not working properly on some images |
+| IDRSRD-6212 | The iDRS is not detecting skewed Aztec barcodes |
+| IDRSRD-6205 | The iDRS .NET SDK can crash during unload when a logger callback is set |
+| IDRSRD-6175 | The iDRS creates docx documents mentioning an incorrect document language |
+| IDRSRD-5843 | The iDRS SDK might throw an exception while creating pdf files using JPEG2K with very small images |
+| IDRSDEV-1497 | The iDRS16 API for .NET Framework 4.8 should be able to return structures |
+| IDRSDEV-1464 | The iDRS should offer Barcode.Advanced extension on linux-ARM platforms |
+| IDRSDEV-1455 | The integration of the iDRS welcome page with other documentation parts can be improved |
+
+## `Known Issues`
+
+N/A

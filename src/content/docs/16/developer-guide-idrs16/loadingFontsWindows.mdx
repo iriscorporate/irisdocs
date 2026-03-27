@@ -1,0 +1,23 @@
+---
+title: "Loading fonts (Windows)"
+---
+
+## Loading a PDF containing text
+
+### If GDI is enabled
+
+The PDF loading library asks the system API (DGI) to load the font; then checks the character set to set the subst\_pitch\_family to finally create the font.
+
+### If GDI is disabled
+
+|  |  |
+| --- | --- |
+| **1** | The PDF loading library builds the font path and then selects the best matching font according to the following criteria: **weight, italic, charset, pitch family and face**. |
+| **2** | If none are found suitable, a **fallback mechanism** is triggered to find the **best match**. |
+
+**How does the fallback mechanism work?**
+
+|  |  |
+| --- | --- |
+| **1** | IF the charset is ANSI and the font-family is Fixed Pitch, THEN the "Courier New" font is returned. |
+| **2** | ELSE all fonts in the list that do not have charset AND whose font name does not contain the family name are skipped, THEN a score is computed based on the mentioned criteria AND the biggest score is returned. |

@@ -1,0 +1,146 @@
+---
+title: "Barcode Detection"
+---
+
+:::danger
+Barcode Detection is not available on mobile platforms.
+:::
+
+The **Barcode Detection** feature is exposed via `CBarcodeDetection` class.
+
+The class allows the detection of full-page and zonal barcodes by accepting any of the following two parameter classes:
+
+* `CBarcodePageParams`
+* `CBarcodeZonalParams`
+
+Below are **code snippets** for **full-page barcode detection** and **zonal barcode detection**
+
+## Full-page barcode detection
+
+```
+CIDRS objIdrs = CIDRS::Create();
+
+// Load the source image
+CImageIO objImageIO = CImageIO::Create(objIdrs);
+CPage objPage = objImageIO.LoadPage("path/to/image");
+
+// Create the barcode detection parameters -> detect Ean13 using maximum accuracy setting and thread count set to number of physical cores of the running machine
+CBarcodeContext objBarcodeContext = CBarcodeContext::Create(BarcodeType::Ean13);
+CBarcodePageParams objPageBarcodeParams = CBarcodePageParams::Create(objBarcodeContext);
+objPageBarcodeParams.SetWorkDepth(Workdepth::MaximumAccuracy);
+objPageBarcodeParams.SetThreadingMode(ThreadingMode::Optimized);
+
+// run barcode detection
+CBarcodeDetection objBarcodeDetection = CBarcodeDetection::Create(objIdrs, objPageBarcodeParams);
+CBarcodeArray xDetectedBarcodes = objBarcodeDetection.DetectBarcodes(objPage);
+
+// now the CBarcodeArray contains a list with the detected barcodes
+```
+
+```
+// Load the image to CPage
+CIDRS objIDRS = new CIDRS();
+CImageIO objImageIO = new CImageIO(objIDRS);
+CImage objImage = objImageIO.LoadImage("my file");
+
+// Create the barcode detection parameters -> detect Ean13 using maximum accuracy setting and thread count set to number of physical cores of the running machine
+CBarcodeContext objBarcodeContext = new CBarcodeContext(BarcodeType.Ean13);
+CBarcodePageParams objPageBarcodeParams = new CBarcodePageParams(objBarcodeContext)
+{
+	Workdepth = Workdepth.MaximumAccuracy,
+	ThreadingMode = ThreadingMode.Optimized
+};
+
+// run barcode detection
+CBarcodeDetection objBarcodeDetection = new CBarcodeDetection(objIDRS, objPageBarcodeParams);
+CIDRSObjArray&lt;CBarcode&gt; xDetectedBarcodes = objBarcodeDetection.DetectBarcodes(objImage);
+
+// now the xDetectedBarcodes contains a list with the detected barcodes
+```
+
+## Zonal barcode detection
+
+```
+CIDRS objIdrs = CIDRS::Create();
+
+// Load the source image
+CImageIO objImageIO = CImageIO::Create(objIdrs);
+CPage objPage = objImageIO.LoadPage("path/to/image");
+
+CBarcodeZonalSettingsArray xBarcodeZonalSettings = CBarcodeZonalSettingsArray::Create();
+
+// define the settings for first zone: search for Ean13 barcode type in area (0, 0) -> (300, 300)
+CBarcodeContext objBarcodeContextZone1 = CBarcodeContext::Create(BarcodeType::Ean13);
+IDRS_RECT rcZone1 = { 0, 0, 300, 300 };
+CPolygon objZone1 = CPolygon::Create(rcZone1);
+CBarcodeZonalSettings objZonalSettings1 = CBarcodeZonalSettings::Create();
+objZonalSettings1.SetContext(objBarcodeContextZone1);
+objZonalSettings1.GetZones.AddTail(objZone1);
+
+// define the settings for first zone: search for QRCode barcode type in areas (0, 0) -> (300, 300) and (200, 0) -> (400, 400)
+CBarcodeContext objBarcodeContextZone2 = CBarcodeContext::Create(BarcodeType::QRCode);
+IDRS_RECT rcZone2 = { 200, 0, 400, 400 };
+CPolygon objZone2 = CPolygon::Create(rcZone2);
+CBarcodeZonalSettings objZonalSettings2 = CBarcodeZonalSettings::Create();
+objZonalSettings2.SetContext(objBarcodeContextZone2);
+objZonalSettings2.GetZones.AddTail(objZone1);
+objZonalSettings2.GetZones.AddTail(objZone2);
+
+// set the zonal settings
+xBarcodeZonalSettings.AddTail(objZonalSettings1);
+xBarcodeZonalSettings.AddTail(objZonalSettings2);
+CBarcodeZonalParams objBarcodeZonalParams = CBarcodeZonalParams::Create();
+objBarcodeZonalParams.SetZonalSettings(xBarcodeZonalSettings);
+
+// run barcode detection
+CBarcodeDetection objBarcodeDetection = CBarcodeDetection::Create(objIdrs, objBarcodeZonalParams);
+CBarcodeArray xDetectedBarcodes = objBarcodeDetection.DetectBarcodes(objPage);
+
+// now the CBarcodeArray contains a list with the detected barcodes
+```
+
+```
+// Load the source image
+CIDRS objIDRS = new CIDRS();
+CImageIO objImageIO = new CImageIO(objIDRS);
+CImage objImage = objImageIO.LoadImage("my file");
+
+CIDRSObjArray&lt;CBarcodeZonalSettings&gt; xBarcodeZonalSettings = new CIDRSObjArray&lt;CBarcodeZonalSettings&gt;();
+
+// define the settings for first zone: search for Ean13 barcode type in area (0, 0) -> (300, 300)
+CBarcodeContext objBarcodeContextZone1 = new CBarcodeContext(BarcodeType.Ean13);
+CIDRSRect rcZone1 = new CIDRSRect( 0, 0, 300, 300 );
+CBarcodeZonalSettings objZonalSettings1 = new CBarcodeZonalSettings()
+{
+	Context = objBarcodeContextZone1
+};
+objZonalSettings1.Zones.Add(new CPolygon(rcZone1));
+
+// define the settings for second zone: search for QRCode barcode type in areas (0, 0) -> (300, 300) and (200, 0) -> (400, 400)
+CBarcodeContext objBarcodeContextZone2 = new CBarcodeContext(BarcodeType.QrCode);
+CIDRSRect rcZone2 = new CIDRSRect( 200, 0, 400, 400 );
+CBarcodeZonalSettings objZonalSettings2 = new CBarcodeZonalSettings()
+{
+	Context = objBarcodeContextZone2
+};
+objZonalSettings2.Zones.Add(new CPolygon(rcZone1));
+objZonalSettings2.Zones.Add(new CPolygon(rcZone2));
+
+// set the zonal settings
+xBarcodeZonalSettings.Add(objZonalSettings1);
+xBarcodeZonalSettings.Add(objZonalSettings2);
+CBarcodeZonalParams objBarcodeZonalParams = new CBarcodeZonalParams
+{
+	ZonalSettings = xBarcodeZonalSettings
+};
+
+// run barcode detection
+CBarcodeDetection objBarcodeDetection = new CBarcodeDetection(objIDRS, objBarcodeZonalParams);
+CIDRSObjArray&lt;CBarcode&gt; xDetectedBarcodes = objBarcodeDetection.DetectBarcodes(objImage);
+
+// now the CBarcodeArray contains a list with the detected barcodes
+```
+
+:::note
+Go to FAQ for more information about barcodes.
+:::

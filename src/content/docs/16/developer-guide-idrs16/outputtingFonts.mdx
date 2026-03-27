@@ -1,0 +1,25 @@
+---
+title: "Output Fonts"
+---
+
+The notion of **font sets** extends the possibilities of output fonts. Three font sets are available:
+
+* **Default**: font set that ensures maximum compatibility on all supported operating systems, as well as backward compatibility with iDRS versions from before the introduction of extra font sets.
+
+  Arial, Times New Roman, Courier New, MS PMincho, Hiragino Mincho Pro W3, Batang, AppleMyungjo, SimSun, Kai, PMingLiU, BiauKai.
+* **Extended**: font set that provides an optimal set of fonts. The fonts were chosen for their availability on main operating systems (or availability of substitutes) and easiness of differentiation to minimize mis-detection.
+
+  Arial, Times New Roman, Courier New, Tahoma, Verdana, Georgia, Trebuchet MS, MS PMincho, Hiragino Mincho Pro W3, Batang, AppleMyungjo, SimSun, Kai, PMingLiU, BiauKai.
+* **MS Office**: font set that contains several fonts defined for compatibility with Microsoft Office suite. All fonts contained in this set are installed with Microsoft Office, which ensures optimal results when converting to Office formats (DOCX, XLSX).
+
+  Arial, Times New Roman, Courier New, Tahoma, Calibri, Cambria, Candara, Consolas, Constantia, Corbel, Bookman Old Style, Gill Sans MT, Trebuchet MS, Franklin Gothic, Tw Cen MT, Century Schoolbook, Century Gothic, Garamond, MS PMincho, Hiragino Mincho Pro W3, Batang, AppleMyungjo, SimSun, Kai, PMingLiU, BiauKai.
+
+You can specify the font set of your choice by using the **method** `COcrContext::SetTextFontSet()`
+
+:::note
+Keep in mind that the SDK can recognize documents written with any standard font; modifying the font set only affects the font given in output.
+:::
+:::note
+Limitation
+This feature is not available for some languages. Also, some fonts of a given set may not be available for all languages due to glyphs availability. Go to page Font names supported by iDRS in the API REFERENCE documentation for a summarizing table of which font can be expected in output for a given language and a font set.
+:::

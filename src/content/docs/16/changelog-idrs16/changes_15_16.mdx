@@ -1,0 +1,215 @@
+---
+title: "Changes between versions 15 and 16"
+---
+
+**This chapter summarizes the changes made to successive packages and to the API between versions 15 and 16.**
+
+Although this list is intended to be as exhaustive as possible, the extent of the changes to the API is such that it may be difficult to write every updated method or property.
+
+## Changes to the package layout
+
+| Platform | iDRS 15 | iDRS 16 |
+| --- | --- | --- |
+| **All platforms** |  |  |
+| Renaming of iDRS libraries, samples, and documentation | xxx-15 | xxx-16 |
+| **macOS** |  |  |
+| The names of internal frameworks have been aligned with other platforms and transformed into dylibs, with the exception of drsasian2.framework | drsasian2.framework | **idrsasian216**.framework |
+|  | ibcode.framework | **libidrsbarcode16.dylib** |
+|  | idrsbarcodeext15.framework | **libidrsbarcodeext16.dylib** |
+|  | idrsbarcodeextwrapper15.framework | **libidrsirisbarcodeextwrapper16.dylib** |
+|  | idrsbarcodewrapper15.framework | **libidrsirisbarcodewrapper16.dylib** |
+|  | idrsdmtx15.framework | **libidrsdmtx16.dylib** |
+|  | idrsdmtxbarcodewrapper15.framework | **libidrsdmtxbarcodewrapper16.dylib** |
+|  | irisimp.framework | **libidrsimp16.dylib** |
+|  | idrsjbig215.framework | **libidrsjbig216.dylib** |
+|  | idrsjpeg15.framework | **libidrsjpeg16.dylib** |
+|  | DRS15.framework | **libidrsocr16.dylib** |
+|  | idrspdf15.framework | **libidrspdf16.dylib** |
+|  | idrspng15.framework | **libidrspng16.dylib** |
+|  | prepro.framework | **libidrsprepro16.dylib** |
+|  | idrstiff15.framework | **libidrstiff16.dylib** |
+|  | idrszlib15.framework | **libidrszlib16.dylib** |
+|  | irisjp2k.framework | **libidrsjpeg2k16.dylib** |
+|  | format6.framework | **libidrsdocout16.dylib** |
+| **Android and iOS** |  |  |
+|  | Sample **Image2Html15** | Removed |
+| **Windows** |  |  |
+|  | redist folder | Removed |
+|  | idrsbarcodeevoi.dll | **idrsbarcodeevoi16**.dll |
+
+## Changes to the API
+
+:::note
+Reminder: the term property in the documentation correspond in C++ to a pair of Get and Set methods for the described member - see the Glossary.
+:::
+
+| Type | Name → Status | Good-to-know |
+| --- | --- | --- |
+| Namespace | *(C++)* `DOCUMENT_OUTPUT`  → Removed |  |
+| Class | `CAdvancedBinarize`  → Removed | Merged with `CBinarize` class and transformed method parameters as properties |
+| Class | `CAdvancedBinarizeCallback`  → Renamed to `IBinarizeCallback` |  |
+| Class | `CAdvancedDecision`  → Removed |  |
+| Class | `CAdvancedDespeckle`  → Removed | Merged with `CDespeckle` class and transformed method parameters as properties |
+| Class | `CAdvancedDespeckleCallback`  → Renamed to `IDespeckleCallback` |  |
+| Class | `CBarcodeContext`  → Updated | Transformed methods parameters as properties  Property `GlobalProcessing` removed (will always be activated)  Property `DetectSlantedBarcodes` removed (will always be activated)  Property `Workdepth` moved to class `CBarcodeParams` |
+| Class | `CBarcodeDetailedParameters`  → Removed and replaced with  `CBarcodeEngineConfig` (for engine-specific properties) and  `CBarcodeParams` (for generic properties) |  |
+| Enum | `IDRS_BARCODE_ENGINE_PRIORITY_CHANGE`  → Removed and replaced by the ordering of `CBarcodeEngineConfig` instances in `CBarcodeParams.EngingConfigs` array. |  |
+| Enum | `IDRS_BARCODE_ENGINE_ON_ERROR_BEHAVIOUR`  → Removed and replaced by boolean value  (see `CBarcodeParams.RaiseEngineErrors`). |  |
+| Enum | `IDRS_BARCODE_AUTOMATIC_ENCODING_DETECTION`  → Renamed to `BarcodeEncoding` |  |
+| Class | `CBarcodeEngine`  → Renamed to `IBarcodeEngine` |  |
+| Enum | `BarcodeEngineIdentifier`  → New/Created | Barcode engine definitions have been moved to this new Enum.  - `IDRS_BARCODE_ENGINE_IRIS_UID`  moved to `BarcodeEngineIdentifier.Standard`  - `IDRS_BARCODE_ENGINE_EVO_I_UID`  moved to `BarcodeEngineIdentifier.Advanced`  - `IDRS_BARCODE_ENGINE_DATAMATRIX_UID`  moved to `BarcodeEngineIdentifier.Datamatrix`  - `IDRS_BARCODE_ENGINE_ADVANCED_QR_UID`  moved to `BarcodeEngineIdentifier.Extra2d`  - `IDRS_BARCODE_ENGINE_IRIS_WHITE_PIXELS_DESPECKLE_UID`  moved to `BarcodeEngineIdentifier.StandardDespeckle`  - `IDRS_BARCODE_ENGINE_ADV_QR_WHITE_PIXELS_DESPECKLE_UID`  moved to `BarcodeEngineIdentifier.Extra2dDespeckle`  - `IDRS_BARCODE_ENGINE_IRIS_DITHER_REMOVAL_UID`  moved to `BarcodeEngineIdentifier.StandardUndither`  - `IDRS_BARCODE_ENGINE_ADV_QR_DITHER_REMOVAL_UID`  moved to `BarcodeEngineIdentifier.Extra2dUndither`  Enum value `BarcodeEngineIdentifier.Custom` was introduced to represent custom engine identifiers. |
+| Enum | `IDRS_BARCODE_COLOR_MODE`  → Removed and replaced with `ColorMode` |  |
+| Enum | `IDRS_BARCODE_CAPABILITY`  → Renamed to `BarcodeCapability` |  |
+| Enum | `IDRS_BARCODE_RECOGNITION_MODE`  → Renamed to `BarcodeRecognitionMode` |  |
+| Enum | `IDRS_BARCODE_SESSION_PARAMETER`  → Renamed to `BarcodeSessionParameter` |  |
+| Class | `CCsvOutputParameters`  → Removed |  |
+| Class | `CDocumentOutputLite`  → Removed |  |
+| Class | `CDocumentSplitParameters`  → Renamed to `CDocumentSeparationOptions` | Methods of the class have also been changed to property-like parameterization |
+| Class | `CEditableRtfOutputParameters`  → Removed |  |
+| Class | `CExcelMLOutputParameters`  → Removed |  |
+| Class | `CIhqcParameters`  → Removed |  |
+| Class | `CImageOptionsCustom`  → Removed |  |
+| Class | `CImageCompressionParameters`  → Removed |  |
+| Class | `CLayoutDocumentOutputParameters`  → Removed |  |
+| Class | *(C++)* `CPageLayer`  → Removed and replaced with  `CRecognitionZoneArray` (i.e. `TObjPtrArray&lt;CRecognitionZone&gt;`) |  |
+| Class | `CSearchablePdfOutputParameters`  → Removed |  |
+| Class | `CWordMLOutputParameters`  → Removed |  |
+| Class | `CWordProcessorOutputParameters`  → Removed |  |
+| Class | `CXpsImageCompressionParameters`  → Removed |  |
+| Class | `CXpsOutputParameters`  → Removed |  |
+| Class | `CIDRSLicenseOcr`  → Removed |  |
+| Class | `CPdfAttachmentsList`  → Removed and replaced with  `CAttachmentArray` (i.e. `TObjPtrArray&lt;CAttachment&gt;`) |  |
+| Class | `CBarcodeDetailedParameters`  → Removed and replaced with  `CBarcodeEngineConfig` and  `CBarcodeParams` |  |
+| Class | `CBarcodeEngineSet`  → Removed |  |
+| Class | `CBarcodeEngineExtraOperationsSet`  → Removed |  |
+| Class | `CBarcodeResult`  → Removed and replaced with  `BarcodeTypeArray` data type |  |
+| Class | `CBarcodeResultSet`  → Removed and replaced with  `CBarcodeArray` |  |
+| Class | `CBarcodeSet`  → Removed and replaced with  `BarcodeTypeArray` data type |  |
+| Class | `CBaseContext`  → Removed |  |
+| Class | `CMultiContext`  → Removed | Usage of multiple contexts is allowed through `COcrZonalParams` and `CBarcodeZonalParams` |
+| Class | `CCustomAlgorithm`  → Removed |  |
+| Class | `CDeskewOptions`  → Removed |  |
+| Class | `CFastReader`  → Removed |  |
+| Class | `CFastReaderCallback`  → Removed |  |
+| Class | `CGrid`  → Removed |  |
+| Class | `CLanguageSet`  → Removed and replaced by `LanguageArray` |  |
+| Class | `CLayoutAnalysisCallback`  → Removed |  |
+| Class | `CMeaningElt`  → Removed |  |
+| Class | `CMeaningEltBCode`  → Removed |  |
+| Class | `CMeaningEltCell`  → Removed |  |
+| Class | `CMeaningEltFmtNfo`  → Removed |  |
+| Class | `CMeaningEltTxt  → Removed |  |
+| Class | `CZoneMeaning`  → Removed |  |
+| Class | `COcrContextAdvancedParameters`  → Removed | The parameters have been moved to `COcrContext` |
+| Class | `COcrContextHelper`  → Removed |  |
+| Class | `CPageContent` from iDRS 15  → Removed | `CPageContent2` from iDRS 15 renamed to `CPageContent` in iDRS 16 |
+| Class | `CPageParagraphListStyle`  → Renamed to  `CPageStyleParagraphList` |  |
+| Class | `CPageRecognition`  → Removed | The features are now part of `CTextRecognition`, `CBarcodeDetection` and `CPageAnalysis` |
+| Class | `CPageSection`  `CPageSectionArray`  → Removed | Classes `CPageSection2`, `CPageSection2Array` renamed to `CPageSection` and `CPageSectionArray` |
+| Class | `CPageZoneBarcode`  → Removed | The detected barcodes are now added the the page metadata. |
+| Class | `CProgress`  → Removed and replaced with `IProgressPageProcessing` |  |
+| Class | `CRecognitionZone`  → Removed and replaced with `COcrZonalSettings`/  `COcrZoneDescription` |  |
+| Class | `CTextProperties`  → Removed | The class was used to store enums containing text properties. Now the enums have been modernized to `enum class` and are part of `EnumDefinitions.h` |
+| Class | `CPdfIhqcParameters`  `CPdfImageCompressionParameters`  → Removed and replaced with `CPdfCompressionOptions` | Most of iHQC’s advanced parameters have been removed, as the default setting gives the best results in most cases. The only relevant parameters were the compression formats to be used (previously selected via the *iHQC compression level*), and the *compression quality* which is now directly available in `CPdfCompressionOptions`. |
+| Class | `CBinarizeOptions`  → Removed |  |
+| Class | `CDocumentOutput`  → Removed and replaced with  `CDocumentWriter` | `CDocumentSplitParameters` arguments of `Save` method overloads has been moved as property of `CPdfOutputParams` class |
+| Class | `CDocumentOutputPage`  → Removed and replaced with  `CDocumentWriter` |  |
+| Interfaces and Classes | `CPageSet`  `IPageQueue`  `CMemoryPageSet`  `CPersistentPageSet`  `CRangedPageQueue`  → Removed and replaced with  `IPageCollection` and  `CDefaultPageCollection` |  |
+| Class | `CInterpolation`  → Removed and merged with  `CResize` |  |
+| Class | `CImageProcessingOptions`  → Removed | Feature now available via `CPage.WorkImage` property |
+| Class | `CMultithreadedException`  → Removed |  |
+| Class | `CIhqcEnabledOutputParameters`  → Removed |  |
+| Class | `CPageFont`  → Modified | Type of properties `FontFamilyName` and `FontPostscriptName` changed from `IDRS_CSTR` buffer to `idrs_string`  *(.NET)* Properties `IsBold`, `IsItalic` and `IsAsian` renamed to `Bold`, `Italic` and `Asian` |
+| Class | `CPageGraphicShape`  → Modified | Property `RotationAngle` removed  Property `BoundingPolygon` replaced by read-only `BoundingBox`, and type changed from `CPolygon` to `IDRS_RECT` |
+| Class | `CDeskewOptions`  → Modified | Enum `Policy` renamed to `DeskewPolicy`  The values of the renamed enum `DeskewPolicy` are prefixed by `Deskew`. (e.g. `PolicyNone` → `DeskewPolicyNone`) |
+| Class | `CCertificationParameters`  → Renamed to  `CDigitalSignature` |  |
+| Class | `CDocumentOutputParameters`  → Renamed to  `COutputParams` |  |
+| Class | `CDocxOutputParameters`  → Renamed to  `CDocxOutputParams` |  |
+| Class | `CEncryptionParameters`  → Renamed to  `CEncryptionOptions` |  |
+| Class | `CEpubOutputParameters`  → Renamed to  `CEpubOutputParams` |  |
+| Class | `CFontDataProviderCallback`  → Modified | Method removed: `GetFontData` with argument `IDRS_FONT_TYPE`  `GetFontData`: takes now a `CStream` object in argument instead of `CMemoryStream` |
+| Class | `CHtmlOutputParameters`  → Renamed to  `CHtmlOutputParams` |  |
+| Class | `CImageLoadOptionsPdf`  → Modified | Methods `Get/SetLoadTextContent()` renamed to `Get/SetLoadPageContent()` |
+| Class | `CLngUtils`  → Modified | Method `ComputeCharsetLen()` renamed to `ComputeCharsetSize()` |
+| Class | `CMultiContext`  → Modified | Methods removed: `Get` overloads taking `COcrContext` and `CBarcodeContext` as reference parameters  Method `Get` taking a `CBaseContext` as reference parameter renamed to `GetAt`, now returns the `CBaseContext` instance  Method `GetByStyleId` now returns the `CBaseContext` instance |
+| Class | `COpenDocumentTextOutputParameters`  → Renamed to  `COdtOutputParams` |  |
+| Class | `CPageGraphicShapeLine`  → Modified | Properties `Center`, `Width`, `Height` changed to `Point1`, `Point2` and `LineWidth` |
+| Class | `CPageStyleTextElement`  → Modified | Properties `IsXxx` renamed to `Xxx` (IsUnderlined, IsBold, IsItalic, IsFixedFont, IsDropCapital, IsSuperscript, IsSubscript, IsUnderlineStart, IsUnderlineEnd) |
+| Class | `CPageTextElement`  → Modified | *(C++)* Type of property `TextValue` changed from `IDRS_CWSTR` to `idrs_string`  Property `ConfidenceLevel` renamed to `OcrConfidence` and type changed to `IDRS_UINT`  Property `AdvancedConfidence` renamed to `OcrLocalScore` and type changed to `IDRS_UINT` |
+| Class | `CPageTextElementAlternative`  → Modified | Property `Solution` renamed to `TextValue` and *(C++)* type changed from `IDRS_CWSTR` to `idrs_string`  Property `ConfidenceLevel` renamed to `OcrConfidence` and type changed to `IDRS_UINT`  Property `AdvancedConfidence` renamed to `OcrLocalScore` and type changed to `IDRS_UINT` |
+| Class | `CPageZone`  → Modified | Method `SetBoundingPolygon(const IDRS_RECT&)` removed  Property `ZoneContextLinkId` removed  Property `PaddingBox` renamed to `PaddingInfo` and type changed to `PaddingInfo`  Property `TextDistances` removed (redundant with `PaddingInfo`) |
+| Class | `CPdfAttachment`  → Renamed to `CAttachment` | Enum `FileType` renamed to `AttachmentType` |
+| Class | `CPdfCustomMetadataResource`  `CPdfCustomMetadataProperty`  `CPdfCustomMetadataContainer`  → *(C++)* Class properties manipulates `idrs_string` arguments instead of `IDRS_CSTR` buffers |  |
+| Class | `CPdfOperation`  → *(C++)* `ApplySignature` methods receive `idrs_string` arguments instead of `IDRS_TSTR` or `char` buffers |  |
+| Class | `CPdfOutputParameters`  → Renamed to  `CPdfOutputParams` |  |
+| Class | `CPptxOutputParameters`  → Renamed to  `CPptxOutputParams` |  |
+| Class | `CRecognitionZone`  → Modified | Method `SetRecognitionZone(const IDRS_RECT&)` renamed to `SetRecognitionRectangle(const IDRS_RECT&)` |
+| Class | `CRtfOutputParameters`  → Renamed to  `CRtfOutputParams` |  |
+| Class | `CTextOutputParameters`  → Renamed to  `CTextOutputParams` |  |
+| Class | `CXlsxOutputParameters`  → Renamed to  `CXlsxOutputParams` |  |
+| Class | `CPerspective`  → Modified | Method `ApplyCorrection` renamed to `CorrectPerspective`  Property `BoundaryCorners` renamed to `CropToDocumentArea`  * *(C++)*  + Method `Create` takes a `CIDRS` instance in argument   + Method `GetCorners` renamed to `DetectDocumentCorners` * *(.NET)*  + Constructor takes a `CIDRS` instance in argument   + Property `Corners` transformed into method `DetectDocumentCorners` * Method `Correct` renamed to `ApplyCorrection` |
+| Class | `CPageContent2`  → Modified | * *(C++)* Methods `Get/SetOriginalRotation` moved to class `CPageMetadata` * *(.NET)* Property `OriginalRotation` moved to class `CPageMetadata` * Methods `Load` and `Save` moved to class `CSerialization` |
+| Class | `CPageCustomData`  → Modified | *(C++)* Type of property `CustomData` changed from IDRS\_PBYTE buffer + size to CMemoryBuffer |
+| Class | `CBlankPageDetection`  → Modified | * Enum `eDetectionMode` moved out of class scope, and renamed to `BlankPageDetectionMode`  + Values updated to comply with CamelCase convention * *(C++)*  + Methods `Get/SetBlankDetectionMode()` renamed to `Get/SetDetectionMode()`   + Methods `Get/SetSensitivity()` renamed to `Get/SetDetectionSensitivity()` * *(.NET)*  + Property `BlankDetectionMode` renamed to `DetectionMode`   + Property `Sensitivity` renamed to `DetectionSensitivity` |
+| Class | `CMetadataInfo`  → Modified | Each metadata item is now available as a separate property, instead of being supplied by generic Get/Set methods taking a MetadataType value. |
+| Class | `CPageMetadata`  → Modified | Property `Bookmarks` moved to `CDocumentMetadata` class. |
+| Class | `CPdfOutputParams`  → Modified | Properties `DigitalSignatures` and `AttachmentArray` moved to `CDocumentMetadata` class. |
+| Class | `CImageFileFormat`  → Removed and replaced with  enum class `ImageFormat` |  |
+| Class | `CImageOptions`  → Renamed to  `CImageSaveOptions` | similarly for its subclasses:  * `CImageOptionsBmp` renamed to `CImageSaveOptionsBmp` * `CImageOptionsJpeg` renamed to `CImageSaveOptionsJpeg` * `CImageOptionsJpeg2000` renamed to `CImageSaveOptionsJpeg2000` * `CImageOptionsPdf` renamed to `CImageSaveOptionsPdf` * `CImageOptionsPng` renamed to `CImageSaveOptionsPng` * `CImageOptionsTiff` renamed to `CImageSaveOptionsTiff` |
+| Class | `CMemoryBuffer`  → Modified | Methods `Lock` and `Unlock` are removed. |
+| Class | `CPage`  → Modified | Method `LoadSourceImage` is removed.    This feature is now available in `CImageIO`. |
+| Class | `CImage`  → Modified | Constructors from a path or stream have been removed, as have the `Load` and `Save` methods.    This feature is now available in `CImageIO`. |
+| Enum | *(C++)* `IDRS_FONT_TYPE`  → Removed |  |
+| Enum | *(.NET)* `FontType`  → Removed |  |
+| Enum | `MetadataType`  → Removed |  |
+| Enum | `TEXT_SPACING`  → Removed |  |
+| Enum | `TEXT_DIRECTION`  → Removed |  |
+| Enum | `IDRS_BARCODE_TYPE`  → Removed and replaced with  enum class `BarcodeType` |  |
+| Enum | `IDRS_MEMORY_ALLOCATION`  → Removed |  |
+| Enum | `IDRS_FONT_SET`  → Removed and replaced with  enum class `FontInfoComputation |  |
+| Enum | `CPageGraphicShape::GraphicShapeType`  → Removed and replaced with  enum class `GraphicShapeType` |  |
+| Enum | `CPdfCustomMetadataResource::  ePdfCustomMetadataResourceType`  → Removed and replaced with enum class  `PdfCustomMetadataResourceType` |  |
+| Enum | `CTextProperties::LIST_STYLE`  → Removed and replaced with  enum class `ListStyle` |  |
+| Enum | `CTextProperties::PARAGRAPH_TYPE`  → Removed and replaced with  enum class `ParagraphType` |  |
+| Enum | `CTextProperties::HYPERLINK_TYPE`  → Removed and replaced with  enum class `Hyperlink` |  |
+| Enum | `CTextProperties::LIST_TYPE`  → Removed and replaced with  enum class `ListType` |  |
+| Enum | `CTextProperties::TABULATION_LEADER_TYPE`  → Removed and replaced with  enum class `TabulationLeader` |  |
+| Enum | `CTextProperties::VERTICAL_ALIGNMENT`  → Removed and replaced with  enum class `VerticalAlignment` |  |
+| Enum | `CTextProperties::HORIZONTAL_ALIGNMENT`  → Removed and replaced with  enum class `HorizontalAlignment` |  |
+| Enum | `CTextProperties::TEXT_TYPE`  → Removed and replaced with  enum class `TextType` | * `TEXT_TYPE_NORMAL` is replaced with `TextType::Printed` * `TEXT_TYPE_HANDPRINT_BOX` is replaced with `TextType::BlockLettersHandwriting` * `TEXT_TYPE_HANDPRINT_FREE` is replaced with `TextType::CursiveHandwriting` * `TEXT_TYPE_DOTMATRIX` is removed * `TEXT_TYPE_OCRA1` is removed * `TEXT_TYPE_OCRB1` is removed * `TEXT_TYPE_E13B` is removed * `TEXT_TYPE_CMC7` is removed |
+| Enum | `IDRS_ZONE_TYPE`  → Removed and replaced with  enum `ZoneType` | `IDRS_ZONE_BARCODE` has been removed. Barcode results are now part of the page metadata. |
+| Enum | `eOutputFormat`  → Renamed to  `OutputFormat` | value `WORDML` removed.    value `XPS` removed.    value `CSV` removed.    value `EXCELML` removed. |
+| Enum | `IDRS_GEOMETRICAL_SHAPE_TYPE`  → Removed |  |
+| Enum | `IDRS_LANGUAGE`  → Renamed to  `Language` | All enum values `IDRS_LNG_XXX` are updated to `Xxx`, to comply with CamelCase convention. For example: +  * `IDRS_LNG_ENGLISH` → `English` * `IDRS_LNG_IRISH_GAELIC` → `IrishGaelic` * `IDRS_LNG_RUNDI` → `Kirundi` |
+| Enum | `IDRS_PAGE_GRAPHIC_SOURCE`  → Renamed to  `PageZoneGraphicSource` |  |
+| Enum | `BookmarksMode`  → Modified | * Value `None` renamed to `Disabled` * Value `Automatic` removed  + The feature is now available via method `CBookmarksOptions.GenerateBookmarks` * Value `Enabled` added |
+| Enum | `CharsetCategory`  → Removed |  |
+| Enum | `IDRS_MODULE`  → Renamed to  `Module` | Update Enum values to comply with CamelCase convention |
+| Enum | `IDRS_EXTENSION`  → Renamed to  `Extension` | Enum values reviewed - See the description of release **16.0.13** for more details. |
+| Enum | `IDRS_LICENSE_TYPE`  → Renamed to  `LicenseType` | Update Enum values to comply with CamelCase convention |
+| Enum | `BarcodeEncoding`  → Modified | Contains barcode encoding |
+| Enum | `ThreadingMode`  → Modified | Contains threading options. Note that the number of threads can only be specified using this enum class. |
+| Enum | `TextDetectionSensivity`  → Modified | Contains the modes used to specify the amount of text/layout to be detected by the OCR engine. |
+| Enum | `Workdepth`  → Modified | Contains the modes for work depth. Note that the numerical work depth mode is now obsolete. |
+| Enum | `SkewDetection`  → Modified | Contains skew detection operating modes. |
+| Enum | `IDRS_EXPORT_TYPE`  → Renamed to  `ExportType` | * Value `IDRS_EXPORT_FORMAT_XML` removed (deprecated) * Value `IDRS_EXPORT_FORMAT_XML_LIGHT` renamed to `Xml` * Value `IDRS_EXPORT_FORMAT_XML_FMT` removed (this export format is internal and without any guarantee of backward compatibility) * Value `IDRS_EXPORT_FORMAT_XML_ALTO` renamed to `XmlAlto` |
+| Enum | `IDRS_SEEK_POSITION`  → Renamed to  `SeekPosition` |  |
+| Property | `CPolygon.BoundingRect`  → Renamed to  `CPolygon.BoundingBox` |  |
+| Property | `ResourcesPath` (of Class CIDRSLicenseOcr)  → Removed | Moved to class `CIDRSSetup` |
+| Property | `MetadataInfo` (of classes `CDocxOutputParams`, `CEpubOutputParams`, `CHtmlOutputParams`, `COdtOutputParams`, `CPdfOutputParams`, `CPptxOutputParams`, `CRtfOutputParams`, `CXlsxOutputParams`)  → Removed and moved to  `CDocumentMetadata` class |  |
+| Property | *(C++)* `TObjPtrArray.EnableThreadSafety` (Get/Set)  → Renamed to  `Synchronized` (Is/Set) |  |
+| Method | `CIDRSSetup.GetLicenseInformation()`  → Removed |  |
+| Method | `CImage.DetectResolution()`  → Moved to  `CQualityAssessment.EstimateResolution()` |  |
+| Method | *(C++)* `TObjPtrArray.AddTail(const IArrayInterfaceT&lt;T&gt;)`  → Removed |  |
+| Struct | `SkewInfo`  → New/Created | Contains skew information. |
+| Struct | `IDRS_DOC_ADVANCED_CONFIDENCE`  → Removed and replaced with  a single value `OcrLocalScore` where relevant |  |
+| Struct | `IDRS_LANGUAGE_CANDIDATE`  → Removed and replaced with  struct `LanguageCandidate` |  |
+| Struct | `IDRS_MARGINS`  → Removed and replaced with  struct `MarginInfo` |  |
+| Struct | `IDRS_PERSPECTIVE_CORNERS`  → Removed and replaced with  struct `PerspectiveCorners` |  |
+| Struct | `IDRS_SKEW_ANGLE`  → Removed and replaced with  struct `SkewInfo` |  |
+| Struct | `IDRS_VECTOR`  → Removed |  |
+| Defines | `IDRS_ZONE_FILE_FORMAT_VERSION_xx`  → Defines removed and replaced by enum `SerializationFormat` |  |
+
+:::note
+The iDRS software key protection license scheme (C++: IDRS\_LICENSE\_TYPE::IDRS\_LICENSE\_SOFTWARE, .NET: eLicenseType.Software) is not supported in the iDRS 16.
+:::

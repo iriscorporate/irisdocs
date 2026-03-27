@@ -1,0 +1,85 @@
+---
+title: "16.2.0"
+---
+
+📅 2024-04-09
+
+## `New features`
+
+N/A
+
+## `Improvements`
+
+### Improved Excel output
+
+With this release, the layout and content of XLSX documents reach a higher level of quality.  
+This is made possible by:
+
+#### New OCR property: TableDetectionMode
+
+A new property has been implemented: `COcrPageParams.TableDetectionMode`.  
+This property lets you change the way tables are detected during the OCR step.
+
+There are three possible behaviors:
+
+1. `TableDetectionMode.Automatic`: the system analyses the contents of the page and decides whether or not there are tables on the page.  
+   This is the default behavior, similar to the previous release.
+2. `TableDetectionMode.ForceSingleTable`: the system tries to interpret the entire page as a single table.
+
+   * This option is very useful if you already know at the time of OCR that you are going to convert your document to XLSX.
+   * If you need to convert to formats other than XLSX, it may be preferable to perform two OCR operations, one with `TableDetectionMode.ForceSingleTable` (for XLSX) and the other with `TableDetectionMode.Automatic` (for other output formats).
+   * Note that this mode *may fail* to compute a single grid for the content of the input page. This should not happen for documents structured as tables (which is the target use case for XLSX conversion), but may occur for more complex documents or if there is a perspective angle. If the computation of a single grid fails on a given page, the system will fallback to the `Automatic` mode for that page.
+   * A known limitation of the single table mode is that Asian text written in a top-to-bottom direction will not be detected as such, and will therefore be split over several cells. We will investigate how to remove this limitation in the future.
+3. `TableDetectionMode.Disabled`: the system prevent detection of tables in documents.
+
+#### Improved presentation of "XLSX RecreateInput"
+
+In addition, several fixes and fine-tuning have been made for the `SpreadsheetLayout.RecreateInput` layout to improve visual quality.
+
+In summary, the following changes have been implemented:
+
+* For cells:
+
+  + The computation of text alignment and indentation has been optimized.
+  + Numeric values (including amounts) are correctly detected and the cell format is adjusted accordingly.
+  + Text wrapping has been disabled to avoid potential hidden content.
+* For textboxes:
+
+  + Positioning and dimensions have been improved to better match the input file.
+  + Text positioning in the textbox has been corrected to fit correctly, avoiding text breaks.
+  + Text indentation in the textboxes has been reviewed.
+  + The background color of textboxes will be applied unless t is likely to obscure other elements of the page.
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-9227 | IDRSRD-8280 The cell’s left/right padding computed during OCR should be taken into account for XLSX output |
+| IDRSRD-9199 | The iDRS doesn’t recognize properly specific words on several documents |
+| IDRSRD-9188 | the iDRS always runs full page barcode detection when a work image is set in the page |
+| IDRSRD-9177 | idrspdf16.dll is missing its version information |
+| IDRSRD-9174 | The iDRS should use paragraph margins into account for textboxes dimensioning and positioning in XLSX output |
+| IDRSRD-9171 | The iDRS generates office documents with incorrect textboxes positioning |
+| IDRSRD-9168 | The iDRS throws an exception when converting specific documents to DOCX using the new segmentation |
+| IDRSRD-9158 | The iDRS throws an exception during OCR when processing a specific image |
+| IDRSRD-8310 | The iDRS takes a huge time while detecting qrcodes on a specific image |
+| IDRSRD-8306 | The iDRS throws an exception when recognizing a specific image |
+| IDRSRD-8304 | The iDRS throws an exception when creating a PDF with document separation criteria, from a specific set of pages |
+| IDRSRD-8298 | The iDRS throws an exception when recognizing specific images with new segmentation |
+| IDRSRD-8296 | The iDRS throws an exception when converting a specific image to XLSX |
+| IDRSRD-8284 | The iDRS recognizes 'q' instead of 'g' if the descender touches an underline, when recognizing a specific image |
+| IDRSRD-8281 | Content of textboxes in XLSX output may span on the next line |
+| IDRSRD-7467 | The documentation page describing the set of files needed for language detection feature is incorrect |
+| IDRSRD-7094 | XLSX cells containing a value + amount should be registered as numeric content |
+| IDRSRD-7023 | The iDRS should keep binarized image after OCR whenever possible |
+| IDRSRD-6853 | The iDRS detects graphic shapes with a zero pixels height on a specific image |
+| IDRSRD-6786 | The iDRS crashes when recognizing a specific image |
+| IDRSRD-6504 | The iDRS freezes when running OCR on a small image with ThreadingMode activated |
+| IDRSRD-6465 | Polygon inspection helpers are not exposed anymore in CPolygon |
+| IDRSRD-6462 | iDRS new page segmentation provides incorrect line coordinates and takes a long time |
+| IDRSRD-6457 | The iDRS with new page segmentation doesn’t detect a specific zone |
+| IDRSRD-6449 | iDRS OCR results vary when CPageRecognition is reused |
+| IDRSRD-6442 | The iDRS crashes when reading a 1px height zonal barcode |
+| IDRSRD-6415 | .NET CIDRSException should hold relevant info in its Message property |
+| IDRSRD-6384 | Reaching iDRS maximum memory limit during Arabic OCR causes a memory leak |
+| IDRSRD-6382 | The iDRS throws an exception when processing a specific image |

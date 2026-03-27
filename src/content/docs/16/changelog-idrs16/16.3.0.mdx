@@ -1,0 +1,49 @@
+---
+title: "16.3.0"
+---
+
+📅 2025-10-17
+
+## `New Features`
+
+### Extraction module
+
+A new module, `Module.Extraction`, is now available on the **Windows-x64** and **Windows-x86** platforms.
+
+This module includes algorithms and technologies designed to extract additional information from document content. It uses OCR results combined with user-defined rules and instructions.
+
+The first feature in this module is a **fuzzy search algorithm**. This algorithm analyzes OCR results—including alternative interpretations—to detect specific patterns such as dates, amounts, or any user-defined regular expression. You can access this feature through the new class `CDataExtraction`.
+
+**Code Samples**
+
+New sample projects have been added to the package to demonstrate how to use the fuzzy search feature:
+
+* **C++ sample**: located in `samples/cpp/Extraction`
+* **C# sample**: located in `samples/cs/Extraction`
+
+These samples include source code and usage examples to help you integrate the feature quickly.
+
+:::note
+Sample renaming
+The previous sample named Reader has been renamed to Conversion. This change reflects its purpose more accurately: converting input images into output documents (e.g., PDF, DOCX).
+:::
+
+## `Improvements`
+
+N/A
+
+## `Added/removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| Internal ID | Description | Service desk IDs |
+| --- | --- | --- |
+| IDRSRD-10052 | The iDRS doesn’t take work image into account when calling CPageAnalysis.AnalyzePage() |  |
+| IDRSRD-10042 | The iDRS objects containing idrs\_string are not thread-safe |  |
+| IDRSRD-10041 | The iDRS .NET callback IProgressPageProcessing.OnPercentageUpdate() is never called | ISD-37374 |
+| IDRSRD-10031 | The iDRS throws an exception when recognizing a specific image | ISD-37314 |
+| IDRSRD-9964 | The iDRS creates DOCX Editable with text hidden by a table |  |
+| IDRSRD-9846 | The iDRS does not output correctly checkmark characters in PDF documents |  |
+| IDRSRD-9716 | The iDRS doesn’t load text from specific PDFs | ISD-36000 |

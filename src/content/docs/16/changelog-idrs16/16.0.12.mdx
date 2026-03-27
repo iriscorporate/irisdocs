@@ -1,0 +1,56 @@
+---
+title: "16.0.12"
+---
+
+📅 2022-08-17
+
+## `New features`
+
+N/A
+
+## `Improvements`
+
+### File format of macOS internal libraries
+
+Starting with this release, the file format of macOS internal libraries will be updated from **.framework** to **.dylib** objects. This change is aimed at simplifying the layout of the product.
+
+**The iDRS itself however remains provided as a .framework** (following Apple guidelines), therefore this change is transparent in regards to your iDRS integration; only your software’s installers *may* be affected.
+
+:::note
+idrsasian216 library
+For the moment, idrsasian216 library remains shipped as a .framework; it will be transformed to .dylib in a future release.
+:::
+
+### Barcode EvoI extension on macOS
+
+The barcode EvoI extension is now available on macOS, in addition to Windows intel and Linux intel platforms.
+
+### Updated iDRS dependencies on Windows and Linux
+
+The iDRS dependencies have been optimized to simplify software requirements on Windows and Linux platforms.
+
+This results in the following changes:
+
+* On Windows, the toolkit **no longer** requires Microsoft Visual C++ Redistributable packages to be installed on the target computer
+* On Linux, the dependency of **libidrskrn16.so** to **libgomp.so** has been removed.
+
+## `Added/removed resources`
+
+The following **.dylib** files have been added on macOS:
+
+* libidrsbarcodeevoi16.dylib
+* libidrsevoibarcodewrapper16.dylib
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6232 | iDRS dependency on omp library should be removed |
+| IDRSRD-6206 | iDRS Android arm64-v8a cannot create PDF iHQC with tiff compression |
+| IDRSDEV-1439 | Extend support of barcode Evo I extension on Macos platform |
+
+## `Known Issues`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6205 | iDRS .net SDK can crash during the unload when setting a logger callback |

@@ -1,0 +1,84 @@
+---
+title: "16.0.2"
+---
+
+📅 2021-03-31
+
+## `New features`
+
+### PDF digital signature
+
+Starting with this release, the iDRS is now able to apply a **digital signature with visible content** to output PDFs.
+
+The digital signature can be customized in terms of size and content, and you can specify on which page of the output document it should appear.
+
+The possibility to apply **several digital signatures** on the output PDF is also introduced.
+
+:::caution
+Applying multiple signatures on output PDF
+Be aware that for the moment, when applying several signatures to a PDF, only the last one is considered valid when you open the document with Acrobat Reader software.
+:::
+
+For this feature, the API is changed as follows:
+
+* The **class** `CSignatureContent` allows to describe a digital signature’s appearance and can be set via **method** `CCertificationParameters::SetSignatureContent()` (C++) or **property** `CCertificationParameters.SignatureContent` (.NET).
+* **New accessors** are created in **class** `CPdfOutputParameters`: **methods** `GetCertificationParametersCount()`, `GetCertificationParametersAt()`, `AddCertificationParameters()`, `RemoveCertificationParameters()`, and `ClearCertificationParameters()`
+* The existing **method** `CPdfOutputParameters.SetCertificationParameters()` is kept and corresponds to a call to `ClearCertificationParameters()` followed by `AddCertificationParameters()` with page index 0 as argument.
+* The existing **method** `CPdfOutputParameters.GetCertificationParameters()` is removed.
+
+### PDF digital signature on existing document
+
+A new **class** `CPdfOperation` has been introduced, and exposes the operations that can be applied to existing pdf files.  
+Currently the only operation available through this class is digitally signing of existing pdf files `CPdfOperation::ApplySignature()`. The input PDF can be created by iDRS or any other pdf producer.
+
+:::caution
+Note that digitally signing an existing PDF is only available on Windows platforms.
+:::
+
+## `Improvements`
+
+N/A
+
+## `Deprecated/removed features`
+
+### Software protection license scheme
+
+:::note
+From this release onwards, the iDRS software protection license scheme is deprecated for all platforms. It will be replaced later this year with a new protection license scheme.
+Customers using this protection license scheme should remain on 15.6.8 LTS until then.
+:::
+
+## `Added/removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-5941 | The iDRS cannot convert a specific document to XLSX |
+| IDRSRD-5937 | The iDRS can create invalid pdf files when embedding fonts |
+| IDRSRD-5936 | Some specific TIF documents are mirrored after loading |
+| IDRSRD-5918 | PDF/A-2a documents created by the iDRS fail compliance checks of a specific validator (EOL, font descriptors) |
+| IDRSRD-5885 | The default viewer of iOS 14 and macOS 11 only shows the first page of linearized PDF created by iDRS |
+| IDRSRD-5853 | In XLSX recreate source document writer, the colors of the text is not maintained in "number" cells |
+
+## `Known issues`
+
+### Applying multiple signatures to a PDF
+
+As mentioned in the description of the feature, when applying several signatures to a PDF **only the last one is considered valid** when you open the document with Acrobat Reader software.
+
+We aim to solve this issue with the next release.
+
+### Method CCertificationParameters.Clone()
+
+Method `CCertificationParameters.Clone()` currently does not perform a deep copy of its `CSignatureContent` member.
+
+Note that the *Clone* feature *will be removed* from parameterization classes in future versions as it makes sense only for classes containing processed data.
+
+### Limitation for the creation of PDFs via IStreamFactory
+
+Output PDFs created via a call to `CDocumentOutput.Save()` method taking an `IStreamFactory` argument *will not be linearized* (also called 'fast web view') nor contain digital signatures provided as output parameters.
+
+This limitation will be removed in future versions.

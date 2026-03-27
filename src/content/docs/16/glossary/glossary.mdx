@@ -1,0 +1,35 @@
+---
+title: "Glossary"
+---
+
+iDRS (I.R.I.S. Developer Reading System)
+:   Previously known as **iDRS**, this technology is now referred to as the **IRISOCR™ SDK**. It is a Software Development Kit (SDK) developed by I.R.I.S. to integrate its core document recognition and processing technologies into third-party applications, enabling developers to embed advanced document reading capabilities.  
+    These technologies include:
+
+    * **Optical Character Recognition (OCR)**
+    * **Barcode Recognition (BCR)**
+    * **Intelligent Character Recognition (ICR)** for handprinted characters
+    * **Image enhancement**
+    * **Intelligent High-Quality Compression (iHQC)**
+    * **High-Quality OCR (HQOCR)**
+    * **Document output technologies**
+
+HQOCR
+:   High quality optical character recognition: OCR engine developed by I.R.I.S. using state of the art concepts from the **artificial intelligence** research domain.
+
+iHQC
+:   iHQC stands for intelligent High-Quality Compression (PDF format). It is a I.R.I.S. proprietary implementation of mixed raster content compression method (MRC). It relies on image segmentation to fine-tune the compression rate applied to input images.
+
+Long-Term Support (LTS)
+:   An LTS version is entitled to 5 years of support to solve blocker and critical problems thanks to 'service releases'  
+    If you wish to use an iDRS version in your software without frequently updating to newer versions, we recommend using an LTS version.
+
+Property
+:   The term **Property** is used in the changelog as follows (from 16.0.14):
+
+| API | The term "Property" refers to: | Example: a changelog entry mentioning "*Property CMyClass.MyProp*" should be read as: |
+| --- | --- | --- |
+| C++ | A pair of **Get** and **Set** methods on an element | methods `CMyClass::GetMyProp()` and `CMyClass::SetMyProp()` |
+| .NET | The equivalent property | property `CMyClass.MyProp` |
+
+Likewise, a **read-only property** will refer to a single **Get** method (not **Set**) *in C++*.

@@ -1,0 +1,146 @@
+---
+title: "16.1.0+2"
+---
+
+📅 2023-10-20
+
+## Introduction
+
+### Transition period: 16.0
+
+Since 2021, the iDRS development team has been transitioning from the iDRS 15 API to the new iDRS 16 API: **simpler**, **more optimized**, and **more modern**.
+
+We decided at the time not to carry out this huge development effort "out of sight" of customers, but rather to continue releasing frequent versions of the product under the version **16.0**, even if no backward compatibility was guaranteed from one version to the next. This had a number of **advantages**:
+
+* Integrators wishing to keep a close eye on updates were able to **switch from 15 to 16 gradually**, instead of having to perform the update in a single step (which can result in a significant effort)
+* This has enabled us to **receive feedback on the new API** earlier and more frequently. In fact, we have made a number of adjustments thanks to your pertinent comments.
+* Of course, during the API transition period, business continued. Having public releases of iDRS 16.0 allowed us to **provide technology improvements and new features** more easily, and in a shorter timeframe, because it saved us from having to backport them into the latest 15 LTS (15.6.8).
+
+### Now: 16.1
+
+**We are happy to announce that the transition period is now over!**
+
+Starting with this release iDRS 16.1.0, **backward API compatibility is restored**. Any future release of iDRS 16 must be able to be used as a drop-in replacement in your products.
+
+Of course, new APIs and features will be introduced over time, but no breaking changes will occur on the currently existing API.
+
+:::danger
+C and .NET APIs are not available for the initial 16.1.0 release.
+The latest changes to the C++ API have brought additional complexity to its C and .NET equivalents, which will require more effort to complete.
+For this reason, we have decided to release a first version of iDRS 16.1.0 without these APIs, and then provide a new update as soon as possible that will reintroduce them into iDRS 16.
+:::
+
+## `New features`
+
+### C++ API alignment with UTF-8 strings
+
+The whole C++ API of the product has been reviewed in order to align the way it exposes and manipulates characters.
+
+#### Before
+
+Previously, several datatypes and encodings were used accross the different platforms supported by the toolkit:
+
+* On **Windows**
+
+  + Mostly native 2-byte `wchar_t` (actually mapped to `unsigned short`) buffers were used to represent UTF-16 paths and text values (e.g. OCR & barcode results)
+  + But some API methods were also manipulating 1-byte `char` buffers to represent ansi or UTF-8 values
+* On **other platforms**
+
+  + 1-byte `char` buffers were used to represent UTF-8 encoded paths and some other values
+  + 2-byte `unsigned short` buffers were used to represent text values (e.g. OCR & barcode results)
+
+These discrepancies were misleading for cross-platform development, which was a problem not only for us, but also for integrators who themselves work on a product available on several platforms.
+
+In addition, using `unsigned short` buffers instead of `wchar_t` for UTF-16 (this choice was made in the past to avoid issues, as `wchar_t` is a 4-byte type on most Unix systems but a 2-byte type on Windows) led to additional complexity when converting back and to standard types, such as `std::wstring`.
+
+Finally, handling C-style character buffers (instead of C++ strings) was inelegant and added to the complexity of the integration.
+
+#### Now
+
+For these reasons, the following choices have been made:
+
+**Create an idrs\_string class**
+
+With an interface very similar to that of the `std::string` from the standard library, this class makes it easy to handle character strings in the same way as with its standard equivalent.
+
+Using a custom class also means that the iDRS interface does not contain `std` objects, allowing integrators to use a standard C++ library different from that used internally by the iDRS.
+
+**Manipulates UTF-8 chars by default**
+
+The `idrs_string` class is based on a UTF-8 representation using the 1-byte `unsigner char` data type, which is now widely used.
+
+However, a few built-in methods have been added to this class for convenience, in order to interact with the 4-byte `char32_t` UTF-32 string representations, this datatype having been introduced in C++11 to avoid ambiguous implementations of `wchar_t`.
+
+:::note
+Note that this change will have no effect on the .NET API, which already uses the standard .NET string class for all related functionalities.
+:::
+
+## `Improvements`
+
+### Generic API improvements
+
+Although all the fundamental feature revisions have already been made in previous releases, several API changes will be introduced with this release. As a result, this latest update is very broad in content (many classes have been modified) but small changes, merely fine-tuning the way the features are exposed.
+
+:::caution
+Given the extent of these latest changes, the page Summary of changes has not yet been fully updated with all of them. We plan to complete the update for the follow-up release, which will reintroduce the C and .NET APIs.
+:::
+
+In the meantime, here is a brief summary of the categories of changes to expect:
+
+**Simplification of image preprocessing classes**
+
+Image preprocessing classes have been reviewed to simplify and clarify their use:
+
+* Most of the parameters that were supplied as arguments to the work methods (i.e. the methods actually performing the action) have been transformed into **properties** of the classes concerned.
+* Prototypes of the work methods have been revised to clarify their scope, with fewer method overloads taking a CPage argument, or with the removal of the notion of "source" and "target" images for most operations.
+* The "Advanced" classes `CAdvancedBinarize` and `CAdvancedDespeckle` have been merged with their main classes `CBinarize` and `CDespeckle`. All features are now available in the main classes.
+
+**Clarification of the naming of interface-like classes**
+
+Classes meant to be used as interfaces and inherited by integrator code have all been renamed from `CXxx` to `IXxx` and now define pure virtual methods to ensure that integrators implement them.
+
+**Revision of method prototypes**
+
+In various places, method prototypes have been revised and modernized, for example by returning objects instead of taking them as reference parameters, or by moving some arguments as separate properties.
+
+**Simplified image options**
+
+The image options classes (`CImageLoadOptions` and `CImageSaveOptions`) have been updated for greater clarity and flexibility.
+
+**Polyline zone definition**
+
+The previous representation of the precise zone definition has been updated from horizontal segments to points.
+
+For the time being, the handling of the precise zone definition has not changed, so that the same limitations exist as for previous definitions: points can only draw purely horizontal and vertical segments. However, it is planned to remove this limitation in the future, allowing you to define non-straight borders as a precise zone definition.
+
+:::caution
+The notion of bounding box remains identical to that of previous versions: top and left borders are included (i.e. the coordinates on which they are set are considered part of the zone), while bottom and right borders are excluded (i.e. the coordinates on which they are set are considered outside of the zone).
+However, the points of the precise zone definition are all included in the zone, whereas previously the sides (of type IDRS\_VECTOR) were either included (top or left border) or excluded (right or bottom borders).
+Therefore, a rectangular area at the top left of the document will have the following characteristics, for example:
+bounding box: left 0, top 0, right 10, bottom 20
+precise definition: top-left: (0, 0), bottom-left: (0, 19), bottom-right: (9, 19), top-right: (9, 0).
+:::
+
+## `Deprecated or removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6432 | The iDRS may get blocked when CIDRSSetup::Unload is called |
+| IDRSRD-6430 | The iDRS throws an exception when trying to load a PDF with content |
+| IDRSRD-6414 | The iDRS creates PDF with incorrect page size when created from CImage::Save |
+| IDRSRD-6399 | The iDRS runs language detection even when only orientation detection is activated |
+| IDRSRD-6398 | The iDRS incorrectly detects some images as blank when using the default settings |
+| IDRSRD-6387 | The iDRS crashes when recognizing an Arabic image with English OCR context |
+| IDRSRD-6310 | The iDRS makes some OCR mistakes on an English document when Russian and English are enabled |
+| IDRSDEV-1720 | The BoundingBox of a CBarcode should be writable |
+| IDRSDEV-1590 | The iDRS using extended font set causes PDF documents to contain 0-size glyphs in specific cases |
+
+## `Known Issues`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6446 | The iDRS C and .NET API are not available in 16.1.0 first release |

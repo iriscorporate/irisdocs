@@ -1,0 +1,218 @@
+---
+title: "16.0.9"
+---
+
+📅 2022-03-23
+
+## `New features`
+
+### C API
+
+As with the last version of iDRS 15, a **new API written in C** is now available for the iDRS 16. It allows access to the iDRS functionality from C, Java, Python and other programming languages.
+
+This C API is available for Windows, macOS and Linux platforms, and consists of a wrapper library which forwards calls to the C++ binaries underneath. Therefore, all the functionalities exposed in C++ are available in C, at no performance cost.
+
+An **additional Sample Application** (*samples/c/Image2Html*) illustrates how to get started with the **iDRS C API**.
+
+The following elements are added to the **iDRS packages**:
+
+* **C API runtime**
+
+  + **Windows**: bin/idrsc16.dll
+  + **Linux**: lib/libidrsc16.so.*version*
+  + **macOS**: bin/libidrsc16.dylib
+* **Compilation resources**
+
+  + **Header files**: folder include\_c/
+  + **Import library (Windows)**: lib/idrsc16.lib
+* **Sample**
+
+  + **Precompiled executable**: bin/CImage2Html16
+  + **Source code**: samples/c/Image2Html
+* **Documentation**
+
+  + **API reference**: documentation/iDRS16\_C.html
+
+### New .NET API
+
+This release also comes with a brand new cross-platform .NET API, available on Windows and macOS (all architectures), and Linux (x86\_64 and ARM64 architectures). This new API is compatible with **.NET version 6 and higher**.
+
+It consists of a wrapper library which forwards calls to the C++ binaries underneath, via the C library. Therefore, all the functionalities exposed in C++ and C are available in .NET, at no performance cost.
+
+Existing .NET samples have been updated to use this new API.
+
+The following elements are added to the iDRS packages:
+
+* **.NET API assembly**
+
+  + **Windows, macOS**: bin/idrsnet16.dll
+  + **Linux**: lib/idrsnet16.dll
+* **Documentation**
+
+  + **.NET assembly documentation (IntelliSense)**
+
+    - **Windows, macOS**: bin/idrsnet16.xml
+    - **Linux**: lib/idrsnet16.xml
+  + **API reference**: documentation/iDRS16\_NET.html
+
+:::danger
+Differences with previous .NET API
+This new API replaces completely the previous .NET API which was available on the Windows platform only. It is also much closer to the C++ API, which means that if you are a .NET integrator, you will need to update your source code accordingly.
+Go to the Deprecated/removed features section for a summary of changes to the iDRS .NET API.
+Go to the .NET API update guide chapter to read for details on updating your source code.
+:::
+:::caution
+API convention
+The C++ API, and therefore the new .NET API, is currently being transitioned to be more consistent with standard .NET naming style and coding convention; as a result, as a .NET integrator, you may find the new API in this release less intuitive than the old one. This is, of course, only a temporary situation until we have completed the transition of the iDRS APIs (expected before the first LTS version of the iDRS 16).
+:::
+:::note
+.NET samples
+iDRS .NET samples have also been updated, and now only target the new .NET API. Their source code is available in the samples/cs folder.
+:::
+:::note
+macOS .NET samples
+MacOS .NET samples only target the ARM64 architecture at the moment. This is a limitation of the samples, not of the iDRS itself; it will be fixed by next release.
+:::
+
+### New .NET Framework API
+
+To help you transition to the new .NET API on Windows x86 and x64 platforms, this release also provides the same API targeting **.NET Framework 4.8**.
+
+The corresponding elements in the package are:
+
+* **.NET Framework API assembly**: bin/idrsnetframework16.dll
+* **.NET Framework assembly documentation**: bin/idrsnetframework16.xml
+
+:::caution
+Support of .NET Framework API
+This API is provided for convenience only and will not be maintained in the long term.
+:::
+:::note
+Issue with CPerspective.Corners property
+Currently an issue impacts the property CPerspective.Corners but only when called from .NET framework API. Trying to read that property will trigger an exception.
+This issue will be fixed in the next release.
+:::
+
+### PDF digital signature on macOS
+
+You can now **digitally sign a PDF** with the iDRS macOS. You can only use digital certificates installed in the **login keychain**.
+
+**To sign a PDF**, you set a `CDigitalSignature` object with the serial number of the certificate and the issuer’s data into your `CPdfOutputParams` object.
+
+## `Improvements`
+
+### Transformation of the Document Output API
+
+This release continues the transformation of the Document Output API that began with the iDRS 16.0.7.
+
+This transformation aims to **simplify the document output parameters** by grouping the various settings into more user-oriented choices; this then makes it easier for you to select the output configuration you want for your project or product.
+
+Below is a **high-level summary of the changes** made:
+
+* All parameters classes are renamed from `CXxxOutputParameters` to `CXxxOutputParams` for more legibility.  
+  Also, they all directly inherit from base class `COutputParams`, avoiding previously complex (and sometimes counter-intuitive) class hierarchy.
+* The various settings which were controlling how to generate the output have been **grouped in distinct enums**, with values corresponding to most relevant use cases.  
+  For example, the **DOCX `PageLayout.Editable`** corresponds to previous configuration LayoutType `RECREATE_SRC_DOC` + ColumnMode `IGNORE` + MergeLinesIntoParagraphs `true` + IncludeGraphics `true`.
+* Less common parameters controlling operations that can easily be performed directly on the `CPage` or `CPageContent2` have been removed: for example, `OutputImageType` or `OutputImageResolution`.
+* Options present across several output format have been gathered into dedicated subclasses.  
+  For example, former `CDocumentOutputParameters.Metadata` accessors now belong to **new class** `CMetadataInfo`.
+
+Refer to chapter [Summary of changes](changes_15_16.html) for more details on the modifications.
+
+:::note
+No further changes to Document Output parameterization API
+Although we do not rule out the possibility of making small adjustments to the Document Output parameters in the future, the majority of changes are now complete on this part of the toolkit.
+:::
+
+### New setting when saving to PNG format
+
+When saving a `CImage` or `CPage` object to PNG format, you can now **choose to favor the size of the output file or to save time**.
+
+PNG format is often used to **save temporary images during processing**, as opposed to JPG or BMP:
+
+* **Generating JPG files** is fast and gives small output files. However, it is lossy compression, which can be problematic for an intermediate file format, as there will be a slight loss of quality with each compression.
+* **Generating BMP files** is very fast and lossless. However, the generated file is very large (no compression is applied by the iDRS).
+
+**PNG** is a good alternative, as it creates lossless files of acceptable quality and size. Its main disadvantage, however, is the compression time, which by default is significantly higher than that of JPG or BMP.
+
+It is this **compression time** that this new setting helps to mitigate, allowing you to prioritize speed savings over file size when PNG is used to generate an intermediate file.
+
+This **new setting** is available via:
+
+* **method** `CImageOptionsPng::SetCompressionLevel()` (C++) or
+* **property** `CImageOptionsPng.CompressionLevel` (.NET).
+
+### Update of Windows compilation environment
+
+The iDRS™ for Windows platform is compiled with **Visual Studio 2022**. Therefore, it requires **Visual Studio 2022 redistributables** to be installed on the target computer.
+
+## `Deprecated/removed features`
+
+### Previous .NET APIs
+
+The new .NET APIs introduced with this release completely replace the previous ones which will therefore **no longer be maintained**.
+
+There are **two main reasons** for this decision:
+
+1. The previous .NET wrapper was written in `C++/CLI`, which removed the possibility of offering it to you on platforms other than Windows. In order to remove this limitation, we had to recreate a new .NET wrapper from scratch.
+2. To recreate the new .NET wrapper, instead of writing the wrapper code, we decided to generate it automatically by inspecting the C++ API. The advantage of this approach is that the cost of maintenance and the risk of problems in the wrapper itself are greatly reduced, allowing us to focus more on developing and improving the functionality of the iDRS.
+
+Due to the change in technology used to create the .NET wrappers, their compatibilities also had to be updated.  
+Below is a **summary of the compatibility and availability changes for both APIs**:
+
+* **.NET Framework**:
+
+  + *Prior to iDRS 16.0.9*: **idrsnet16.dll** was compatible with .NET Framework 4.0
+  + *Since iDRS 16.0.9*: **idrsnetframework16.dll** is compatible with .NET Framework 4.8
+  + Both are available only on Windows (x86 and x64 architectures).
+* **.NET**:
+
+  + *Prior to iDRS 16.0.9*: **idrsnet516.dll** was compatible with .NET 5, and was available on Windows (all architectures).
+  + *Starting with iDRS 16.0.9*: **idrsnet16.dll** is compatible with .NET 6, and is available on Windows and macOS (all architectures), as well as Linux (x86\_64, and ARM64 architectures).
+
+### Compatibility with C++98
+
+Due to the transformation of the Document Output API and the usage of the `enum class` type, the iDRS C++ API is no longer compatible with the C++98 standard; C++11 is now required to use the iDRS.
+
+### Compatibility with older macOS systems
+
+As of this release, the iDRS for macOS is compatible with macOS 10.13 High Sierra or later (instead of macOS 10.10 Yosemite previously).
+
+### Removal of class CPageLayer
+
+The class `CPageLayer` has been removed in this release, and `CPage` accessor `GetPageLayer()` replaced by `GetRecognitionZoneArray()` returning a `CRecognitionZoneArray` object.  
+The new behavior will be more consistent with standard get/set operations: the returned object points directly to the one stored internally, rather than being a complete clone.
+
+As a result, any changes made to this `CRecognitionZoneArray` have an impact on the `CPage` as well.
+
+### Memory monitoring feature on Windows platform
+
+The memory monitoring feature had to be disabled on the Windows platform due to some inconsistencies between the system libraries and the C++ standard.
+
+## `Added/removed resources`
+
+N/A
+
+## `Fixed bugs`
+
+| ID | Description |
+| --- | --- |
+| IDRSRD-6130 | The iDRS throws an exception when creating a DOCX from an Arabic image with table |
+| IDRSRD-6109 | Saving to RTF generates a memory leak when including the image as page background |
+| IDRSRD-6069 | The macOS iDRS framework has a bad linker self-path |
+| IDRSRD-6051 | The API reference documentation of iDRS for Linux is not scrollable |
+| IDRSRD-5855 | The iDRS should propose a .NET 5 API on Windows, Macos and Linux platforms |
+| IDRSRD-6143 | The iDRS for macOS should be code signed |
+| IDRSRD-6114 | The iDRS should expose a way to favor speed over compression size when saving an image as PNG |
+| IDRSDEV-1357 | Integrators should be able to get the buffer size to use for CMetadataInfo::GetMetadata |
+| IDRSDEV-1284 | Replace CPageLayer class with TObjPtrArray &lt;CRecognitionZone&gt; |
+
+## `Known Issues`
+
+| ID | Description |
+| --- | --- |
+| IDRSDEV-1363 | The macOS .NET samples should work on both x86\_64 and ARM64 architectures |
+| IDRSRD-6158 | "Related pages" of iDRS .NET API documentation are always the Windows ones |
+| IDRSDEV-1332 | The iDRS .NET API should be available on Linux ARM32 |
+| IDRSDEV-1342 | The iDRS C API should be available on Linux ARM32 |
+| IDRSRD-6171 | iDRS property CPerspective.Corners throws an exception when read from .NET framework API |

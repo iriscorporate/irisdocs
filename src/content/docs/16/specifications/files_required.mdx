@@ -1,0 +1,300 @@
+---
+title: "Files required for your application"
+---
+
+What are the files to be redistributed with your application?
+
+:::caution
+Keep in mind
+You may not distribute the iDRS header files
+You may not provide software devevelopment capabilities in your application
+:::
+
+Legend
+
+✔: Required / mandatory  
+Blank cell: Not required (optional)
+
+## Kernel files
+
+These files are *required* by the application.  
+You can find them in the **bin** folder of your iDRS package.
+
+Table 1. mandatory kernel files
+
+| File | Description | C++ API | .NET API |
+| --- | --- | --- | --- |
+| **idrskrn16.dll** | iDRS main library | ✔ | ✔ |
+| **idrsprepro16.dll** | Image preprocessing library | ✔ | ✔ |
+| **idrsnet16.dll** | iDRS main library for .NET |  | ✔ |
+
+## If using the ImageFormats module
+
+These files are *required* by the **ImageFormats module**.  
+You can find them in the **bin** folder of your iDRS package.
+
+Table 2. mandatory files for ImageFormats module
+
+| File | Description | ImageFormats module | InputPdf extension |
+| --- | --- | --- | --- |
+| **idrstiff16.dll** | TIFF encoding library | ✔ |  |
+| **idrspng16.dll** | PNG encoding library | ✔ |  |
+| **idrsjpeg16.dll** | Jpeg encoding library | ✔ |  |
+| **idrszlib16.dll** | Image compression helper library | ✔ |  |
+| **idrsjbig216.dll** | Symbol compression library | ✔ |  |
+| **idrsjpeg2k16.dll** | Wavelett compression library | ✔ |  |
+| **idrspdf16.dll** | PDF loading component |  | ✔ |
+
+## If using the CameraImage extension
+
+These files are *required* by the **CameraImage extension of the Preprocessing module**.  
+You can find them in the **bin** folder of your iDRS package.
+
+Table 3. mandatory file for mobile capture extension
+
+| File | Description |
+| --- | --- |
+| **idrsimp16.dll** | Camera image preprocessing library |
+
+## If using the DocumentOutput module
+
+These files are *required* by the **DocumentOutput module**.  
+You can find them in the **bin** folder of your iDRS package.
+
+Table 4. mandatory files for DocumentOutput module
+
+| File | Description | DocumentOutput module | HyperCompression extension |
+| --- | --- | --- | --- |
+| **idrsdocout16.dll** | Document output engine | ✔ |  |
+| **idrstiff16.dll** | TIFF encoding library | ✔ |  |
+| **idrspng16.dll** | PNG encoding library | ✔ |  |
+| **idrsjpeg16.dll** | Jpeg encoding library | ✔ |  |
+| **idrszlib16.dll** | Image compression helper library | ✔ |  |
+| **idrsjbig216.dll** | Symbol compression library |  | ✔ |
+| **idrsjpeg2k16.dll** | Wavelett compression library |  | ✔ |
+
+## If using the Barcode module
+
+These files are *required* by the **Barcode module**.  
+You can find them in the **bin** folder of your iDRS package.
+
+Table 5. mandatory files for Barcode module
+
+| File | Description | Barcode module | 2D extension | Advanced extension |
+| --- | --- | --- | --- | --- |
+| **idrsbarcode16.dll** | Main Barcode engine | ✔ |  |  |
+| **idrsirisbarcodewrapper16.dll** | Barcode engine wrapper | ✔ |  |  |
+| **idrsbarcodeext16.dll** | QR code engine |  | ✔ |  |
+| **idrsirisbarcodeextwrapper16.dll** | QR code engine wrapper |  | ✔ |  |
+| **idrsdmtx16.dll** | Datamatrix barcode engine |  | ✔ |  |
+| **idrsdmtxbarcodewrapper16.dll** | Datamatrix barcode engine wrapper |  | ✔ |  |
+| **idrsbarcodeevoi.dll** | Auxiliary barcode engine |  |  | ✔ |
+| **idrsevoibarcodewrapper16.dll** | Auxiliary barcode engine wrapper |  |  | ✔ |
+
+## If using the OCR/ICR module
+
+These files are *required* by the **OCR/ICR module**.  
+You can find them in the **bin** folder of your iDRS package.
+
+### Binaries
+
+Table 6. mandatory binaries for OCR/ICR module
+
+| File | Description | OCR/ICR module | AsianExtra extension | JapaneseAdvanced extension |
+| --- | --- | --- | --- | --- |
+| **idrsocr16.dll** | OCR/ICR engine | ✔ |  |  |
+| **idrsasian216.dll** | Asian OCR engine |  |  | ✔ |
+| **idrsasian316.dll** | Auxiliary Asian OCR engine |  |  | ✔ |
+
+### Resources
+
+You can find the **Resources files** in the **Resources** folder of your iDRS package.
+
+When configuring the iDRS 16 with OCR enabled, enter the path to the folder containing the OCR resources.  
+The following table describes the **OCR resources and lexicons** for different languages, depending on the configuration:
+
+* **Asian OCR resources**: depending on whether the AsianExtra OCR extension or the JapaneseAdvanced OCR extension is configured, the list of required Asian OCR resources will be different.
+* **OCR font metrics**: depending on the font set used for recognition (see method `COcrContext::SetTextFontSet()`), the required OCR font metrics will be different.
+
+Table 7. mandatory resources for OCR/ICR module
+
+| Language (alphabetical order) | Resources: lexicons, OCR resources, and OCR font metrics |
+| --- | --- |
+| **Afan Oromo** | afa.ilex  latin.ocr  fontmetrics.bin **(default)**  fontmetrics\_ec.bin **(extended)**  fontmetrics\_mso.bin **(MS Office)** |
+| **Afrikaans** | afr.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Albanian** | alb.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Arabic** | eng.ilex  ara.ilex  latin.ocr  arabic\_engine.bin  net\_arabic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Asturian** | ast.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Aymara** | aym.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Azeri (Latin)** | azl.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Balinese** | bal.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Basque** | bas.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Bemba** | bem.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Bikol** | bik.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Bislama** | bis.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Bosnian (Cyrillic)** | bsc.ilex  cyrillic.ocr  cyrillic\_engine.bin  net\_cyrillic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Bosnian (Latin)** | bsl.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Brazilian** | brz.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Breton** | bre.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **British English** | brt.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Bulgarian** | bul.ilex  cyrillic.ocr  cyrillic\_engine.bin  net\_cyrillic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Byelorussian** | bye.ilex  cyrillic.ocr  cyrillic\_engine.bin  net\_cyrillic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Catalan** | cat.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Cebuano** | ceb.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Chamorro** | cha.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **CMC7** | nop.ilex  cmc7.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Corsican** | cor.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Croatian** | cro.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Czech** | cze.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Danish** | dan.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Dutch** | dut.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **E13B Optical** | nop.ilex  e13b.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **English** | eng.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Esperanto** | esp.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Estonian** | est.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Faroese** | far.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Farsi** | eng.ilex  ara.ilex  latin.ocr  persian\_engine.bin  net\_persian.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Fijian** | fij.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Finnish** | fin.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **French** | frn.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Frisian** | fri.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Friulan** | fru.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Galician** | gal.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Ganda** | gan.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **German** | grm.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Greek** | grk.ilex  greek.ocr  greek\_engine.bin  net\_greek.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Greenlandic** | grn.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Haitian Creole** | hai.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Hani** | han.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Hebrew** | heb.ilex  hebrew.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Hiligaynon** | hil.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Hungarian** | hun.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Icelandic** | ice.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Ido** | ido.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Ilocano** | ilo.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Indonesian** | ind.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Interlingua** | int.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Irish Gaelic** | iri.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Italian** | itl.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Japanese** | eng.ilex  latin.ocr  japanese.bin  japanese\_bigrams.bin  japanese\_features.bin  japanese\_features\_fast.bin  japanese\_features\_one\_candidate.bin  japanese\_font\_features.bin  japanese\_same\_proba.bin  japanese\_similar\_characters\_differentiation.bin  fast\_invert\_x\_power\_y.bin  **Extension JapaneseAdvanced:**  basicj.ocr  japanese\_duo.bin  japanese\_rosetta\_same\_proba.bin  **Font metrics:**  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin  japanese\_fontmetrics.bin  japanese\_fontmetrics.bin  japanese\_fontmetrics.bin |
+| **Javanese** | jav.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Kapampangan** | kap.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Kazakh (Cyrillic)** | kaz.ilex  cyrillic.ocr  cyrillic\_engine.bin  net\_cyrillic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Kikongo** | kic.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Kinyarwanda** | kan.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Kirundi** | run.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Korean** | eng.ilex  korean.ilex  latin.ocr  korean\_rnn\_engine.bin  net\_korean\_rnn.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin  korean\_fontmetrics.bin  korean\_fontmetrics.bin  korean\_fontmetrics.bin |
+| **Kurdish** | kur.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Latin** | ltn.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Latvian** | lav.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Lithuanian** | lit.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Luba** | lub.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Luxembourgish** | lux.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Macedonian** | mac.ilex  cyrillic.ocr  cyrillic\_engine.bin  net\_cyrillic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Madurese** | mad.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Malagasy** | mlg.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Malay** | mal.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Maltese** | mlt.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Manx** | man.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Maori** | mao.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Mayan** | may.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Mexican Spanish** | mex.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Minangkabau** | min.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Moldovan** | mol.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Mongolian (Cyrillic)** | mon.ilex  cyrillic.ocr  cyrillic\_engine.bin  net\_cyrillic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Nahuatl** | nah.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Nigerian Pidgin** | pie.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Norwegian** | nrw.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Nyanja** | nya.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Nynorsk** | nyn.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Occitan** | occ.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **OCR-A1 Alphanumeric** | nop.ilex  ocra1.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **OCR-A1 Eurobanking** | nop.ilex  ocra1.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **OCR-A1 Numeric** | nop.ilex  ocra1.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **OCR-B1 Alphanumeric** | nop.ilex  ocrb1.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **OCR-B1 Eurobanking** | nop.ilex  ocrb1.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **OCR-B1 Numeric** | nop.ilex  ocrb1.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Papiamento** | pap.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Polish** | pol.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Portuguese** | prt.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Quechua** | que.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Rhaeto-Romance** | rhe.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Romanian** | rom.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Russian** | rus.ilex  cyrillic.ocr  cyrillic\_engine.bin  net\_cyrillic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Samoan** | sam.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Sardinian** | sar.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Scottish Gaelic** | sco.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Serbian** | ser.ilex  cyrillic.ocr  cyrillic\_engine.bin  net\_cyrillic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Serbian (Latin)** | sel.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Shona** | sho.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Simplified Chinese** | eng.ilex  latin.ocr  chinese.bin  chinese\_bigrams.bin  chinese\_features.bin  chinese\_features\_fast.bin  chinese\_features\_one\_candidate.bin  chinese\_font\_features.bin  chinese\_same\_proba.bin  chinese\_similar\_characters\_differentiation.bin  fast\_invert\_x\_power\_y.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin  chinese\_fontmetrics.bin  chinese\_fontmetrics.bin  chinese\_fontmetrics.bin |
+| **Slovak** | slk.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Slovenian** | sln.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Somali** | som.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Sotho** | sot.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Spanish** | spn.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Sundanese** | sun.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Swahili** | swa.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Swedish** | swd.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Swiss German** | swg.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Tagalog** | tag.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Tahitian** | tah.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Tatar (Latin)** | tat.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Tetum** | tet.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Thai** | nop.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Tok Pisin** | tok.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Tongan** | ton.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Traditional Chinese** | eng.ilex  latin.ocr  chinese\_traditional.bin  chinese\_traditional\_bigrams.bin  chinese\_traditional\_features.bin  chinese\_traditional\_features\_fast.bin  chinese\_traditional\_features\_one\_candidate.bin  chinese\_traditional\_font\_features.bin  chinese\_traditional\_same\_proba.bin  chinese\_traditional\_similar\_characters\_differentiation.bin  fast\_invert\_x\_power\_y.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin  chinese\_traditional\_fontmetrics.bin  chinese\_traditional\_fontmetrics.bin  chinese\_traditional\_fontmetrics.bin |
+| **Tswana** | tsw.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Turkish** | trk.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Turkmen (Latin)** | tur.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Ukrainian** | ukr.ilex  cyrillic.ocr  cyrillic\_engine.bin  net\_cyrillic.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Uzbek (Latin)** | uzb.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Vietnamese** | nop.ilex  latin.ocr  vietnamese\_engine.bin  net\_vietnamese.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Waray** | war.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Welsh** | wel.ilex  latin.ocr  latin\_1\_engine.bin  net\_latin\_1.bin  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Wolof**  wol.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin | **Xhosa**  xho.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Zapotec** | zap.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+| **Zulu** | zul.ilex  latin.ocr  fontmetrics.bin  fontmetrics\_ec.bin  fontmetrics\_mso.bin |
+
+### Handprint recognition (ICR)
+
+You can find these files in the **Resources** folder of your package.
+
+Table 8. mandatory resources for ICR
+
+| File | Description |
+| --- | --- |
+| **handpr.ocr** | Handprint recognition environment |
+| **nop.ilex** | Default decision environment |
+
+### Automatic Language Detection (ALD)
+
+The **Automatic Language Detection** feature allows the main language of a page to be detected automatically. To use this function, the following files from the **Resources** folder are required:
+
+Table 9. mandatory resources for ALD
+
+| File | Description |
+| --- | --- |
+| **alphabet\_orientation\_engine.bin** | Alphabet/Orientation detection environment |
+| **net\_alphabet\_orientation\_detection.bin** | Alphabet/Orientation detection environment |
+| **net\_latin\_1.bin** | Latin detection environment |
+| **latin\_1\_engine.bin** | Latin detection environment |
+| **net\_cyrillic.bin** | Cyrillic detection environment |
+| **net\_arabic.bin** | Arabic detection environment |
+| **fontmetrics.bin** | Font metrics information |
+| **english\_engine.bin** | The Latin recognition environment |
+| **eng.ilex** | English decision environment |
+| **ara.ilex** | Arabic decision environment |
+| **rus.ilex** | Cyrillic decision environment |
+| **chinese\_generic.bin** | Simplified/Traditional Chinese determination environment |
+| **chinese\_features\_fast.bin** | Simplified Chinese detection environment |
+| **chinese\_features\_one\_candidate.bin** | Simplified Chinese detection environment |
+| **chinese\_same\_proba.bin** | Simplified Chinese detection environment |
+| **chinese\_features.bin** | Simplified Chinese detection environment |
+| **chinese\_similar\_characters\_differentiation.bin** | Simplified Chinese detection environment |
+| **chinese\_traditional\_features\_fast.bin** | Traditional Chinese detection environment |
+| **chinese\_traditional\_features\_one\_candidate.bin** | Traditional Chinese detection environment |
+| **chinese\_traditional\_same\_proba.bin** | Traditional Chinese detection environment |
+| **chinese\_font\_features.bin** | Simplified/Traditional Chinese font information |
+| **fast\_invert\_x\_power\_y.bin** | Utility environment |
