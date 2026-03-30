@@ -2,8 +2,6 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
-import keystatic from '@keystatic/astro';
-import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
   integrations: [
@@ -19,11 +17,7 @@ export default defineConfig({
     }),
     react(),
     markdoc(),
-    keystatic(),
   ],
-  
-  // You were right! Astro 6 uses static.
+
   output: 'static',
-  adapter: cloudflare(),
-  
 });
