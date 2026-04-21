@@ -3,10 +3,10 @@ import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
-
-const isDev = process.env.NODE_ENV !== 'production';
+import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
+  adapter: cloudflare(),
   integrations: [
     starlight({
       title: 'IRISOCR™ SDK Documentation',
@@ -20,7 +20,7 @@ export default defineConfig({
     }),
     react(),
     markdoc(),
-    ...(isDev ? [keystatic()] : []),
+    keystatic(),
   ],
 
   output: 'static',
