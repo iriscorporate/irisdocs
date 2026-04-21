@@ -4,6 +4,8 @@ import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 export default defineConfig({
   integrations: [
     starlight({
@@ -18,7 +20,7 @@ export default defineConfig({
     }),
     react(),
     markdoc(),
-    keystatic(),
+    ...(isDev ? [keystatic()] : []),
   ],
 
   output: 'static',
