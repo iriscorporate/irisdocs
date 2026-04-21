@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
+import keystatic from '@keystatic/astro';
 
 export default defineConfig({
   integrations: [
@@ -17,6 +18,7 @@ export default defineConfig({
     }),
     react(),
     markdoc(),
+    keystatic(),
   ],
 
   output: 'static',
